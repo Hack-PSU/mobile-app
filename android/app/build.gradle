@@ -34,9 +34,10 @@ android {
     }
 
     defaultConfig {
-        // If you run "flutter ["run"/"build"]" without --flavor prod, it will by default build the dev version.
+        // If you run "flutter ["run"/"build"]" without --flavor prod, it will throw an error.
+        // To test with staging data, run "flutter run --flavor dev"
         // To test with prod data, run "flutter run --flavor prod"
-        applicationId "org.hackpsu.dev"
+        applicationId "org.hackpsu"
         minSdkVersion 16
         targetSdkVersion 30
         multiDexEnabled true
@@ -55,6 +56,10 @@ android {
     flavorDimensions "app"
 
     productFlavors {
+        dev {
+            dimension "app"
+            applicationId "org.hackpsu.dev"
+        }
         prod {
             dimension "app"
             applicationId "org.hackpsu.prod"
