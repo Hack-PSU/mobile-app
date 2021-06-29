@@ -8,7 +8,7 @@ import './authentication_service.dart';
 
 class HomePage extends StatelessWidget {
   void fetch() async {
-    var url = Uri.https('staging.hackpsu18.appspot.com', '/v2/live/events');
+    var url = Uri.parse('https://staging.hackpsu18.appspot.com/v2/live/events');
     var response = await http.get(url);
     var jsonResponse = convert.jsonDecode(response.body);
 
