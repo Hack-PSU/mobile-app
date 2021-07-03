@@ -30,6 +30,14 @@ class HomePage extends StatelessWidget {
               },
               child: Text("Sign out"),
             ),
+            MaterialButton (
+              onPressed: () {
+                context.read<AuthenticationService>().google_SignIn();
+              },
+              color: Colors.white,
+              textColor: Colors.blue,
+              child: Text("Sign in with Google"),
+            ),
           ],
         ),
       ),

@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService {
+  // Dependencies
+  final _googleSignIn = GoogleSignIn();
   final FirebaseAuth _firebaseAuth;
 
   AuthenticationService(this._firebaseAuth);
@@ -34,5 +37,14 @@ class AuthenticationService {
       print(e.message);
       return e.message;
     }
+  }
+
+  Future<User> google_SignIn() async {
+    GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
   }
 }
