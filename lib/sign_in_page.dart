@@ -31,7 +31,15 @@ class SignInPage extends StatelessWidget {
                   );
             },
             child: Text("Sign in"),
-          )
+          ),
+          MaterialButton(
+            onPressed: () {
+              context.read<AuthenticationService>().google_SignIn();
+            },
+            color: Colors.white,
+            textColor: Colors.blue,
+            child: Text("Sign in with Google"),
+          ),
         ],
       ),
     );
