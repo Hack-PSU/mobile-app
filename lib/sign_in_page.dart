@@ -103,7 +103,7 @@ class SignInPage extends StatelessWidget {
               padding: EdgeInsets.only(top: 15),
               width: 360,
               child: ElevatedButton.icon(
-                icon: Icon(Icons.favorite),
+                icon: Icon(CustomIcons.google),
                 onPressed: () {},
                 label: Text('Sign in with Google'),
               )),
