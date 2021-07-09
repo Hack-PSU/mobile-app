@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hackpsu/custom_icons.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import './authentication_service.dart';
 
 class SignInPage extends StatelessWidget {
@@ -9,7 +11,8 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+        body: Stack(children: [
+      Column(
         children: [
           Padding(
               padding: EdgeInsets.only(top: 50.0),
@@ -54,13 +57,19 @@ class SignInPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Padding(
-                  padding: EdgeInsets.only(right: 120),
+                  padding: EdgeInsets.only(right: 100),
                   child: TextButton(
-                    child: Text('Forgot Password?'),
+                    child: Text('Forgot password?',
+                        style: TextStyle(
+                            fontFamily: 'SpaceGrotesk',
+                            fontWeight: FontWeight.w600)),
                     onPressed: () {},
                   )),
               TextButton(
-                child: Text('Create account'),
+                child: Text('Create account',
+                    style: TextStyle(
+                        fontFamily: 'SpaceGrotesk',
+                        fontWeight: FontWeight.w600)),
                 onPressed: () {},
               )
             ],
@@ -90,9 +99,25 @@ class SignInPage extends StatelessWidget {
                           );
                     },
                   ))),
-          ElevatedButton(onPressed: () {}, child: Text('Sign in with Google'))
+          Container(
+              padding: EdgeInsets.only(top: 15),
+              width: 360,
+              child: ElevatedButton.icon(
+                icon: Icon(Icons.favorite),
+                onPressed: () {},
+                label: Text('Sign in with Google'),
+              )),
         ],
       ),
-    );
+      Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+              height: 200,
+              alignment: Alignment.bottomCenter,
+              child: SvgPicture.asset(
+                'assets/images/mountain.svg',
+                alignment: Alignment.bottomCenter,
+              )))
+    ]));
   }
 }
