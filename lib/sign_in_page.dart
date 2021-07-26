@@ -92,6 +92,10 @@ class SignInPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {},
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Color(0xFAFAFAFA)),
+                        ),
                       ),
                     ),
                     TextButton(
@@ -101,6 +105,10 @@ class SignInPage extends StatelessWidget {
                           fontFamily: 'SpaceGrotesk',
                           fontWeight: FontWeight.w600,
                         ),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Color(0xFAFAFAFA)),
                       ),
                       onPressed: () {},
                     )
@@ -135,41 +143,39 @@ class SignInPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 15),
-                  width: 360,
-                  child: ElevatedButton.icon(
-                    icon: Icon(CustomIcons.google),
-                    onPressed: () {},
-                    label: Text('Sign in with Google'),
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.00),
+                  child: Column(
+                    children: [
+                      ElevatedButton.icon(
+                        icon: Icon(CustomIcons.google),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(double.infinity, 37),
+                        ),
+                        onPressed: () {
+                          context
+                              .read<AuthenticationService>()
+                              .signInWithGoogle();
+                        },
+                        label: Text('Sign in with Google'),
+                      ),
+                      ElevatedButton.icon(
+                        icon: Icon(CustomIcons.github),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(double.infinity, 37),
+                          primary: Colors.black,
+                        ),
+                        onPressed: () {
+                          context
+                              .read<AuthenticationService>()
+                              .signInWithGitHub(context);
+                        },
+                        label: Text('Sign in with GitHub'),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              context.read<AuthenticationService>().signIn(
-                    emailController.text.trim(),
-                    passwordController.text.trim(),
-                  );
-            },
-            child: Text("Sign in"),
-          ),
-          MaterialButton(
-            onPressed: () {
-              context.read<AuthenticationService>().signInWithGoogle();
-            },
-            color: Colors.white,
-            textColor: Colors.blue,
-            child: Text("Sign in with Google"),
-          ),
-          MaterialButton(
-            onPressed: () {
-              context.read<AuthenticationService>().signInWithGitHub(context);
-            },
-            color: Colors.black,
-            textColor: Colors.white,
-            child: Text("Sign in with GitHub"),
           ),
         ],
       ),
