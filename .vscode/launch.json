@@ -6,7 +6,7 @@
   "configurations": [
     {
       "name": "hackpsu",
-      "program": "lib/main.dart",
+      "program": "lib/main_dev.dart",
       "request": "launch",
       "type": "dart",
       "args": [
