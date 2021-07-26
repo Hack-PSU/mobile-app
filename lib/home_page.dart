@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
                 context.read<AuthenticationService>().signOut();
               },
               child: Text("Sign out"),
-            ),
+            )
           ],
         ),
       ),
