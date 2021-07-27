@@ -47,3 +47,4 @@ app.*.map.json
 
 # Firebase related
 google-services.json
+secrets.dart

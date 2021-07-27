@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import './authentication_service.dart';
+import './flavor_constants.dart';
 
 class HomePage extends StatelessWidget {
   void fetch() async {
-    var url = Uri.parse('https://staging.hackpsu18.appspot.com/v2/live/events');
+    var url = Uri.parse(Config.baseUrl + '/live/events');
     var response = await http.get(url);
     var jsonResponse = convert.jsonDecode(response.body);
 
