@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import './secrets.dart';
+import '../secrets.dart';
 
 enum Flavor {
   DEV,

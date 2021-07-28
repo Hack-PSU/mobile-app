@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-import './authentication_service.dart';
-import './flavor_constants.dart';
+import '../data/authentication_service.dart';
+import '../utils/flavor_constants.dart';
 
 class HomePage extends StatelessWidget {
   void fetch() async {
