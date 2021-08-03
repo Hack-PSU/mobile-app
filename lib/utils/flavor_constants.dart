@@ -13,7 +13,7 @@ class Config {
   static String get baseUrl {
     return getConstantByFlavor(
       prodConst: 'https://api.hackpsu.org/v2',
-      devConst: 'http://staging.hackpsu18.appspot.com/v2',
+      devConst: 'https://staging-v2-dot-hackpsu18.uc.r.appspot.com/v2',
     );
   }
 
