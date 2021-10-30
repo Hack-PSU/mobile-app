@@ -48,6 +48,7 @@ app.*.map.json
 
 # IOS Related
 ios/build/
+ios/Podfile.lock
 
 # Firebase related
 google-services.json
