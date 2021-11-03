@@ -46,10 +46,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# IOS Related
-ios/build/
-ios/Podfile.lock
-
 # Firebase related
 google-services.json
 GoogleService-Info.plist
