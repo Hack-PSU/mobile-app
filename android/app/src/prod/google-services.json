@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1002677206617",
+    "firebase_url": "https://hackpsu18.firebaseio.com",
+    "project_id": "hackpsu18",
+    "storage_bucket": "hackpsu18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002677206617:android:713c8212a2e9d934733b48",
+        "android_client_info": {
+          "package_name": "org.hackpsu.prod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002677206617-44mtsk2g4si65a331dppc9sk48hbqmbe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.hackpsu.prod",
+            "certificate_hash": "d36b230d509d23e13d3d5d73d7cc95e4f09dcba6"
+          }
+        },
+        {
+          "client_id": "1002677206617-eq1tqistg8dvm8gi5dg4sfckqdcaemq4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm7ypQhEiqzhNZHmNuKkXDbvt02AAQt6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002677206617-2fbi6s7as29q5qu2c1bbulmfml1q1ikl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1002677206617-pkc83vufu9v3nu9mivb5kareb89q06ff.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.hackpsu"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
