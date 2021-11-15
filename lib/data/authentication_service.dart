@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AuthenticationService {
   // Dependencies
@@ -84,5 +85,14 @@ class AuthenticationService {
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance
         .signInWithCredential(githubAuthCredential);
+  }
+
+  launchURLApp() async {
+    const url = 'https://app.hackpsu.org/forgot';
+    if (await canLaunch(url)) {
+      await launch(url, forceSafariVC: true, forceWebView: true);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

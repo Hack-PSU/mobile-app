@@ -91,7 +91,9 @@ class SignInPage extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<AuthenticationService>().launchURLApp();
+                        },
                         style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(Color(0xFAFAFAFA)),
