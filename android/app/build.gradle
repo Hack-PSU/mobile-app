@@ -62,7 +62,7 @@ android {
         }
         prod {
             dimension "app"
-            applicationId "org.hackpsu.prod"
+            applicationId "org.hackpsu.HackPSU"
         }
     }
 }
