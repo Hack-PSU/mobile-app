@@ -2,7 +2,7 @@
     package="com.example.hackpsu">
    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="hackpsu"
+        android:label="HackPSU"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
