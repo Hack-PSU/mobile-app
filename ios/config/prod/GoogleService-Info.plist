@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1002677206617-pkc83vufu9v3nu9mivb5kareb89q06ff.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1002677206617-pkc83vufu9v3nu9mivb5kareb89q06ff</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1002677206617-44mtsk2g4si65a331dppc9sk48hbqmbe.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBpSNz29MuYuhhNEzu-ymgScO0cEUt8Tmk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1002677206617</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.hackpsu</string>
+	<key>PROJECT_ID</key>
+	<string>hackpsu18</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hackpsu18.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1002677206617:ios:e3150363675df024733b48</string>
+	<key>DATABASE_URL</key>
+	<string>https://hackpsu18.firebaseio.com</string>
+</dict>
+</plist>
