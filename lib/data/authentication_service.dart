@@ -90,7 +90,7 @@ class AuthenticationService {
   launchURLApp() async {
     const url = 'https://app.hackpsu.org/forgot';
     if (await canLaunch(url)) {
-      await launch(url, forceSafariVC: true, forceWebView: true);
+      await launch(url, forceWebView: true);
     } else {
       throw 'Could not launch $url';
     }
