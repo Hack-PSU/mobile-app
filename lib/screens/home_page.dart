@@ -14,12 +14,14 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FutureBuilder<List<dynamic>>(
+            FutureBuilder<List<Event>>(
               future: Api.getEvents(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Text(snapshot.data[0]['event_title']);
+                  print(snapshot.data[0].eventTitle);
+                  return Text(snapshot.data[0].eventTitle);
                 } else if (snapshot.hasError) {
+                  print('death is here');
                   return Text('${snapshot.error}');
                 }
 

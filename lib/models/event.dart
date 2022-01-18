@@ -14,7 +14,7 @@ class Event {
   bool starred;
   final String eventIcon;
   final String wsPresenterNames;
-  final List<String> wsUrls;
+  final List<dynamic> wsUrls;
   final String wsSkillLevel;
   final String wsRelevantSkills;
 
@@ -48,16 +48,25 @@ class Event {
   EventType get eventType => _eventType;
 
   factory Event.fromJson(Map<String, dynamic> json) {
+    print(json['ws_urls']);
     return Event(
         uid: json['uid'],
-        eventTitle: json['eventTitle'],
-        eventType: json['eventType'],
-        eventStartTime: json['eventStartTime'],
-        eventEndTime: json['eventEndTime'],
-        eventDescription: json['eventDescription'],
-        locationName: json['locationName'],
-        eventIcon: json['eventIcon'],
-        wsPresenterNames: json['wsPresenterNames'],
-        wsUrls: json['wsUrls']);
+        eventTitle: json['event_title'],
+        eventType: json['event_type'],
+        eventStartTime:
+            DateTime.fromMicrosecondsSinceEpoch(json['event_start_time']),
+        eventEndTime:
+            DateTime.fromMicrosecondsSinceEpoch(json['event_end_time']),
+        eventDescription: json['event_description'],
+        locationName: json['location_name'],
+        eventIcon: json['event_icon'],
+        wsPresenterNames: json['ws_presenter_names'],
+        wsUrls: json['ws_urls']);
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return eventTitle;
   }
 }
