@@ -1,27 +1,22 @@
-// import 'package:flutter/material.dart';
-// import '../models/event.dart';
-// import '../data/api.dart';
+import 'package:flutter/material.dart';
+import '../models/event.dart';
+import '../data/api.dart';
 
-// class EventWorkshopCard extends StatelessWidget {
-//   // final String eventName;
+// TODO: Actually work on displaying event details
+class EventWorkshopCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Event>>(
+      future: Api.getEvents(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text(snapshot.data[0].eventTitle);
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
 
-//   // const EventWorkshopCard({
-//   //   @required this.eventName,
-//   // });
-
-//   // @override
-//   // Widget build(BuildContext context) {
-//   //   return FutureBuilder<Event>(
-//   //     future: Api.getEvents(),
-//   //     builder: (context, snapshot) {
-//   //       if (snapshot.hasData) {
-//   //         return Text(snapshot.data.eventTitle);
-//   //       } else if (snapshot.hasError) {
-//   //         return Text('${snapshot.error}');
-//   //       }
-
-//   //       return const CircularProgressIndicator();
-//   //     },
-//   //   );
-//   // }
-// }
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+}

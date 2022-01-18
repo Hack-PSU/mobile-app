@@ -14,20 +14,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FutureBuilder<List<Event>>(
-              future: Api.getEvents(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  print(snapshot.data[0].eventTitle);
-                  return Text(snapshot.data[0].eventTitle);
-                } else if (snapshot.hasError) {
-                  print('death is here');
-                  return Text('${snapshot.error}');
-                }
-
-                return const CircularProgressIndicator();
-              },
-            ),
+            EventWorkshopCard(),
             Text("HOME"),
             ElevatedButton(
               onPressed: () {
@@ -35,7 +22,6 @@ class HomePage extends StatelessWidget {
               },
               child: Text("Sign out"),
             ),
-            //EventWorkshopCard()
           ],
         ),
       ),
