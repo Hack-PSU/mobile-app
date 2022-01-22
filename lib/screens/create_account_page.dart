@@ -1,6 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hackpsu/utils/custom_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,7 +36,19 @@ class CreateAccount extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 50.0),
+                  padding: EdgeInsets.only(top: 30.0),
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: TextButton(
+                    child: Text(
+                     "BACK"
+                      ),
+                      onPressed: () => Navigator.of(context).pop(),
+                      )
+                    ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 20.0),
                   child: Container(
                     height: 150,
                     width: 150,
@@ -67,10 +82,10 @@ class CreateAccount extends StatelessWidget {
                       email = value;
                     },
                     decoration: InputDecoration(
-                      labelText: "Email",
-                      filled: true,
-                      fillColor: Colors.white12,
-                    ),
+                        labelText: "Email",
+                        filled: true,
+                        fillColor: Colors.white12,
+                        labelStyle: TextStyle(color: Colors.white)),
                   ),
                 ),
                 Padding(
@@ -83,10 +98,10 @@ class CreateAccount extends StatelessWidget {
                       password = value;
                     },
                     decoration: InputDecoration(
-                      labelText: "Password",
-                      filled: true,
-                      fillColor: Colors.white12,
-                    ),
+                        labelText: "Password",
+                        filled: true,
+                        fillColor: Colors.white12,
+                        labelStyle: TextStyle(color: Colors.white)),
                   ),
                 ),
                 Padding(
