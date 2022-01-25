@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../data/authentication_service.dart';
 
 class CreateAccount extends StatelessWidget {
+  static const IconData chevron_left = IconData(0xe15e, fontFamily: 'MaterialIcons', matchTextDirection: true);
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String email, password;
@@ -40,8 +41,13 @@ class CreateAccount extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.topLeft,
                     child: TextButton(
-                    child: Text(
-                     "BACK"
+                      child: Row(
+                        children: [
+                          Icon(chevron_left),
+                           Text(
+                        "BACK"
+                        ),
+                        ]
                       ),
                       onPressed: () => Navigator.of(context).pop(),
                       )
