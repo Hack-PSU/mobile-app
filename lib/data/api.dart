@@ -24,7 +24,6 @@ class Api {
   static getUserInfo() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User user = auth.currentUser;
-    //var header = {'idToken': user.getIdToken().toString()};
     var userToken = user.getIdToken(); // Type: Future<String>
     var idToken = await userToken; // Type: String
 
@@ -39,8 +38,7 @@ class Api {
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body)['body']['data']
           .cast<Map<String, dynamic>>();
-      print(parsed);
-      //return parsed.map<Event>((json) => Event.fromJson(json)).toList();
+      // return parsed.map<Event>((json) => Event.fromJson(json)).toList();
     } else {
       throw Exception('Failed to get user info from API');
     }
