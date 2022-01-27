@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hackpsu/models/registration.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -14,14 +15,13 @@ class Api {
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body)['body']['data']
           .cast<Map<String, dynamic>>();
-      getUserInfo();
       return parsed.map<Event>((json) => Event.fromJson(json)).toList();
     } else {
       throw Exception('Failed to get events from API');
     }
   }
 
-  static getUserInfo() async {
+  static Future<List<Registration>> getUserInfo() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User user = auth.currentUser;
     var userToken = user.getIdToken(); // Type: Future<String>
@@ -31,6 +31,7 @@ class Api {
     userToken.then((value) {
       idToken = value;
     });
+
     var url = Uri.parse(Config.baseUrl + '/users/register');
     var response = await http.get(url, headers: {
       "idToken": idToken,
@@ -38,7 +39,9 @@ class Api {
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body)['body']['data']
           .cast<Map<String, dynamic>>();
-      // return parsed.map<Event>((json) => Event.fromJson(json)).toList();
+      return parsed
+          .map<Registration>((json) => Registration.fromJson(json))
+          .toList();
     } else {
       throw Exception('Failed to get user info from API');
     }
