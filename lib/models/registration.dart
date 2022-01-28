@@ -86,35 +86,124 @@ class Registration {
         gender: json['gender'],
         eighteenBeforeEvent: json['eighteenBeforeEvent'],
         shirtSize: json['shirt_size'],
-        //dietaryRestriction: json['dietary_restriction'],
-        //allergies: json['allergies'],
+        dietaryRestriction: json['dietary_restriction'],
+        allergies: json['allergies'],
         travelReimbursement: json['travel_reimbursement'],
         firstHackathon: json['first_hackathon'],
         university: json['university'],
         email: json['email'],
         academicYear: json['academic_year'],
         major: json['major'],
-        //resume: json['resume'],
+        resume: json['resume'],
         mlhCoc: json['mlh_coc'],
         mlhDcp: json['mlh_dcp'],
         phone: json['phone'],
         address: json['address'],
         race: json['race'],
         codingExperience: json['coding_experience'],
-        //referral: json['referral'],
-        //project: json['project'],
+        referral: json['referral'],
+        project: json['project'],
         submitted: json['submitted'],
-        //expectations: json['expectations'],
+        expectations: json['expectations'],
         veteran: json['veteran'],
         pin: json['pin'],
         shareAddressMlh: json['share_address_mlh'],
         shareAddressSponsors: json['share_address_sponsors'],
-        time: DateTime.fromMillisecondsSinceEpoch(json['time']),
+        time: DateTime.fromMillisecondsSinceEpoch(int.parse(json['time'])),
         hackathon: json['hackathon'],
         name: json['name'],
-        startTime: DateTime.fromMillisecondsSinceEpoch(json['start_time']),
-        endTime: DateTime.fromMillisecondsSinceEpoch(json['end_time']),
+        startTime:
+            DateTime.fromMillisecondsSinceEpoch(int.parse(json['start_time'])),
+        endTime:
+            DateTime.fromMillisecondsSinceEpoch(int.parse(json['end_time'])),
         basePin: json['base_pin'],
         active: json['active']);
   }
 }
+/*
+{
+    "api_response": "Success",
+    "status": 200,
+    "body": {
+        "result": "Success",
+        "data": [
+            {
+                "uid": "seeo04gp3qZYrrY5gWN30NmzDHe2",
+                "firstname": "Raied", **
+                "lastname": "Rod", **
+                "gender": "male",  **
+                "eighteenBeforeEvent": true, **
+                "shirt_size": "M", **
+                "dietary_restriction": null, **
+                "allergies": null, **
+                "travel_reimbursement": false, **
+                "first_hackathon": false, **
+                "university": "The University of Pittsburgh", **
+                "email": "raied@email.com", **
+                "academic_year": "sophomore", **
+                "major": "Computer Science", **
+                "resume": null, **
+                "mlh_coc": true, **
+                "mlh_dcp": true, **
+                "phone": "5555555555",
+                "address": "eecececeec, ceceea, asdf, aaaa, 22423",
+                "race": "asian", **
+                "coding_experience": "none", **
+                "referral": null, **
+                "project": null, **
+                "submitted": true, **
+                "expectations": null, **
+                "veteran": "false", **
+                "pin": 10057,
+                "share_address_mlh": false,
+                "share_address_sponsors": false,
+                "time": "1604008390544",
+                "hackathon": "80ae630f6b3241fbbc8f427c94d3aaf7", **
+                "name": "Test 1234567",
+                "start_time": "1572408000000",
+                "end_time": "1604441068310",
+                "base_pin": 10008,
+                "active": false
+            },
+            {
+                "uid": "seeo04gp3qZYrrY5gWN30NmzDHe2",
+                "firstname": "raied",
+                "lastname": "raied",
+                "gender": "non-binary",
+                "eighteenBeforeEvent": true,
+                "shirt_size": "XXL",
+                "dietary_restriction": null,
+                "allergies": null,
+                "travel_reimbursement": false,
+                "first_hackathon": false,
+                "university": "21st Century Cyber Charter School",
+                "email": "raied@email.com",
+                "academic_year": "freshman",
+                "major": "Plant Science And Agronomy",
+                "resume": null,
+                "mlh_coc": true,
+                "mlh_dcp": true,
+                "phone": "5555555555",
+                "address": null,
+                "race": "asian",
+                "coding_experience": "none",
+                "referral": null,
+                "project": null,
+                "submitted": true,
+                "expectations": null,
+                "veteran": "false",
+                "pin": 10084,
+                "share_address_mlh": false,
+                "share_address_sponsors": false,
+                "time": "1614695182229",
+                "hackathon": "81069f2a04cb465994ad84155af6e868",
+                "name": "S2021",
+                "start_time": "1611245843000",
+                "end_time": "1621613843000",
+                "base_pin": 10074,
+                "active": true
+            }
+        ]
+    }
+}
+*/

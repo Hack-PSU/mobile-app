@@ -9,7 +9,8 @@ class UserPinCard extends StatelessWidget {
       future: Api.getUserInfo(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(snapshot.data[0].pin.toString());
+          return Text(
+              ("Your Pin: ${(snapshot.data[0].pin - snapshot.data[0].basePin).toString()}"));
         } else if (snapshot.hasError) {
           return Text('${snapshot.error.toString()}');
         }
