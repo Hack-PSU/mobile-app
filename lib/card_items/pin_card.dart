@@ -9,8 +9,9 @@ class UserPinCard extends StatelessWidget {
       future: Api.getUserInfo(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          snapshot.data.sort((a, b) => (a.time).compareTo(b.time));
           return Text(
-              ("Your Pin: ${(snapshot.data[0].pin - snapshot.data[0].basePin).toString()}"));
+              ("Your Pin: ${(snapshot.data.last.pin - snapshot.data.last.basePin).toString()}"));
         } else if (snapshot.hasError) {
           return Text('${snapshot.error.toString()}');
         }
