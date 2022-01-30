@@ -10,8 +10,15 @@ class UserPinCard extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           snapshot.data.sort((a, b) => (a.time).compareTo(b.time));
-          return Text(
-              ("Your Pin: ${(snapshot.data.last.pin - snapshot.data.last.basePin).toString()}"));
+          try {
+            return Text(
+                ("Your Pin: ${(snapshot.data.last.pin - snapshot.data.last.basePin).toString()}"));
+          } on StateError catch (e) {
+            return Text(
+                "No Registration PIN because no registration data was found");
+          } catch (e) {
+            return Text("Error getting PIN");
+          }
         } else if (snapshot.hasError) {
           return Text('${snapshot.error.toString()}');
         }
