@@ -2,10 +2,12 @@
   // Use IntelliSense to learn about possible attributes.
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+
+  // For more information about flutter build modes: https://docs.flutter.dev/testing/build-modes
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "hackpsu",
+      "name": "hackpsu dev debug",
       "program": "lib/main_dev.dart",
       "request": "launch",
       "type": "dart",
@@ -13,6 +15,60 @@
         "--flavor",
         "dev" //development or staging or production
       ]
-    }
+    },
+    {
+      "name": "hackpsu dev release",
+      "program": "lib/main_dev.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--release",
+        "--flavor",
+        "dev"
+      ]
+    },
+    {
+      "name": "hackpsu dev profile",
+      "program": "lib/main_dev.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--profile",
+        "--flavor",
+        "dev"
+      ]
+    },
+    {
+      "name": "hackpsu prod debug",
+      "program": "lib/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "prod"
+      ]
+    },
+    {
+      "name": "hackpsu prod release",
+      "program": "lib/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--release",
+        "--flavor",
+        "prod"
+      ]
+    },
+    {
+      "name": "hackpsu prod profile",
+      "program": "lib/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--profile",
+        "--flavor",
+        "prod"
+      ]
+    },
   ]
 }
