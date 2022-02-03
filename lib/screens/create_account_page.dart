@@ -1,18 +1,24 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hackpsu/utils/custom_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../data/authentication_service.dart';
-import './create_account_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-class SignInPage extends StatelessWidget {
+class CreateAccount extends StatelessWidget {
+  static const IconData chevron_left = IconData(0xe15e, fontFamily: 'MaterialIcons', matchTextDirection: true);
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  String email, password;
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF113654),
       body: Stack(
         children: [
           Align(
@@ -20,6 +26,7 @@ class SignInPage extends StatelessWidget {
             child: Container(
               height: 200,
               alignment: Alignment.bottomCenter,
+              color: Color(0xFF113654),
               child: SvgPicture.asset(
                 'assets/images/mountain.svg',
                 alignment: Alignment.bottomCenter,
@@ -30,13 +37,30 @@ class SignInPage extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 50.0),
+                  padding: EdgeInsets.only(top: 30.0),
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: TextButton(
+                      child: Row(
+                        children: [
+                          Icon(chevron_left),
+                           Text(
+                        "BACK"
+                        ),
+                        ]
+                      ),
+                      onPressed: () => Navigator.of(context).pop(),
+                      )
+                    ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 20.0),
                   child: Container(
                     height: 150,
                     width: 150,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                      color: Colors.black12,
+                      color: Colors.white12,
                       image: DecorationImage(
                         image: AssetImage('assets/images/Logo.png'),
                       ),
@@ -47,11 +71,11 @@ class SignInPage extends StatelessWidget {
                   padding: EdgeInsets.only(top: 50.0, left: 20.0),
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "LOGIN",
+                    "SIGN UP",
                     style: TextStyle(
                       fontSize: 36.0,
                       fontFamily: 'Cornerstone',
-                      color: Color(0xFF113654),
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -60,11 +84,14 @@ class SignInPage extends StatelessWidget {
                   child: TextField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) {
+                      email = value;
+                    },
                     decoration: InputDecoration(
-                      labelText: "Email",
-                      filled: true,
-                      fillColor: Colors.black12,
-                    ),
+                        labelText: "Email",
+                        filled: true,
+                        fillColor: Colors.white12,
+                        labelStyle: TextStyle(color: Colors.white)),
                   ),
                 ),
                 Padding(
@@ -73,52 +100,15 @@ class SignInPage extends StatelessWidget {
                     controller: passwordController,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
+                    onChanged: (value) {
+                      password = value;
+                    },
                     decoration: InputDecoration(
-                      labelText: "Password",
-                      filled: true,
-                      fillColor: Colors.black12,
-                    ),
+                        labelText: "Password",
+                        filled: true,
+                        fillColor: Colors.white12,
+                        labelStyle: TextStyle(color: Colors.white)),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 100),
-                      child: TextButton(
-                        child: Text(
-                          'Forgot password?',
-                          style: TextStyle(
-                            fontFamily: 'SpaceGrotesk',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        onPressed: () {
-                          context.read<AuthenticationService>().launchURLApp();
-                        },
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xFAFAFAFA)),
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      child: Text(
-                        'Create account',
-                        style: TextStyle(
-                          fontFamily: 'SpaceGrotesk',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Color(0xFAFAFAFA)),
-                      ),
-                      onPressed: () {
-                        _navigateCreatAccount(context);
-                      },
-                    )
-                  ],
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 10, left: 300),
@@ -162,7 +152,7 @@ class SignInPage extends StatelessWidget {
                               .read<AuthenticationService>()
                               .signInWithGoogle();
                         },
-                        label: Text('Sign in with Google'),
+                        label: Text('Sign up with Google'),
                       ),
                       ElevatedButton.icon(
                         icon: Icon(CustomIcons.github),
@@ -175,7 +165,7 @@ class SignInPage extends StatelessWidget {
                               .read<AuthenticationService>()
                               .signInWithGitHub(context);
                         },
-                        label: Text('Sign in with GitHub'),
+                        label: Text('Sign up with GitHub'),
                       ),
                     ],
                   ),
@@ -186,10 +176,5 @@ class SignInPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _navigateCreatAccount(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => CreateAccount()));
   }
 }
