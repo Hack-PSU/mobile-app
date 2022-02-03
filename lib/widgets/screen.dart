@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hackpsu/widgets/bottom_navigation.dart';
+import 'package:hackpsu/widgets/bottom_navigation/main.dart';
 
 class Screen extends Scaffold {
-  static GlobalKey<ScaffoldState> _keyScaffold = GlobalKey();
   final bool withBottomNavigation;
 
   Screen({
@@ -13,8 +12,8 @@ class Screen extends Scaffold {
   }) : super(
           backgroundColor:
               backgroundColor ?? Color.fromRGBO(224, 224, 224, 1.0),
-          key: _keyScaffold,
           appBar: appBar,
+          body: body,
           bottomNavigationBar: withBottomNavigation ? BottomNavigation() : null,
         );
 }

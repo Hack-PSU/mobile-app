@@ -24,14 +24,20 @@ dependencies:
   flutter:
     sdk: flutter
 
-  firebase_core: ^1.2.0
-  firebase_auth: ^1.2.0
-  provider: ^5.0.0
+  equatable: ^2.0.3
+  formz: ^0.4.1
+  form_validator: ^1.0.1
+  firebase_core: ^1.5.0
+  firebase_auth: ^3.0.2
+  provider: ^6.0.0
   
   http: ^0.13.3
-  google_sign_in: ^5.0.4
+  google_sign_in: ^5.0.7
   github_sign_in: ^0.0.1
   flutter_svg: ^0.22.0
+
+  bloc: ^8.0.0
+  flutter_bloc: ^8.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -55,6 +61,7 @@ flutter:
   assets:
    - assets/images/Logo.png
    - assets/images/mountain.svg
+   - assets/icons/
 
   fonts:
     - family: Cornerstone
