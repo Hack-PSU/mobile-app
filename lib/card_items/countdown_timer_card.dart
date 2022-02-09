@@ -2,7 +2,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-final hackathonDate = DateTime.utc(2022, 4, 8, 14);
+final hackathonDate = DateTime.utc(2022, 4, 8, 14)
+    .add(Duration(hours: 5)); // Add 5 hours to account for EST off set
 
 class StringDuration {
   String days;
