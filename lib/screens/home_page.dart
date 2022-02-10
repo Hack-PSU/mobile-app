@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackpsu/card_items/countdown_timer_card.dart';
 import 'package:provider/provider.dart';
 
 import '../card_items/pin_card.dart';
@@ -16,9 +17,10 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text("HOME"),
+            CountdownTimerCard(),
             UserPinCard(),
             EventWorkshopCard(),
-            Text("HOME"),
             ElevatedButton(
               onPressed: () {
                 context.read<AuthenticationService>().signOut();
