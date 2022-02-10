@@ -14,6 +14,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Screen(
+      withDismissKeyboard: true,
       withBottomNavigation: false,
       body: BlocProvider<SignInCubit>(
         create: (context) =>
@@ -107,34 +108,37 @@ class SignInScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.only(top: 10, left: 300),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFF4603D),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(.5),
-                            spreadRadius: 2,
-                            blurRadius: 8,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
+                padding: EdgeInsets.only(top: 10, left: 300),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFFF4603D),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(.5),
+                        spreadRadius: 2,
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
                       ),
-                      child: IconButton(
-                          icon: Icon(Icons.send),
-                          iconSize: 20,
-                          color: Colors.white,
-                          onPressed: () {
-                            context
-                                .read<SignInCubit>()
-                                .signInWithEmailAndPassword();
-                          }))),
+                    ],
+                  ),
+                  child: Button(
+                    variant: ButtonVariant.IconButton,
+                    icon: Icon(Icons.send),
+                    iconSize: 20,
+                    color: Colors.white,
+                    onPressed: () {
+                      context.read<SignInCubit>().signInWithEmailAndPassword();
+                    },
+                  ),
+                ),
+              ),
               Container(
                 padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.00),
                 child: Column(
                   children: [
-                    ElevatedButton.icon(
+                    Button(
+                      variant: ButtonVariant.ElevatedButton,
                       icon: Icon(CustomIcons.google),
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 37),
@@ -142,11 +146,12 @@ class SignInScreen extends StatelessWidget {
                       onPressed: () {
                         context.read<SignInCubit>().signInWithGoogle();
                       },
-                      label: DefaultText(
+                      child: DefaultText(
                         "Sign in with Google",
                       ),
                     ),
-                    ElevatedButton.icon(
+                    Button(
+                      variant: ButtonVariant.ElevatedButton,
                       icon: Icon(CustomIcons.github),
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 37),
@@ -155,7 +160,7 @@ class SignInScreen extends StatelessWidget {
                       onPressed: () {
                         context.read<SignInCubit>().signInWithGitHub(context);
                       },
-                      label: DefaultText(
+                      child: DefaultText(
                         "Sign in with GitHub",
                       ),
                     ),

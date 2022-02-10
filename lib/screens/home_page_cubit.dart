@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackpsu/data/authentication_repository.dart';
 import 'package:hackpsu/utils/cubits/event_cubit.dart';
 import 'package:hackpsu/widgets/bottom_navigation/cubit.dart';
 import 'package:hackpsu/widgets/bottom_navigation/main.dart';
+import 'package:hackpsu/widgets/button.dart';
 import 'package:hackpsu/widgets/default_text.dart';
 import 'package:hackpsu/widgets/screen.dart';
 import 'package:provider/provider.dart';
@@ -30,12 +32,23 @@ class HomeScreen extends StatelessWidget {
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: events
-                .map((e) => DefaultText(
-                      e.eventTitle,
-                      fontSize: 14,
-                    ))
-                .toList(),
+            children: [
+              ...events
+                  .map((e) => DefaultText(
+                        e.eventTitle,
+                        fontSize: 14,
+                      ))
+                  .toList(),
+              Button(
+                variant: ButtonVariant.TextButton,
+                onPressed: () {
+                  context.read<AuthenticationRepository>().signOut();
+                },
+                child: DefaultText(
+                  "Log out",
+                ),
+              )
+            ],
           ),
         );
       },
