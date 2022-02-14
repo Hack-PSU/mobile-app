@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:formz/formz.dart';
 
@@ -13,7 +14,7 @@ class EmailValidation {
   final String message;
 }
 
-class Email extends FormzInput<String, EmailValidation> {
+class Email extends FormzInput<String, String> {
   Email.pure() : super.pure("");
   Email.dirty(String value) : super.dirty(value);
 
@@ -21,13 +22,7 @@ class Email extends FormzInput<String, EmailValidation> {
       ValidationBuilder().email("Invalid email").build();
 
   @override
-  EmailValidation validator(String email) {
-    final valid = emailValidator(email);
-
-    if (valid == null) {
-      return EmailValidation(EmailStatus.valid);
-    } else {
-      return EmailValidation(EmailStatus.invalid, valid);
-    }
+  String validator(String email) {
+    return null;
   }
 }

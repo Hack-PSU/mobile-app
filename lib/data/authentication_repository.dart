@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hackpsu/secrets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignUpWithEmailAndPasswordError implements Exception {
   const SignUpWithEmailAndPasswordError(
@@ -226,6 +227,21 @@ class AuthenticationRepository {
       ]);
     } catch (_) {
       throw SignOutError();
+    }
+  }
+
+  Future<void> launchURLApp() async {
+    const url = 'https://app.hackpsu.org/forgot';
+
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceWebView: true,
+        enableJavaScript: true,
+        enableDomStorage: true,
+      );
+    } else {
+      throw 'Could not launch $url';
     }
   }
 }

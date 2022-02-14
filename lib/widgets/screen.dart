@@ -12,7 +12,7 @@ class Screen extends Scaffold {
           backgroundColor:
               backgroundColor ?? Color.fromRGBO(224, 224, 224, 1.0),
           appBar: appBar,
-          body: withDismissKeyboard
+          body: withDismissKeyboard == true
               ? GestureDetector(
                   onTap: () => FocusManager.instance.primaryFocus != null
                       ? FocusManager.instance.primaryFocus.unfocus()

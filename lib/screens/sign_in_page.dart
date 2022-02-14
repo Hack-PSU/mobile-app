@@ -9,6 +9,8 @@ import 'package:hackpsu/widgets/button.dart';
 import 'package:hackpsu/widgets/default_text.dart';
 import 'package:hackpsu/widgets/input.dart';
 import 'package:hackpsu/widgets/screen.dart';
+import '../data/authentication_service.dart';
+import './create_account_page.dart';
 
 class SignInPage extends StatelessWidget {
   @override
@@ -82,14 +84,17 @@ class SignInScreen extends StatelessWidget {
                   children: [
                     Button(
                       variant: ButtonVariant.TextButton,
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<SignInCubit>().forgotPassword();
+                      },
                       child: DefaultText(
                         "Forgot password?",
                         fontLevel: FontLevel.button,
                       ),
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Color(0x00FAFAFA)),
+                        backgroundColor: MaterialStateProperty.all(
+                          Color(0x00FAFAFA),
+                        ),
                       ),
                     ),
                     Button(
@@ -98,7 +103,10 @@ class SignInScreen extends StatelessWidget {
                         "Create account",
                         fontLevel: FontLevel.button,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("signUp");
+                        // _navigateCreatAccount(context)
+                      },
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(Color(0x00FAFAFA)),
@@ -183,6 +191,7 @@ class _EmailInput extends StatelessWidget {
       builder: (dispatch, state) {
         return Input(
           label: "Email",
+          autocorrect: false,
           onChanged: (newEmail) {
             dispatch.emailChanged(newEmail);
           },

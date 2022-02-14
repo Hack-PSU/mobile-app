@@ -14,10 +14,11 @@ class SignInCubit extends Cubit<SignInState> {
 
   void emailChanged(String newEmail) {
     final email = Email.dirty(newEmail);
+
     emit(
       state.copyWith(
         email: email,
-        status: Formz.validate([email, state.password]),
+        // status: Formz.validate([email, state.password]),
       ),
     );
   }
@@ -27,13 +28,13 @@ class SignInCubit extends Cubit<SignInState> {
     emit(
       state.copyWith(
         password: password,
-        status: Formz.validate([state.email, password]),
+        // status: Formz.validate([state.email, password]),
       ),
     );
   }
 
   Future<void> signInWithEmailAndPassword() async {
-    if (!state.status.isValidated) return;
+    // if (!state.status.isValidated) return;
     emit(
       state.copyWith(
         status: FormzStatus.submissionInProgress,
@@ -101,5 +102,9 @@ class SignInCubit extends Cubit<SignInState> {
         ),
       );
     }
+  }
+
+  Future<void> forgotPassword() async {
+    await _authenticationRepository.launchURLApp();
   }
 }

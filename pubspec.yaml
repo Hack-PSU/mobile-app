@@ -30,7 +30,7 @@ dependencies:
   firebase_core: ^1.5.0
   firebase_auth: ^3.0.2
   provider: ^6.0.0
-  
+
   http: ^0.13.3
   google_sign_in: ^5.0.7
   github_sign_in: ^0.0.1
@@ -42,6 +42,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  url_launcher: ^6.0.10
 
 dev_dependencies:
   flutter_test:
@@ -66,20 +67,18 @@ flutter:
   fonts:
     - family: Cornerstone
       fonts:
-          - asset: assets/fonts/Cornerstone.ttf
+        - asset: assets/fonts/Cornerstone.ttf
     - family: SpaceGrotesk
       fonts:
-          - asset: assets/fonts/SpaceGrotesk-Regular.ttf
-          - asset: assets/fonts/SpaceGrotesk-SemiBold.ttf
-            weight: 600
+        - asset: assets/fonts/SpaceGrotesk-Regular.ttf
+        - asset: assets/fonts/SpaceGrotesk-SemiBold.ttf
+          weight: 600
     - family: PlexMono
       fonts:
-          - asset: assets/fonts/IBMPlexMono-Medium.otf
-    - family:  CustomIcons
+        - asset: assets/fonts/IBMPlexMono-Medium.otf
+    - family: CustomIcons
       fonts:
-          - asset: assets/fonts/CustomIcons.ttf
-
-
+        - asset: assets/fonts/CustomIcons.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

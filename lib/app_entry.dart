@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hackpsu/data/authentication_repository.dart';
 import 'package:hackpsu/data/event_repository.dart';
+import 'package:hackpsu/data/user_repository.dart';
+import 'package:hackpsu/screens/create_account_page.dart';
 import 'package:hackpsu/screens/events_page.dart';
 import 'package:hackpsu/screens/sign_in_page.dart';
 import 'package:hackpsu/screens/workshops_page.dart';
@@ -9,6 +11,7 @@ import 'package:hackpsu/utils/bloc/auth/auth_bloc.dart';
 import 'package:hackpsu/utils/bloc/auth/auth_state.dart';
 import 'package:hackpsu/utils/cubits/event_cubit.dart';
 import 'package:hackpsu/screens/home_page_cubit.dart';
+import 'package:hackpsu/utils/cubits/registration_cubit.dart';
 import 'package:hackpsu/utils/flavor_constants.dart';
 import 'package:hackpsu/utils/cubits/bottom_navigation_cubit.dart';
 import 'package:hackpsu/widgets/bottom_navigation.dart';
@@ -28,6 +31,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (_) => AuthenticationRepository(),
         ),
+        RepositoryProvider(
+          create: (_) => UserRepository(Config.baseUrl + '/users/register'),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -36,6 +42,10 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<EventCubit>(
             create: (context) => EventCubit(context.read<EventRepository>()),
+          ),
+          BlocProvider<RegistrationCubit>(
+            create: (context) =>
+                RegistrationCubit(context.read<UserRepository>()),
           ),
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
@@ -70,7 +80,7 @@ class RootRouter extends StatelessWidget {
         if (state.status == AuthStatus.authenticated) {
           return MainRouter();
         } else {
-          return SignInPage();
+          return AuthRouter();
         }
       },
     );
@@ -91,6 +101,29 @@ class MainRouter extends StatelessWidget {
         withBottomNavigation: true,
         body: _pages[Routes.values.indexOf(route)],
       ),
+    );
+  }
+}
+
+class AuthRouter extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      initialRoute: "signIn",
+      onGenerateRoute: (RouteSettings settings) {
+        WidgetBuilder builder;
+        switch (settings.name) {
+          case 'signIn':
+            builder = (BuildContext context) => SignInPage();
+            break;
+          case 'signUp':
+            builder = (BuildContext context) => CreateAccount();
+            break;
+          default:
+            throw Exception("Invalid route ${settings.name}");
+        }
+        return MaterialPageRoute<void>(builder: builder, settings: settings);
+      },
     );
   }
 }

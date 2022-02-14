@@ -11,6 +11,7 @@ class Input extends StatelessWidget {
     this.decoration,
     this.password,
     @required this.onChanged,
+    this.autocorrect,
   });
 
   final String label;
@@ -19,6 +20,7 @@ class Input extends StatelessWidget {
   final InputDecoration decoration;
   final bool password;
   final Function(String) onChanged;
+  final bool autocorrect;
 
   static InputDecoration getDefaultStyles() => InputDecoration(
         labelText: "",
@@ -32,6 +34,7 @@ class Input extends StatelessWidget {
       keyboardType: inputType ?? TextInputType.text,
       obscureText: password != null,
       onChanged: onChanged,
+      autocorrect: autocorrect ?? true,
       decoration: decoration != null
           ? decoration.copyWith(
               labelText: label,
@@ -54,6 +57,7 @@ class PasswordInput extends Input {
           password: true,
           inputType: TextInputType.visiblePassword,
           onChanged: onChanged,
+          autocorrect: false,
         );
 }
 

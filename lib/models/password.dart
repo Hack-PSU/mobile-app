@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:formz/formz.dart';
 
@@ -27,21 +28,15 @@ enum ValidatorMode { number, upperCase, lowerCase, length, symbol }
 //   // }
 // }
 
-class Password extends FormzInput<String, PasswordError> {
+class Password extends FormzInput<String, String> {
   Password.pure() : super.pure("");
   Password.dirty(String value) : super.dirty(value);
 
   static final passwordValidator = ValidationBuilder().minLength(1).build();
 
   @override
-  PasswordError validator(String value) {
-    final valid = passwordValidator(value);
-
-    if (valid == null) {
-      return PasswordError.valid;
-    } else {
-      return PasswordError.invalid;
-    }
+  String validator(String value) {
+    return null;
   }
 
   // static final validateNumber = ValidationBuilder()
