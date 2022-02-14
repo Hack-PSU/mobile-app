@@ -35,6 +35,7 @@ class EventsScreen extends StatelessWidget {
   }
 
   Widget _showEvent(Event event) {
+    // TODO -- return event_repo_card here
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),

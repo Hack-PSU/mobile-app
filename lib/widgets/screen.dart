@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hackpsu/widgets/bottom_navigation/main.dart';
+import 'package:hackpsu/widgets/bottom_navigation.dart';
 
 class Screen extends Scaffold {
   Screen({

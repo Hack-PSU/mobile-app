@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hackpsu/data/authentication_repository.dart';
 import 'package:hackpsu/data/event_repository.dart';
@@ -11,37 +10,14 @@ import 'package:hackpsu/utils/bloc/auth/auth_state.dart';
 import 'package:hackpsu/utils/cubits/event_cubit.dart';
 import 'package:hackpsu/screens/home_page_cubit.dart';
 import 'package:hackpsu/utils/flavor_constants.dart';
-import 'package:hackpsu/widgets/bottom_navigation/cubit.dart';
-import 'package:hackpsu/widgets/bottom_navigation/main.dart';
+import 'package:hackpsu/utils/cubits/bottom_navigation_cubit.dart';
+import 'package:hackpsu/widgets/bottom_navigation.dart';
 import 'package:hackpsu/widgets/screen.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 
-import './data/authentication_service.dart';
-import './screens/home_page.dart';
-import './screens/sign_in_page_2.dart';
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-  // @override
-  // Widget build(BuildContext context) {
-  //   return MultiProvider(
-  //     providers: [
-  //       Provider<AuthenticationService>(
-  //         create: (_) => AuthenticationService(FirebaseAuth.instance),
-  //       ),
-  //       // TODO: add initialData for nullSafety?
-  //       StreamProvider(
-  //         create: (context) =>
-  //             context.read<AuthenticationService>().authStateChanges,
-  //       ),
-  //     ],
-  //     child: MaterialApp(
-  //       title: 'HackPSU',
-  //       home: AuthenticationWrapper(),
-  //     ),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -82,18 +58,6 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
-  }
-}
-
-class AuthenticationWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
-
-    if (firebaseUser != null) {
-      return HomePage();
-    }
-    return SignInPage();
   }
 }
 

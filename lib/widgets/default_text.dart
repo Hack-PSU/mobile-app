@@ -139,12 +139,13 @@ class DefaultText extends Text {
         );
       case FontLevel.caption:
         return TextStyle(
-            fontFamily: getFontFamily(FontVariant.p),
-            fontWeight: FontWeight.w400,
-            fontStyle: FontStyle.normal,
-            fontSize: 12,
-            height: getHeight(16, 12),
-            letterSpacing: .5);
+          fontFamily: getFontFamily(FontVariant.p),
+          fontWeight: FontWeight.w400,
+          fontStyle: FontStyle.normal,
+          fontSize: 12,
+          height: getHeight(16, 12),
+          letterSpacing: .5,
+        );
       case FontLevel.overline:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.p),
