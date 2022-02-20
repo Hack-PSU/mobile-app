@@ -3,11 +3,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/data/event_repository.dart';
-import 'package:hackpsu/models/event.dart';
-import 'package:hackpsu/utils/cubits/event_cubit.dart';
-import 'package:hackpsu/widgets/screen.dart';
-import 'package:hackpsu/widgets/default_text.dart';
+import '../cubit/event_cubit.dart';
+
+import '../models/event.dart';
+import '../widgets/default_text.dart';
 
 class EventsScreen extends StatelessWidget {
   const EventsScreen({Key key}) : super(key: key);
@@ -19,7 +18,7 @@ class EventsScreen extends StatelessWidget {
         context.read<EventCubit>().getEvents();
 
         if (events == null) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -37,14 +36,14 @@ class EventsScreen extends StatelessWidget {
   Widget _showEvent(Event event) {
     // TODO -- return event_repo_card here
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
       child: Column(
         children: [
           DefaultText(
             event.locationName,
-            fontLevel: FontLevel.body1,
+            fontLevel: TextLevel.body1,
             fontSize: 16,
           ),
         ],

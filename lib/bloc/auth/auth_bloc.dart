@@ -4,8 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hackpsu/data/authentication_repository.dart';
-import 'package:hackpsu/utils/bloc/auth/auth_event.dart';
-import 'package:hackpsu/utils/bloc/auth/auth_state.dart';
+import 'package:hackpsu/bloc/auth/auth_event.dart';
+import 'package:hackpsu/bloc/auth/auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
@@ -35,7 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onAuthLogout(AuthLogout event, Emitter<AuthState> emit) {
-    unawaited(_authenticationRepository.signOut());
+    _authenticationRepository.signOut();
   }
 
   @override

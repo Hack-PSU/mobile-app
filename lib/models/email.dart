@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:formz/formz.dart';
 
@@ -22,7 +21,7 @@ class Email extends FormzInput<String, String> {
       ValidationBuilder().email("Invalid email").build();
 
   @override
-  String validator(String email) {
+  String validator(String value) {
     return null;
   }
 }

@@ -4,22 +4,29 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hackpsu/utils/custom_icons.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
 import '../data/authentication_service.dart';
+import '../utils/custom_icons.dart';
 
 class CreateAccount extends StatelessWidget {
+  CreateAccount({Key key}) : super(key: key);
+
   static const IconData chevron_left =
       IconData(0xe15e, fontFamily: 'MaterialIcons', matchTextDirection: true);
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String email, password;
+  // TODO -- auth can be obtained through AuthRepository instead
+  // TODO -- create a CreateAccountCubit and build page using BlocBuilder
+  // TODO -- wrap email and password within the cubit state and just call
+  // TODO -- authRepository from cubit using the email and password states
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF113654),
+      backgroundColor: const Color(0xFF113654),
       body: Stack(
         children: [
           Align(
@@ -27,7 +34,7 @@ class CreateAccount extends StatelessWidget {
             child: Container(
               height: 200,
               alignment: Alignment.bottomCenter,
-              color: Color(0xFF113654),
+              color: const Color(0xFF113654),
               child: SvgPicture.asset(
                 'assets/images/mountain.svg',
                 alignment: Alignment.bottomCenter,
@@ -38,25 +45,28 @@ class CreateAccount extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 30.0),
+                  padding: const EdgeInsets.only(top: 30.0),
                   child: Container(
-                      alignment: Alignment.topLeft,
-                      child: TextButton(
-                        child: Row(children: [
+                    alignment: Alignment.topLeft,
+                    child: TextButton(
+                      child: Row(
+                        children: const [
                           Icon(chevron_left),
                           Text(
                             "BACK",
                           ),
-                        ]),
-                        onPressed: () => Navigator.of(context).pop(),
-                      )),
+                        ],
+                      ),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 20.0),
+                  padding: const EdgeInsets.only(top: 20.0),
                   child: Container(
                     height: 150,
                     width: 150,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       color: Colors.white12,
                       image: DecorationImage(
@@ -66,9 +76,9 @@ class CreateAccount extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 50.0, left: 20.0),
+                  padding: const EdgeInsets.only(top: 50.0, left: 20.0),
                   alignment: Alignment.topLeft,
-                  child: Text(
+                  child: const Text(
                     "SIGN UP",
                     style: TextStyle(
                       fontSize: 36.0,
@@ -78,22 +88,25 @@ class CreateAccount extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
+                  padding:
+                      const EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
                   child: TextField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) {
                       email = value;
                     },
-                    decoration: InputDecoration(
-                        labelText: "Email",
-                        filled: true,
-                        fillColor: Colors.white12,
-                        labelStyle: TextStyle(color: Colors.white)),
+                    decoration: const InputDecoration(
+                      labelText: "Email",
+                      filled: true,
+                      fillColor: Colors.white12,
+                      labelStyle: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
+                  padding:
+                      const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
                   child: TextField(
                     controller: passwordController,
                     keyboardType: TextInputType.visiblePassword,
@@ -101,30 +114,31 @@ class CreateAccount extends StatelessWidget {
                     onChanged: (value) {
                       password = value;
                     },
-                    decoration: InputDecoration(
-                        labelText: "Password",
-                        filled: true,
-                        fillColor: Colors.white12,
-                        labelStyle: TextStyle(color: Colors.white)),
+                    decoration: const InputDecoration(
+                      labelText: "Password",
+                      filled: true,
+                      fillColor: Colors.white12,
+                      labelStyle: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 10, left: 300),
+                  padding: const EdgeInsets.only(top: 10, left: 300),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color(0xFFF4603D),
+                      color: const Color(0xFFF4603D),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(.5),
                           spreadRadius: 2,
                           blurRadius: 8,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
                     child: IconButton(
-                      icon: Icon(Icons.send),
+                      icon: const Icon(Icons.send),
                       iconSize: 20,
                       color: Colors.white,
                       onPressed: () {
@@ -137,25 +151,25 @@ class CreateAccount extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.00),
+                  padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.00),
                   child: Column(
                     children: [
                       ElevatedButton.icon(
-                        icon: Icon(CustomIcons.google),
+                        icon: const Icon(CustomIcons.google),
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(double.infinity, 37),
+                          minimumSize: const Size(double.infinity, 37),
                         ),
                         onPressed: () {
                           context
                               .read<AuthenticationService>()
                               .signInWithGoogle();
                         },
-                        label: Text('Sign up with Google'),
+                        label: const Text('Sign up with Google'),
                       ),
                       ElevatedButton.icon(
-                        icon: Icon(CustomIcons.github),
+                        icon: const Icon(CustomIcons.github),
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(double.infinity, 37),
+                          minimumSize: const Size(double.infinity, 37),
                           primary: Colors.black,
                         ),
                         onPressed: () {
@@ -163,7 +177,7 @@ class CreateAccount extends StatelessWidget {
                               .read<AuthenticationService>()
                               .signInWithGitHub(context);
                         },
-                        label: Text('Sign up with GitHub'),
+                        label: const Text('Sign up with GitHub'),
                       ),
                     ],
                   ),

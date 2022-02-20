@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hackpsu/widgets/bottom_navigation.dart';
+import 'bottom_navigation.dart';
 
 class Screen extends Scaffold {
   Screen({
@@ -8,9 +8,11 @@ class Screen extends Scaffold {
     Widget body,
     @required this.withBottomNavigation,
     this.withDismissKeyboard,
+    Key key,
   }) : super(
+          key: key,
           backgroundColor:
-              backgroundColor ?? Color.fromRGBO(224, 224, 224, 1.0),
+              backgroundColor ?? const Color.fromRGBO(224, 224, 224, 1.0),
           appBar: appBar,
           body: withDismissKeyboard == true
               ? GestureDetector(

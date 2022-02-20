@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum FontLevel {
+enum TextLevel {
   h1,
   h2,
   h3,
@@ -19,7 +19,7 @@ enum FontVariant { header, sub, p }
 class DefaultText extends Text {
   DefaultText(
     String text, {
-    FontLevel fontLevel,
+    TextLevel fontLevel,
     FontWeight weight,
     double fontSize,
     FontStyle fontStyle,
@@ -27,17 +27,19 @@ class DefaultText extends Text {
     TextAlign textAlign,
     double letterSpacing,
     Color color,
+    Key key,
   }) : super(
           text,
-          textAlign: textAlign ?? null,
-          maxLines: maxLines ?? null,
-          style: getTextStyle(fontLevel ?? FontLevel.body1).copyWith(
+          textAlign: textAlign,
+          maxLines: maxLines,
+          style: getTextStyle(fontLevel ?? TextLevel.body1).copyWith(
             fontStyle: fontStyle,
             fontSize: fontSize,
             fontWeight: weight,
             letterSpacing: letterSpacing,
             color: color,
           ),
+          key: key,
         );
 
   static String getFontFamily(FontVariant variant) {
@@ -48,17 +50,16 @@ class DefaultText extends Text {
         return "SpaceGrotesk";
       case FontVariant.p:
         return "Roboto";
-      default:
-        return "Roboto";
     }
+    return "Roboto";
   }
 
   static double getHeight(double lineHeight, double fontSize) =>
       lineHeight / fontSize;
 
-  static TextStyle getTextStyle(FontLevel level) {
+  static TextStyle getTextStyle(TextLevel level) {
     switch (level) {
-      case FontLevel.h1:
+      case TextLevel.h1:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.header),
           fontWeight: FontWeight.w400,
@@ -66,7 +67,7 @@ class DefaultText extends Text {
           fontSize: 34,
           height: getHeight(40, 34),
         );
-      case FontLevel.h2:
+      case TextLevel.h2:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.sub),
           fontWeight: FontWeight.w700,
@@ -75,7 +76,7 @@ class DefaultText extends Text {
           height: getHeight(40, 34),
           letterSpacing: .25,
         );
-      case FontLevel.h3:
+      case TextLevel.h3:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.sub),
           fontWeight: FontWeight.w500,
@@ -83,7 +84,7 @@ class DefaultText extends Text {
           fontSize: 24,
           height: getHeight(32, 24),
         );
-      case FontLevel.h4:
+      case TextLevel.h4:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.sub),
           fontWeight: FontWeight.w500,
@@ -92,7 +93,7 @@ class DefaultText extends Text {
           height: getHeight(28, 20),
           letterSpacing: .15,
         );
-      case FontLevel.sub1:
+      case TextLevel.sub1:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.sub),
           fontWeight: FontWeight.w400,
@@ -101,7 +102,7 @@ class DefaultText extends Text {
           height: getHeight(24, 16),
           letterSpacing: .15,
         );
-      case FontLevel.sub2:
+      case TextLevel.sub2:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.p),
           fontWeight: FontWeight.w500,
@@ -110,7 +111,7 @@ class DefaultText extends Text {
           height: getHeight(20, 14),
           letterSpacing: .1,
         );
-      case FontLevel.button:
+      case TextLevel.button:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.p),
           fontWeight: FontWeight.w500,
@@ -119,7 +120,7 @@ class DefaultText extends Text {
           height: getHeight(24, 14),
           letterSpacing: 1.2,
         );
-      case FontLevel.body1:
+      case TextLevel.body1:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.p),
           fontWeight: FontWeight.w400,
@@ -128,7 +129,7 @@ class DefaultText extends Text {
           height: getHeight(24, 16),
           letterSpacing: .44,
         );
-      case FontLevel.body2:
+      case TextLevel.body2:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.p),
           fontWeight: FontWeight.w400,
@@ -137,7 +138,7 @@ class DefaultText extends Text {
           height: getHeight(20, 14),
           letterSpacing: .25,
         );
-      case FontLevel.caption:
+      case TextLevel.caption:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.p),
           fontWeight: FontWeight.w400,
@@ -146,7 +147,7 @@ class DefaultText extends Text {
           height: getHeight(16, 12),
           letterSpacing: .5,
         );
-      case FontLevel.overline:
+      case TextLevel.overline:
         return TextStyle(
           fontFamily: getFontFamily(FontVariant.p),
           fontWeight: FontWeight.w500,
@@ -155,15 +156,14 @@ class DefaultText extends Text {
           height: getHeight(16, 10),
           letterSpacing: 1.2,
         );
-      default:
-        return TextStyle(
-          fontFamily: getFontFamily(FontVariant.p),
-          fontWeight: FontWeight.w400,
-          fontStyle: FontStyle.normal,
-          fontSize: 16,
-          height: getHeight(24, 16),
-          letterSpacing: .44,
-        );
     }
+    return TextStyle(
+      fontFamily: getFontFamily(FontVariant.p),
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+      fontSize: 16,
+      height: getHeight(24, 16),
+      letterSpacing: .44,
+    );
   }
 }

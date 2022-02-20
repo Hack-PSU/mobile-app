@@ -1,38 +1,42 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/data/authentication_repository.dart';
-import 'package:hackpsu/data/event_repository.dart';
-import 'package:hackpsu/data/user_repository.dart';
-import 'package:hackpsu/screens/create_account_page.dart';
-import 'package:hackpsu/screens/events_page.dart';
-import 'package:hackpsu/screens/sign_in_page.dart';
-import 'package:hackpsu/screens/workshops_page.dart';
-import 'package:hackpsu/utils/bloc/auth/auth_bloc.dart';
-import 'package:hackpsu/utils/bloc/auth/auth_state.dart';
-import 'package:hackpsu/utils/cubits/event_cubit.dart';
-import 'package:hackpsu/screens/home_page_cubit.dart';
-import 'package:hackpsu/utils/cubits/registration_cubit.dart';
-import 'package:hackpsu/utils/flavor_constants.dart';
-import 'package:hackpsu/utils/cubits/bottom_navigation_cubit.dart';
-import 'package:hackpsu/widgets/bottom_navigation.dart';
-import 'package:hackpsu/widgets/screen.dart';
-import 'package:provider/provider.dart';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+
+import 'bloc/auth/auth_bloc.dart';
+import 'bloc/auth/auth_state.dart';
+import 'cubit/bottom_navigation_cubit.dart';
+import 'cubit/event_cubit.dart';
+import 'cubit/registration_cubit.dart';
+import 'data/authentication_repository.dart';
+import 'data/event_repository.dart';
+import 'data/user_repository.dart';
+import 'screens/create_account_page.dart';
+import 'screens/events_page.dart';
+import 'screens/home_page.dart';
+import 'screens/sign_in_page.dart';
+import 'screens/workshops_page.dart';
+import 'utils/flavor_constants.dart';
+import 'widgets/bottom_navigation.dart';
+import 'widgets/screen.dart';
+
 class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
-          create: (_) => EventRepository(Config.baseUrl + '/live/events'),
+          create: (_) => EventRepository('${Config.baseUrl}/live/events'),
         ),
         RepositoryProvider(
           create: (_) => AuthenticationRepository(),
         ),
         RepositoryProvider(
-          create: (_) => UserRepository(Config.baseUrl + '/users/register'),
+          create: (_) => UserRepository('${Config.baseUrl}/users/register'),
         ),
       ],
       child: MultiBlocProvider(
@@ -53,7 +57,7 @@ class MyApp extends StatelessWidget {
                     context.read<AuthenticationRepository>()),
           ),
         ],
-        child: MaterialApp(
+        child: const MaterialApp(
           title: "HackPSU",
           home: RootRouter(),
         ),
@@ -72,15 +76,17 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 class RootRouter extends StatelessWidget {
+  const RootRouter({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         if (state.status == AuthStatus.authenticated) {
-          return MainRouter();
+          return const MainRouter();
         } else {
-          return AuthRouter();
+          return const AuthRouter();
         }
       },
     );
@@ -88,7 +94,9 @@ class RootRouter extends StatelessWidget {
 }
 
 class MainRouter extends StatelessWidget {
-  final List<Widget> _pages = [
+  const MainRouter({Key key}) : super(key: key);
+
+  static const List<Widget> _pages = [
     HomeScreen(),
     EventsScreen(),
     WorkshopsScreen(),
@@ -106,6 +114,8 @@ class MainRouter extends StatelessWidget {
 }
 
 class AuthRouter extends StatelessWidget {
+  const AuthRouter({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
@@ -114,7 +124,7 @@ class AuthRouter extends StatelessWidget {
         WidgetBuilder builder;
         switch (settings.name) {
           case 'signIn':
-            builder = (BuildContext context) => SignInPage();
+            builder = (BuildContext context) => const SignInPage();
             break;
           case 'signUp':
             builder = (BuildContext context) => CreateAccount();

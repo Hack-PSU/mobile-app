@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:hackpsu/data/user_repository.dart';
-import 'package:hackpsu/models/registration.dart';
+import 'package:flutter/cupertino.dart';
+import '../data/user_repository.dart';
+import '../models/registration.dart';
 
 class RegistrationCubit extends Cubit<List<Registration>> {
   RegistrationCubit(
@@ -11,7 +12,12 @@ class RegistrationCubit extends Cubit<List<Registration>> {
   final UserRepository _userRepository;
 
   Future<void> getUserInfo() async {
-    final users = await _userRepository.getUserInfo();
-    emit(users);
+    try {
+      final users = await _userRepository.getUserInfo();
+      emit(users);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    // emit(users);
   }
 }

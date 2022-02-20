@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hackpsu/data/authentication_repository.dart';
-import 'package:hackpsu/models/sign_in_state.dart';
-import 'package:hackpsu/utils/cubits/sign_in_cubit.dart';
-import 'package:hackpsu/utils/custom_icons.dart';
-import 'package:hackpsu/widgets/button.dart';
-import 'package:hackpsu/widgets/default_text.dart';
-import 'package:hackpsu/widgets/input.dart';
-import 'package:hackpsu/widgets/screen.dart';
-import '../data/authentication_service.dart';
-import './create_account_page.dart';
+
+import '../cubit/sign_in_cubit.dart';
+import '../data/authentication_repository.dart';
+import '../models/sign_in_state.dart';
+import '../utils/custom_icons.dart';
+import '../widgets/button.dart';
+import '../widgets/default_text.dart';
+import '../widgets/input.dart';
+import '../widgets/screen.dart';
 
 class SignInPage extends StatelessWidget {
+  const SignInPage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Screen(
@@ -21,13 +22,15 @@ class SignInPage extends StatelessWidget {
       body: BlocProvider<SignInCubit>(
         create: (context) =>
             SignInCubit(context.read<AuthenticationRepository>()),
-        child: SignInScreen(),
+        child: const SignInScreen(),
       ),
     );
   }
 }
 
 class SignInScreen extends StatelessWidget {
+  const SignInScreen({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -47,11 +50,11 @@ class SignInScreen extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 50.0),
+                padding: const EdgeInsets.only(top: 50.0),
                 child: Container(
                   height: 150,
                   width: 150,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
                     color: Colors.black12,
                     image: DecorationImage(
@@ -61,24 +64,26 @@ class SignInScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(top: 50.0, left: 20.0),
+                padding: const EdgeInsets.only(top: 50.0, left: 20.0),
                 alignment: Alignment.topLeft,
                 child: DefaultText(
                   "LOGIN",
-                  fontLevel: FontLevel.h2,
-                  color: Color(0xFF113654),
+                  fontLevel: TextLevel.h2,
+                  color: const Color(0xFF113654),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
+                padding:
+                    const EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
                 child: _EmailInput(),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
+                padding:
+                    const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
                 child: _PasswordInput(),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -87,52 +92,52 @@ class SignInScreen extends StatelessWidget {
                       onPressed: () {
                         context.read<SignInCubit>().forgotPassword();
                       },
-                      child: DefaultText(
-                        "Forgot password?",
-                        fontLevel: FontLevel.button,
-                      ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                          Color(0x00FAFAFA),
+                          const Color(0x00FAFAFA),
                         ),
+                      ),
+                      child: DefaultText(
+                        "Forgot password?",
+                        fontLevel: TextLevel.button,
                       ),
                     ),
                     Button(
                       variant: ButtonVariant.TextButton,
-                      child: DefaultText(
-                        "Create account",
-                        fontLevel: FontLevel.button,
-                      ),
                       onPressed: () {
                         Navigator.of(context).pushNamed("signUp");
                         // _navigateCreatAccount(context)
                       },
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Color(0x00FAFAFA)),
+                            MaterialStateProperty.all(const Color(0x00FAFAFA)),
+                      ),
+                      child: DefaultText(
+                        "Create account",
+                        fontLevel: TextLevel.button,
                       ),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 10, left: 300),
+                padding: const EdgeInsets.only(top: 10, left: 300),
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xFFF4603D),
+                    color: const Color(0xFFF4603D),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(.5),
                         spreadRadius: 2,
                         blurRadius: 8,
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                       ),
                     ],
                   ),
                   child: Button(
                     variant: ButtonVariant.IconButton,
-                    icon: Icon(Icons.send),
+                    icon: const Icon(Icons.send),
                     iconSize: 20,
                     color: Colors.white,
                     onPressed: () {
@@ -142,14 +147,14 @@ class SignInScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.00),
+                padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.00),
                 child: Column(
                   children: [
                     Button(
                       variant: ButtonVariant.ElevatedButton,
-                      icon: Icon(CustomIcons.google),
+                      icon: const Icon(CustomIcons.google),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 37),
+                        minimumSize: const Size(double.infinity, 37),
                       ),
                       onPressed: () {
                         context.read<SignInCubit>().signInWithGoogle();
@@ -160,9 +165,9 @@ class SignInScreen extends StatelessWidget {
                     ),
                     Button(
                       variant: ButtonVariant.ElevatedButton,
-                      icon: Icon(CustomIcons.github),
+                      icon: const Icon(CustomIcons.github),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 37),
+                        minimumSize: const Size(double.infinity, 37),
                         primary: Colors.black,
                       ),
                       onPressed: () {

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:hackpsu/models/base_model.dart';
-import 'package:hackpsu/models/email.dart';
-import 'package:hackpsu/models/password.dart';
+import 'base_model.dart';
+import 'email.dart';
+import 'password.dart';
 
 class SignInState extends BaseModel {
   const SignInState({

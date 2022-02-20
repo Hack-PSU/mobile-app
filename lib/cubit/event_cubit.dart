@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:hackpsu/data/event_repository.dart';
-import 'package:hackpsu/models/event.dart';
+import '../../data/event_repository.dart';
+import '../../models/event.dart';
 
 class EventCubit extends Cubit<List<Event>> {
   EventCubit(EventRepository eventRepository)

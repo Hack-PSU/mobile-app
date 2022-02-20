@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/models/base_model.dart';
+import '../models/base_model.dart';
 
 class Input extends StatelessWidget {
   const Input({
@@ -22,7 +22,7 @@ class Input extends StatelessWidget {
   final Function(String) onChanged;
   final bool autocorrect;
 
-  static InputDecoration getDefaultStyles() => InputDecoration(
+  static InputDecoration getDefaultStyles() => const InputDecoration(
         labelText: "",
         filled: true,
         fillColor: Colors.black12,
@@ -63,10 +63,11 @@ class PasswordInput extends Input {
 
 class ControlledInput<B extends StateStreamable<M>, M extends BaseModel>
     extends StatelessWidget {
-  ControlledInput({
+  const ControlledInput({
+    Key key,
     @required this.buildWhen,
     @required this.builder,
-  });
+  }) : super(key: key);
 
   final bool Function(M, M) buildWhen;
   final Input Function(B dispatch, M state) builder;

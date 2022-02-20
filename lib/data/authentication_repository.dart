@@ -2,71 +2,73 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hackpsu/secrets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SignUpWithEmailAndPasswordError implements Exception {
-  const SignUpWithEmailAndPasswordError(
-      [this.message = "An unknown error occurred"]);
+import '../secrets.dart';
 
-  final String message;
+class SignUpWithEmailAndPasswordError implements Exception {
+  const SignUpWithEmailAndPasswordError([
+    this.message = "An unknown error occurred",
+  ]);
 
   factory SignUpWithEmailAndPasswordError.fromCode(String code) {
     switch (code) {
       case 'email-already-in-use':
-        return SignUpWithEmailAndPasswordError(
+        return const SignUpWithEmailAndPasswordError(
           "An account already exists for this email.",
         );
       case 'invalid-email':
-        return SignUpWithEmailAndPasswordError(
+        return const SignUpWithEmailAndPasswordError(
           "Email is not valid or badly formatted.",
         );
       case 'user-disabled':
-        return SignUpWithEmailAndPasswordError(
+        return const SignUpWithEmailAndPasswordError(
           "This user has been disabled.",
         );
       case 'operation-not-allowed':
-        return SignUpWithEmailAndPasswordError(
+        return const SignUpWithEmailAndPasswordError(
           "Operation is not allowed.",
         );
       case 'weak-password':
-        return SignUpWithEmailAndPasswordError(
+        return const SignUpWithEmailAndPasswordError(
           "Please enter a stronger password.",
         );
       default:
-        return SignUpWithEmailAndPasswordError();
+        return const SignUpWithEmailAndPasswordError();
     }
   }
+
+  final String message;
 }
 
 class SignInWithEmailAndPasswordError implements Exception {
   const SignInWithEmailAndPasswordError(
       [this.message = "An unknown error has occurred."]);
 
-  final String message;
-
   factory SignInWithEmailAndPasswordError.fromCode(String code) {
     switch (code) {
       case 'invalid-email':
-        return SignInWithEmailAndPasswordError(
+        return const SignInWithEmailAndPasswordError(
           "Email is not valid or badly formatted.",
         );
       case 'user-disabled':
-        return SignInWithEmailAndPasswordError(
+        return const SignInWithEmailAndPasswordError(
           "This user has been disabled.",
         );
       case 'user-not-found':
-        return SignInWithEmailAndPasswordError(
+        return const SignInWithEmailAndPasswordError(
           "Email is not found, create an account.",
         );
       case 'wrong-password':
-        return SignInWithEmailAndPasswordError(
+        return const SignInWithEmailAndPasswordError(
           "Incorrect password.",
         );
       default:
-        return SignInWithEmailAndPasswordError();
+        return const SignInWithEmailAndPasswordError();
     }
   }
+
+  final String message;
 }
 
 enum CredentialType { GOOGLE, GITHUB, UNKNOWN }
@@ -106,28 +108,26 @@ class SignInWithCredentialError implements Exception {
 
 class SignInWithGoogleError extends SignInWithCredentialError {
   const SignInWithGoogleError([
-    message = "An unknown error has occurred.",
-    credential = CredentialType.GOOGLE,
+    String message = "An unknown error has occurred.",
+    CredentialType credential = CredentialType.GOOGLE,
   ]) : super(message, credential);
 
   factory SignInWithGoogleError.fromCode(String code) {
     return SignInWithGoogleError(
       SignInWithCredentialError.fromCode(code),
-      CredentialType.GOOGLE,
     );
   }
 }
 
 class SignInWithGithubError extends SignInWithCredentialError {
   const SignInWithGithubError([
-    message = "An unknown error has occurred.",
-    credential = CredentialType.GITHUB,
+    String message = "An unknown error has occurred.",
+    CredentialType credential = CredentialType.GITHUB,
   ]) : super(message, credential);
 
   factory SignInWithGithubError.fromCode(String code) {
     return SignInWithGithubError(
       SignInWithCredentialError.fromCode(code),
-      CredentialType.GITHUB,
     );
   }
 }
@@ -208,7 +208,7 @@ class AuthenticationRepository {
   Future<void> signInWithGitHub(BuildContext context) async {
     try {
       final githubAuth = await _githubSignIn.signIn(context);
-      final GithubAuthCredential githubAuthCredential =
+      final OAuthCredential githubAuthCredential =
           GithubAuthProvider.credential(githubAuth.token);
 
       await _firebaseAuth.signInWithCredential(githubAuthCredential);
@@ -241,7 +241,7 @@ class AuthenticationRepository {
         enableDomStorage: true,
       );
     } else {
-      throw 'Could not launch $url';
+      throw Exception('Could not launch $url');
     }
   }
 }

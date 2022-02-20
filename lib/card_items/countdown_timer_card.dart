@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final hackathonDate = DateTime.utc(2022, 4, 8, 14)
-    .add(Duration(hours: 5)); // Add 5 hours to account for EST off set
+    .add(const Duration(hours: 5)); // Add 5 hours to account for EST off set
 
 class StringDuration {
   String days;
@@ -24,20 +24,25 @@ class _CountdownTimerCardState extends State<CountdownTimerCard> {
   Timer _timer;
 
   StringDuration get currentDifferentString {
-    int totalSeconds = currentDifference.inSeconds;
-    String days = (totalSeconds ~/ Duration.secondsPerDay).toString();
+    num totalSeconds = currentDifference.inSeconds;
+
+    final String days = (totalSeconds ~/ Duration.secondsPerDay).toString();
     totalSeconds = totalSeconds.remainder(Duration.secondsPerDay);
-    String hours = (totalSeconds ~/ Duration.secondsPerHour).toString();
+
+    final String hours = (totalSeconds ~/ Duration.secondsPerHour).toString();
     totalSeconds = totalSeconds.remainder(Duration.secondsPerHour);
-    String minutes = (totalSeconds ~/ Duration.secondsPerMinute).toString();
+
+    final String minutes =
+        (totalSeconds ~/ Duration.secondsPerMinute).toString();
     totalSeconds = totalSeconds.remainder(Duration.secondsPerMinute);
-    String seconds = totalSeconds.toString();
+
+    final String seconds = totalSeconds.toString();
 
     return StringDuration(days, hours, minutes, seconds);
   }
 
-  startTimeout() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+  void startTimeout() {
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       // save timer instance to unsubscribe (prevents memory leaks)
       _timer = timer;
       setState(() {
@@ -66,7 +71,7 @@ class _CountdownTimerCardState extends State<CountdownTimerCard> {
 
   @override
   Widget build(BuildContext context) {
-    StringDuration diff = currentDifferentString;
+    final StringDuration diff = currentDifferentString;
     return Center(
         child: Text(
             "${diff.days} Days ${diff.hours} Hours ${diff.minutes} Minutes ${diff.seconds} Seconds"));

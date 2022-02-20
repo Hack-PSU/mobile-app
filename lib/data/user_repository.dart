@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hackpsu/models/registration.dart';
 import 'package:http/http.dart' as http;
+
+import '../models/registration.dart';
 
 class UserRepository {
   UserRepository(
@@ -16,7 +17,7 @@ class UserRepository {
 
   Future<List<Registration>> getUserInfo() async {
     final user = _firebaseAuth.currentUser;
-    final idToken = await user.getIdToken();
+    final String idToken = await user.getIdToken();
 
     final resp = await http.get(
       _endpoint,
@@ -27,8 +28,9 @@ class UserRepository {
       final parsed =
           jsonDecode(resp.body)['body']['data'].cast<Map<String, dynamic>>();
       return parsed
-          .map<Registration>((json) => Registration.fromJson(json))
-          .toList();
+          .map<Registration>(
+              (Map<String, dynamic> json) => Registration.fromJson(json))
+          .toList() as List<Registration>;
     } else {
       throw Exception('Failed to get user info from API');
     }

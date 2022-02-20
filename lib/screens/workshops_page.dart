@@ -10,7 +10,7 @@ class WorkshopsScreen extends StatelessWidget {
     return Center(
       child: DefaultText(
         "Workshops",
-        fontLevel: FontLevel.h1,
+        fontLevel: TextLevel.h1,
         fontSize: 38,
       ),
     );

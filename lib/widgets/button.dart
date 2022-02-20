@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hackpsu/widgets/default_text.dart';
+import 'default_text.dart';
 
 enum ButtonVariant {
   TextButton,
@@ -44,8 +44,8 @@ class _TextButton extends StatelessWidget {
     }
     return TextButton(
       style: config.style,
-      child: config.child,
       onPressed: config.onPressed,
+      child: config.child,
     );
   }
 }
@@ -69,8 +69,8 @@ class _ElevatedButton extends StatelessWidget {
     }
     return ElevatedButton(
       style: config.style,
-      child: config.child,
       onPressed: config.onPressed,
+      child: config.child,
     );
   }
 }
@@ -104,21 +104,23 @@ class Button extends StatelessWidget {
     Widget icon,
     double iconSize,
     Color color,
-  }) : config = ButtonConfig(
+    Key key,
+  })  : config = ButtonConfig(
           onPressed: onPressed,
           child: child,
           style: style,
           icon: icon,
           iconSize: iconSize,
           color: color,
-        );
+        ),
+        super(key: key);
 
   final ButtonConfig config;
   final ButtonVariant variant;
 
   @override
   Widget build(BuildContext context) {
-    switch (this.variant) {
+    switch (variant) {
       case ButtonVariant.TextButton:
         return _TextButton(
           config: config,
@@ -134,10 +136,9 @@ class Button extends StatelessWidget {
           config: config,
         );
         break;
-      default:
-        return _TextButton(
-          config: config,
-        );
     }
+    return _TextButton(
+      config: config,
+    );
   }
 }

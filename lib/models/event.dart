@@ -1,27 +1,24 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-enum EventType { ACTIVITY, WORKSHOP, MEAL }
+part 'event.g.dart';
 
+enum EventType {
+  @JsonValue("activity")
+  ACTIVITY,
+  @JsonValue("workshop")
+  WORKSHOP,
+  @JsonValue('meal')
+  MEAL,
+}
+
+@JsonSerializable(
+    createFactory: true, createToJson: true, fieldRename: FieldRename.snake)
 class Event {
-  final String uid;
-  final String eventTitle;
-  EventType _eventType;
-  final DateTime eventStartTime;
-  final DateTime eventEndTime;
-  final String eventDescription;
-  final String locationName;
-  bool starred;
-  final String eventIcon;
-  final String wsPresenterNames;
-  final List<dynamic> wsUrls;
-  final String wsSkillLevel;
-  final String wsRelevantSkills;
-
   Event({
     @required this.uid,
     @required this.eventTitle,
-    @required String eventType,
+    @required this.eventType,
     @required this.eventStartTime,
     @required this.eventEndTime,
     @required this.eventDescription,
@@ -32,34 +29,30 @@ class Event {
     @required this.wsUrls,
     this.wsRelevantSkills,
     this.wsSkillLevel,
-  }) {
-    switch (eventType) {
-      case 'workshop':
-        this._eventType = EventType.WORKSHOP;
-        break;
-      case 'activity':
-        this._eventType = EventType.ACTIVITY;
-        break;
-      case 'meal':
-      default:
-        this._eventType = EventType.MEAL;
-    }
-  }
-  EventType get eventType => _eventType;
+  });
 
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
-        uid: json['uid'],
-        eventTitle: json['event_title'],
-        eventType: json['event_type'],
-        eventStartTime:
-            DateTime.fromMillisecondsSinceEpoch(json['event_start_time']),
-        eventEndTime:
-            DateTime.fromMillisecondsSinceEpoch(json['event_end_time']),
-        eventDescription: json['event_description'],
-        locationName: json['location_name'],
-        eventIcon: json['event_icon'],
-        wsPresenterNames: json['ws_presenter_names'],
-        wsUrls: json['ws_urls']);
-  }
+  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EventToJson(this);
+
+  static DateTime _eventTimeFromJson(int int) =>
+      DateTime.fromMillisecondsSinceEpoch(int);
+
+  final String uid;
+  final String eventTitle;
+  EventType eventType;
+
+  @JsonKey(fromJson: _eventTimeFromJson)
+  final DateTime eventStartTime;
+
+  @JsonKey(fromJson: _eventTimeFromJson)
+  final DateTime eventEndTime;
+  final String eventDescription;
+  final String locationName;
+  bool starred;
+  final String eventIcon;
+  final String wsPresenterNames;
+  final List<String> wsUrls;
+  final String wsSkillLevel;
+  final String wsRelevantSkills;
 }

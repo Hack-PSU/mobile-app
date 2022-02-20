@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hackpsu/utils/cubits/bottom_navigation_cubit.dart';
+import 'package:hackpsu/cubit/bottom_navigation_cubit.dart';
 
 enum Routes { Home, Events, Workshops }
 
@@ -21,8 +21,8 @@ class BottomNavigation extends StatelessWidget {
         currentIndex: Routes.values.indexOf(route),
         onTap: (index) {
           context.read<BottomNavigationCubit>().navigate(Routes.values[index]);
-          if (this.onSelectItem != null) {
-            this.onSelectItem(Routes.values[index]);
+          if (onSelectItem != null) {
+            onSelectItem(Routes.values[index]);
           }
         },
         selectedFontSize: 14.0,
@@ -65,7 +65,7 @@ class BottomNavigation extends StatelessWidget {
   BottomNavigationBarItem _createItem(String label, Widget icon) =>
       BottomNavigationBarItem(
         icon: Container(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             top: 2,
             bottom: 6,
           ),
