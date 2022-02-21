@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hackpsu/widgets/default_text.dart';
-import 'package:hackpsu/widgets/screen.dart';
+
+import '../widgets/default_text.dart';
 
 class WorkshopsScreen extends StatelessWidget {
   const WorkshopsScreen({Key key}) : super(key: key);

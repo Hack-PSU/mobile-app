@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'base_model.dart';
 import 'email.dart';

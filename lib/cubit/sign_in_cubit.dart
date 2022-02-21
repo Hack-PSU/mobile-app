@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
-import 'package:hackpsu/data/authentication_repository.dart';
-import 'package:hackpsu/models/email.dart';
-import 'package:hackpsu/models/password.dart';
-import 'package:hackpsu/models/sign_in_state.dart';
+
+import '../data/authentication_repository.dart';
+import '../models/email.dart';
+import '../models/password.dart';
+import '../models/sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
   SignInCubit(this._authenticationRepository) : super(const SignInState());

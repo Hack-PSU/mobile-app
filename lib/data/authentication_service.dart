@@ -77,8 +77,7 @@ class AuthenticationService {
             GithubAuthProvider.credential(result.token);
 
         // Once signed in, return the UserCredential
-        return await FirebaseAuth.instance
-            .signInWithCredential(githubAuthCredential);
+        return FirebaseAuth.instance.signInWithCredential(githubAuthCredential);
 
       case GitHubSignInResultStatus.cancelled:
       case GitHubSignInResultStatus.failed:

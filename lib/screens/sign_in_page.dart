@@ -197,6 +197,7 @@ class _EmailInput extends StatelessWidget {
         return Input(
           label: "Email",
           autocorrect: false,
+          inputType: TextInputType.emailAddress,
           onChanged: (newEmail) {
             dispatch.emailChanged(newEmail);
           },
