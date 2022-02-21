@@ -19,7 +19,7 @@ enum FontVariant { header, sub, p }
 class DefaultText extends Text {
   DefaultText(
     String text, {
-    TextLevel fontLevel,
+    TextLevel textLevel,
     FontWeight weight,
     double fontSize,
     FontStyle fontStyle,
@@ -32,7 +32,7 @@ class DefaultText extends Text {
           text,
           textAlign: textAlign,
           maxLines: maxLines,
-          style: getTextStyle(fontLevel ?? TextLevel.body1).copyWith(
+          style: getTextStyle(textLevel ?? TextLevel.body1).copyWith(
             fontStyle: fontStyle,
             fontSize: fontSize,
             fontWeight: weight,
