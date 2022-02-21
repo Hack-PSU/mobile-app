@@ -10,7 +10,7 @@ class EventWorkshopCard extends StatelessWidget {
       future: Api.getEvents(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(snapshot.data[0].eventTitle);
+          // return Text(snapshot.data[0].eventTitle);
         } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
         }

@@ -75,10 +75,9 @@ class AuthenticationService {
         print(result.token);
         final githubAuthCredential =
             GithubAuthProvider.credential(result.token);
-            
+
         // Once signed in, return the UserCredential
-        return await FirebaseAuth.instance
-            .signInWithCredential(githubAuthCredential);
+        return FirebaseAuth.instance.signInWithCredential(githubAuthCredential);
 
       case GitHubSignInResultStatus.cancelled:
       case GitHubSignInResultStatus.failed:
@@ -87,13 +86,18 @@ class AuthenticationService {
     }
 
     return null;
-
   }
+
   launchURLApp() async {
     const url = 'https://app.hackpsu.org/forgot';
 
     if (await canLaunch(url)) {
-      await launch(url, forceWebView: true, enableJavaScript: true, enableDomStorage: true);
+      await launch(
+        url,
+        forceWebView: true,
+        enableJavaScript: true,
+        enableDomStorage: true,
+      );
     } else {
       throw 'Could not launch $url';
     }
