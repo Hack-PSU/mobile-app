@@ -1,11 +1,41 @@
-# hackpsu
+# Mobile App
 
 ## Contents
 1. [Getting Started](#getting-started)
 2. [Data Models](#data-models)
-    - [JSON Objects](#json-objects)
+   - [JSON Objects](#json-objects)
+   - [Equatable](#equatable)
+3. [Widgets](#widgets)
+   - [Using Widgets](#using-widgets)
+   - [Default Text](#default-text)
+   - [Input](#input)
+      - [Base Input](#base-input)
+      - [Password Input](#password-input)
+      - [Controlled Input](#controlled-input)
+   - [Screen](#screen)
+   - [Button](#button)
+4. [State Management](#state-management)
+   - [Bloc](#bloc)
+   - [Cubit](#cubit)
+   - [Repository](#repository)
+5. [Design Patterns](#design-patterns)
+   - [Reusable and Extensible](#reusable-and-extensible)
+   - [Bloc and Cubit](#bloc-and-cubit)
+   - [Inputs](#inputs)
 
 ## Getting Started
+
+### Dependencies
+
+Install dependencies:
+```shell
+flutter pub get
+```
+
+Install iOS dependencies (for iOS Development):
+```shell
+cd ios && pod install  # or cd ios && pod install --repo-update
+```
 
 ### Run in Dev Environment
 
@@ -132,7 +162,7 @@ class Model extends Equatable {
 
 Below are a list of widgets to reduce boilerplate code and encourage reusable widgets.
 
-### Using the Widgets
+### Using Widgets
 
 The widgets below can be used as base widgets such that you can create wrappers over current
 implementations and customize base functionalities and styles. The purpose of these widgets are to
