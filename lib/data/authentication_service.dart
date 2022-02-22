@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+//import 'dart:io' show Platform;
+import 'package:hackpsu/utils/flavor_constants.dart';
 
 class AuthenticationService {
   // Dependencies
@@ -58,31 +61,45 @@ class AuthenticationService {
     // Create a GitHubSignIn instance
     final GitHubSignIn gitHubSignIn = GitHubSignIn(
         // Input the staging info from the Teams app channel
-        clientId: '',
-        clientSecret: '',
-        redirectUrl: '');
+        clientId: Config.gitHubClientId,
+        clientSecret: Config.gitHubClientSecret,
+        redirectUrl: Config.gitHubCallbackUrl);
 
     // Trigger the sign-in flow
-    final result = await gitHubSignIn.signIn(context);
+    var result = await gitHubSignIn.signIn(context);
 
     // Create a credential from the access token
-    final githubAuthCredential = GithubAuthProvider.credential(result.token);
 
-    /*
     switch (result.status) {
       case GitHubSignInResultStatus.ok:
         print(result.token);
-        break;
+        final githubAuthCredential =
+            GithubAuthProvider.credential(result.token);
+
+        // Once signed in, return the UserCredential
+        return FirebaseAuth.instance.signInWithCredential(githubAuthCredential);
 
       case GitHubSignInResultStatus.cancelled:
       case GitHubSignInResultStatus.failed:
         print(result.errorMessage);
         break;
     }
-    */
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance
-        .signInWithCredential(githubAuthCredential);
+    return null;
+  }
+
+  launchURLApp() async {
+    const url = 'https://app.hackpsu.org/forgot';
+
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceWebView: true,
+        enableJavaScript: true,
+        enableDomStorage: true,
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
