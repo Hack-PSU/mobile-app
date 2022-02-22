@@ -6,7 +6,7 @@
    - [JSON Objects](#json-objects)
    - [Equatable](#equatable)
 3. [Widgets](#widgets)
-   - [Using Widgets](#using-widgets)
+   - [Using Base Widgets](#using-base-widgets)
    - [Default Text](#default-text)
    - [Input](#input)
       - [Base Input](#base-input)
@@ -162,7 +162,7 @@ class Model extends Equatable {
 
 Below are a list of widgets to reduce boilerplate code and encourage reusable widgets.
 
-### Using Widgets
+### Using Base Widgets
 
 The widgets below can be used as base widgets such that you can create wrappers over current
 implementations and customize base functionalities and styles. The purpose of these widgets are to
