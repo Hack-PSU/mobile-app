@@ -199,6 +199,9 @@ Inputs:
  
 #### Password Input
 
+Implements the base Input widget above. Provides default styling to ensure password input hides text 
+and toggles visibility.
+
 Example:
 ```dart
 PasswordInput(
@@ -211,6 +214,9 @@ PasswordInput(
 ```
 
 #### Controlled Input
+
+Provides an abstraction over `BlocBuilder` and assumes that a `BlocProvider` is defined before inserting the Widget.
+The output of `builder` should be a widget that extends or implements the `Input` widget above.
 
 Example:
 ```dart
@@ -266,7 +272,107 @@ Inputs:
 
 | Input / `type` | Required | Description |
 | -------------- | -------- | ----------- |
-| withDismissKeyboard / `bool` | Optional | If `true`, when the user clicks away from an input while focusing on an input, the keyboard will dismiss. |
+| withDismissKeyboard / `bool` | Optional | If `true`, when the user clicks away from an input while focusing on it, the keyboard will dismiss. |
 | withBottomNavigation / `bool` | Required | If `true`, a bottom navigation will be used for the page. |
 | backgroundColor / `Color` | Optional | The color of the screen's background. |
 | body / `Widget` | Required | The widget to render on the page.
+
+### Button
+The `Button` widget implements a convenient way to create different types of button through one interface. It groups
+implementations of Flutter's `ElevatedButton`, `TextButton`, and `IconButton` along with all its `icon` variants into
+one widget. The widget exposes a `ButtonVariant` enum to select the type of button and looks for the `icon` parameter
+to be set to determine if an `icon` variant should be used.
+
+Import:
+```dart
+import 'relative/to/lib/widgets/button.dart';
+```
+
+Example:
+```dart
+Button(
+  variant: ButtonVariant.TextButton,
+  onPressed: () {
+    // define action
+  },
+  child: DefaultText(
+    "Text"
+  ),
+);
+```
+
+Inputs:
+
+| Input / `type` | Required | Description |
+| -------------- | -------- | ----------- |
+| variant / `ButtonVariant` | Required | The `ButtonVariant` that should be rendered. |
+| onPressed / `Function` | Required | A callback when the button is pressed. |
+| child / `DefaultText` | Optional | The text that will be shown together with the widget. |
+| style / `ButtonStyle` | Optional | The style of the button, read the [documentation](https://api.flutter.dev/flutter/material/ButtonStyle-class.html) for more information. |
+| icon / `Widget` | Optional | The icon to show together with the button; triggers the use of `icon` variants. |
+| iconSize / `double` | Optional | The size of the icon. |
+| color / `Color` | Optional | Color of the icon when used together with `ButtonVariant.IconButton`. |
+
+## State Management
+
+For the purpose of keeping business logic and frontend code separate, the Bloc pattern is used. The bloc pattern
+is an events-based state management system similar to `Redux` or a `React Reducer` where a particular action is
+defined and states will change based on the action. For more simple applications, like storing changes in text inputs
+or managing single states, a `Cubit` can be used instead, which is similar to a `React useState`. 
+
+### Bloc
+
+To properly setup a bloc, there 3 main components:
+
+1. Bloc Definition
+2. Bloc Events
+3. States
+
+Each component is responsible for different aspects of the bloc pattern: `States` store the structure and model of 
+the state being managed, `Events` are actions that can be taken to update these states, and `Bloc Definition` provides an
+interface to provide these events and keep track of the states.
+
+### Cubit
+
+For simple state management patterns, a cubit exposes functions that are accessible to update states. State in a cubit
+can either be a single state component, or a class containing multiple nested states. Although a cubit can act like a 
+bloc as well, it is anti-pattern to use cubits for more complex state management especially those
+that involve multiple steps or future states depending on previous states. It is easier to control a progression
+of states using the `Events` that a bloc exposes instead of calling functions from a cubit.
+
+### Repository
+
+A repository is an interface to the data layer of an application. A repository should only have one purpose and control
+one part of the API functionality. For example, API calls for gathering user information should be kept separate from API
+calls to authentication. This way, each repository can be maintained independently, reused, and extended.
+Repositories can be used as a bridge between a state management (bloc or cubit) and the
+specific API calls. Repositories should be initialized in the `app_entry` file under a `RepositoryProvider`. If
+the repository is only used for specific parts of the application, they can also be wrapped around portions
+that need the repository instead of the entire app.
+
+Due to the independent nature of repositories, they can be injected into a cubit or a bloc during initialization of 
+the cubit or bloc. Make sure that the `RepositoryProvider` is defined first before initializing a bloc or cubit.
+
+## Design Patterns
+
+### Reusable and Extensible
+The widgets and bloc or cubit pattern enforces a common theme: reusable and extensible components. The base
+widgets are implementations over native Flutter widgets and are meant to expose some of the common features. 
+In some cases, more styling options need to be added since not all named parameters are exported from the original
+Flutter widget, but the change should never affect current implementations of the widget. Wrapping widgets for specific
+use cases is recommended to reduce duplicated code and to share a uniform widget throughout the app.
+
+### Bloc and Cubit
+A bloc should only be used for complex state management applications such as multi-stage state updates where each
+step can be emitted as a different event back to the UI or to keep states across multiple pages. A cubit should be used
+when state updates are less dependent on previous states and do not require complex updates of states.
+
+### Inputs
+The easiest way to hook up a `TextField` is to use a controller. Although they are easy to use
+and require less of a structure, managing the controllers themselves can introduce a lot of unnecessary
+boilerplate code. One important overlooked limitation of a `TextField` is that the controller will need
+to be deallocated to prevent memory leaks when the widget is destroyed. To avoid the need to debug memory leaks,
+a cubit can be used where the state can be updated when the `TextField` changes. This way, there will not be
+any need to move values between the controller to functions that submit forms and validation can be easily done within
+the cubit itself.
+
