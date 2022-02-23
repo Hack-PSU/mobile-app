@@ -12,7 +12,8 @@ class Input extends StatelessWidget {
     this.password,
     @required this.onChanged,
     this.autocorrect,
-  });
+    Key key,
+  }) : super(key: key);
 
   final String label;
   final TextInputType inputType;

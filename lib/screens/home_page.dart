@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                   UserPinCard(registrations),
                   ...events
                       .map((e) => DefaultText(
-                            e.eventTitle ?? "HEllo",
+                            e.eventTitle ?? "Event",
                             fontSize: 14,
                           ))
                       .toList(),

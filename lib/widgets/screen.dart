@@ -5,7 +5,7 @@ class Screen extends Scaffold {
   Screen({
     AppBar appBar,
     Color backgroundColor,
-    Widget body,
+    @required Widget body,
     @required this.withBottomNavigation,
     this.withDismissKeyboard,
     Key key,

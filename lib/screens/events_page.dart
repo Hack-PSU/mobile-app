@@ -43,7 +43,7 @@ class EventsScreen extends StatelessWidget {
         children: [
           DefaultText(
             event.locationName,
-            fontLevel: TextLevel.body1,
+            textLevel: TextLevel.body1,
             fontSize: 16,
           ),
         ],

@@ -68,7 +68,7 @@ class SignInScreen extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: DefaultText(
                   "LOGIN",
-                  fontLevel: TextLevel.h2,
+                  textLevel: TextLevel.h2,
                   color: const Color(0xFF113654),
                 ),
               ),
@@ -99,7 +99,7 @@ class SignInScreen extends StatelessWidget {
                       ),
                       child: DefaultText(
                         "Forgot password?",
-                        fontLevel: TextLevel.button,
+                        textLevel: TextLevel.button,
                       ),
                     ),
                     Button(
@@ -114,7 +114,7 @@ class SignInScreen extends StatelessWidget {
                       ),
                       child: DefaultText(
                         "Create account",
-                        fontLevel: TextLevel.button,
+                        textLevel: TextLevel.button,
                       ),
                     ),
                   ],
