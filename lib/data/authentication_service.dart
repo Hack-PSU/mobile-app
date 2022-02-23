@@ -3,6 +3,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:hackpsu/utils/flavor_constants.dart';
+import 'package:the_apple_sign_in/the_apple_sign_in.dart';
+
+
 
 class AuthenticationService {
   // Dependencies
@@ -83,8 +86,48 @@ class AuthenticationService {
         print(result.errorMessage);
         break;
     }
-
     return null;
-
   }
+
+  Future<User> signInWithApple({List<Scope> scopes = const []}) async {
+    // To prevent replay attacks with the credential returned from Apple, we
+    // include a nonce in the credential request. When signing in in with
+    // Firebase, the nonce in the id token returned by Apple, is expected to
+    // match the sha256 hash of `rawNonce`.
+
+    final result = await TheAppleSignIn.performRequests([AppleIdRequest(requestedScopes: scopes)]);
+
+    switch (result.status){
+      // Request credential for the currently signed in Apple account.
+      case AuthorizationStatus.authorized:
+        final appleIdCredential = result.credential;
+        final oAuthProvider = OAuthProvider('apple.com');
+        final credential = oAuthProvider.credential(
+          idToken: String.fromCharCodes(appleIdCredential.identityToken),
+          accessToken:
+              String.fromCharCodes(appleIdCredential.authorizationCode),
+        );
+        final userCredential =
+            await _firebaseAuth.signInWithCredential(credential);
+        final firebaseUser = userCredential.user;
+        if (scopes.contains(Scope.fullName)) {
+          final fullName = appleIdCredential.fullName;
+          if (fullName != null &&
+              fullName.givenName != null &&
+              fullName.familyName != null) {
+            final displayName = '${fullName.givenName} ${fullName.familyName}';
+            await firebaseUser.updateDisplayName(displayName);
+          }
+        }
+        return firebaseUser;
+      case AuthorizationStatus.error:
+        throw Error();
+      case AuthorizationStatus.cancelled:
+        throw Error();
+      default:
+        throw UnimplementedError();
+    }
+  }
+   
 }
+
