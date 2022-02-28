@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackpsu/widgets/screen.dart';
 import 'package:provider/provider.dart';
 
 import '../card_items/countdown_timer_card.dart';
@@ -11,6 +12,18 @@ import '../models/event.dart';
 import '../models/registration.dart';
 import '../widgets/button.dart';
 import '../widgets/default_text.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Screen(
+      withBottomNavigation: true,
+      body: const HomeScreen(),
+    );
+  }
+}
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);

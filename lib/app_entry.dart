@@ -97,18 +97,15 @@ class MainRouter extends StatelessWidget {
   const MainRouter({Key key}) : super(key: key);
 
   static const List<Widget> _pages = [
-    HomeScreen(),
-    EventsScreen(),
-    WorkshopsScreen(),
+    HomePage(),
+    EventsPage(),
+    WorkshopsPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavigationCubit, Routes>(
-      builder: (context, route) => Screen(
-        withBottomNavigation: true,
-        body: _pages[Routes.values.indexOf(route)],
-      ),
+      builder: (context, route) => _pages[Routes.values.indexOf(route)],
     );
   }
 }
