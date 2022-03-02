@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackpsu/card_items/homepage_header.dart';
 import 'package:provider/provider.dart';
 
 import '../card_items/countdown_timer_card.dart';
@@ -32,31 +33,40 @@ class HomeScreen extends StatelessWidget {
               );
             }
 
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CountdownTimerCard(),
-                  // registrations is passed in from here
-                  UserPinCard(registrations),
-                  ...events
-                      .map((e) => DefaultText(
-                            e.eventTitle ?? "Event",
-                            fontSize: 14,
-                          ))
-                      .toList(),
-                  Button(
-                    variant: ButtonVariant.TextButton,
-                    onPressed: () {
-                      context.read<AuthenticationRepository>().signOut();
-                    },
-                    child: DefaultText(
-                      "Log out",
-                    ),
-                  )
-                ],
-              ),
-            );
+            return SingleChildScrollView(
+                child: Column(children: [
+              FittedBox(
+                  child: Row(children: [
+                HomepageHeader(),
+              ])),
+              FittedBox(
+                  child: Row(children: [
+                Center(
+                  child: Column(
+                    children: [
+                      CountdownTimerCard(),
+                      // registrations is passed in from here
+                      UserPinCard(registrations),
+                      ...events
+                          .map((e) => DefaultText(
+                                e.eventTitle ?? "Event",
+                                fontSize: 14,
+                              ))
+                          .toList(),
+                      Button(
+                        variant: ButtonVariant.TextButton,
+                        onPressed: () {
+                          context.read<AuthenticationRepository>().signOut();
+                        },
+                        child: DefaultText(
+                          "Log out",
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ]))
+            ]));
           },
         );
       },
