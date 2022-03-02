@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackpsu/bloc/navigation/bottom_navigation_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/auth/auth_bloc.dart';
 import 'bloc/auth/auth_state.dart';
+import 'bloc/navigation/bottom_navigation_state.dart';
 import 'cubit/bottom_navigation_cubit.dart';
 import 'cubit/event_cubit.dart';
 import 'cubit/registration_cubit.dart';
@@ -18,8 +20,6 @@ import 'screens/home_page.dart';
 import 'screens/sign_in_page.dart';
 import 'screens/workshops_page.dart';
 import 'utils/flavor_constants.dart';
-import 'widgets/bottom_navigation.dart';
-import 'widgets/screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key key}) : super(key: key);
@@ -41,8 +41,21 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<BottomNavigationCubit>(
-            create: (_) => BottomNavigationCubit(),
+          BlocProvider<BottomNavigationBloc>(
+            create: (context) {
+              return BottomNavigationBloc(Routes.Home,
+                  onNavigationRouteChange: (route) {
+                switch (route) {
+                  case Routes.Home:
+                    break;
+                  case Routes.Events:
+                    context.read<EventCubit>().getEvents();
+                    break;
+                  case Routes.Workshops:
+                    break;
+                }
+              });
+            },
           ),
           BlocProvider<EventCubit>(
             create: (context) => EventCubit(context.read<EventRepository>()),

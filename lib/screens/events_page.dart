@@ -1,13 +1,10 @@
-// TODO -- use MaterialPageRoute to declaratively change the route based on
-// TODO -- BlocConsumer
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/widgets/screen.dart';
-import '../cubit/event_cubit.dart';
 
+import '../cubit/event_cubit.dart';
 import '../models/event.dart';
 import '../widgets/default_text.dart';
+import '../widgets/screen.dart';
 
 class EventsPage extends StatelessWidget {
   const EventsPage({Key key}) : super(key: key);

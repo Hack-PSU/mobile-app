@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hackpsu/cubit/header_cubit.dart';
-import 'package:hackpsu/widgets/default_text.dart';
+
+import '../bloc/navigation/bottom_navigation_state.dart';
+import '../cubit/header_cubit.dart';
 import 'bottom_navigation.dart';
+import 'default_text.dart';
 
 class Screen extends Scaffold {
   Screen({
+    Key key,
     AppBar appBar,
     Color backgroundColor,
+    this.withBottomNavigation = false,
+    this.withDismissKeyboard = false,
+    this.onNavigationRouteChange,
     @required Widget body,
-    @required this.withBottomNavigation,
-    this.withDismissKeyboard,
-    Key key,
   }) : super(
           key: key,
           backgroundColor:
               backgroundColor ?? const Color.fromRGBO(224, 224, 224, 1.0),
           appBar: appBar,
-          body: withDismissKeyboard == true
-              ? GestureDetector(
-                  onTap: () => FocusManager.instance.primaryFocus != null
-                      ? FocusManager.instance.primaryFocus.unfocus()
-                      : null,
-                  child: body,
-                )
-              : body,
-          bottomNavigationBar: withBottomNavigation ? BottomNavigation() : null,
+          body: _Page(
+            body,
+            withDismissKeyboard: withDismissKeyboard,
+            withBottomNavigation: withBottomNavigation,
+          ),
+          bottomNavigationBar:
+              withBottomNavigation ? const BottomNavigation() : null,
         );
 
   Screen.withHeader({
@@ -43,14 +43,44 @@ class Screen extends Scaffold {
           backgroundColor: backgroundColor ?? Colors.white,
           withBottomNavigation: withBottomNavigation,
           withDismissKeyboard: withDismissKeyboard,
-          body: _Header(
-            body: body,
-            header: header,
+          body: _Page(
+            _Header(
+              body: body,
+              header: header,
+            ),
+            withBottomNavigation: withBottomNavigation,
+            withDismissKeyboard: withDismissKeyboard,
           ),
         );
 
   final bool withBottomNavigation;
   final bool withDismissKeyboard;
+  final Function(Routes) onNavigationRouteChange;
+}
+
+class _Page extends StatelessWidget {
+  const _Page(
+    this.body, {
+    this.withDismissKeyboard = false,
+    this.withBottomNavigation = false,
+  });
+
+  final Widget body;
+  final bool withDismissKeyboard;
+  final bool withBottomNavigation;
+
+  @override
+  Widget build(BuildContext context) {
+    if (withDismissKeyboard) {
+      return GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus != null
+            ? FocusManager.instance.primaryFocus.unfocus()
+            : null,
+        child: body,
+      );
+    }
+    return body;
+  }
 }
 
 class _Header extends StatelessWidget {
@@ -99,7 +129,7 @@ class _ScreenHeader extends StatelessWidget {
       decoration: const BoxDecoration(
         color: Colors.white,
         image: DecorationImage(
-          image: AssetImage("assets/images/header_bg_clipped.png"),
+          image: AssetImage("assets/images/header_bg_clipped-min.png"),
           fit: BoxFit.cover,
         ),
       ),

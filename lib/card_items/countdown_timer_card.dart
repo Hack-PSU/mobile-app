@@ -42,9 +42,8 @@ class _CountdownTimerCardState extends State<CountdownTimerCard> {
   }
 
   void startTimeout() {
-    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      // save timer instance to unsubscribe (prevents memory leaks)
-      _timer = timer;
+    // save timer instance to unsubscribe (prevents memory leaks)
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         currentDifference = hackathonDate.difference(DateTime.now());
       });
@@ -60,13 +59,11 @@ class _CountdownTimerCardState extends State<CountdownTimerCard> {
   }
 
   @override
-  void deactivate() {
+  void dispose() {
     if (_timer != null) {
-      // clean up timer to prevent memory leak when
-      // widget gets destroyed
       _timer.cancel();
     }
-    super.deactivate();
+    super.dispose();
   }
 
   @override
