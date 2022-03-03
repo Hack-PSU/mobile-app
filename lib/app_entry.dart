@@ -41,22 +41,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<BottomNavigationBloc>(
-            create: (context) {
-              return BottomNavigationBloc(Routes.Home,
-                  onNavigationRouteChange: (route) {
-                switch (route) {
-                  case Routes.Home:
-                    break;
-                  case Routes.Events:
-                    context.read<EventCubit>().getEvents();
-                    break;
-                  case Routes.Workshops:
-                    break;
-                }
-              });
-            },
-          ),
           BlocProvider<EventCubit>(
             create: (context) => EventCubit(context.read<EventRepository>()),
           ),
@@ -117,8 +101,28 @@ class MainRouter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BottomNavigationCubit, Routes>(
-      builder: (context, route) => _pages[Routes.values.indexOf(route)],
+    return BlocProvider<BottomNavigationBloc>(
+      create: (context) {
+        return BottomNavigationBloc(
+          Routes.Home,
+          onNavigationRouteChange: (route) {
+            switch (route) {
+              case Routes.Home:
+                context.read<RegistrationCubit>().getUserInfo();
+                context.read<EventCubit>().getEvents();
+                break;
+              case Routes.Events:
+                context.read<EventCubit>().getEvents();
+                break;
+              case Routes.Workshops:
+                break;
+            }
+          },
+        );
+      },
+      child: BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
+        builder: (context, state) => _pages[state.routeIndex],
+      ),
     );
   }
 }

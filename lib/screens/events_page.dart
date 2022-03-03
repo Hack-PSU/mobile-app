@@ -26,7 +26,7 @@ class EventsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EventCubit, List<Event>>(
       builder: (context, events) {
-        context.read<EventCubit>().getEvents();
+        // context.read<EventCubit>().getEvents();
 
         if (events == null) {
           return const Center(

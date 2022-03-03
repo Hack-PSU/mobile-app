@@ -71,7 +71,7 @@ class _Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (withDismissKeyboard) {
+    if (withDismissKeyboard == true) {
       return GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus != null
             ? FocusManager.instance.primaryFocus.unfocus()

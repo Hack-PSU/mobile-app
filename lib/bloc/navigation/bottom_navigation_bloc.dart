@@ -13,6 +13,7 @@ class BottomNavigationBloc
             onNavigationRouteChange: onNavigationRouteChange,
           ),
         ) {
+    onNavigationRouteChange(initialRoute);
     on<RouteChanged>(_onRouteChanged);
   }
 

@@ -34,8 +34,8 @@ class HomeScreen extends StatelessWidget {
         return BlocBuilder<RegistrationCubit, List<Registration>>(
           builder: (context, registrations) {
             // fetch data first
-            context.read<EventCubit>().getEvents();
-            context.read<RegistrationCubit>().getUserInfo();
+            // context.read<EventCubit>().getEvents();
+            // context.read<RegistrationCubit>().getUserInfo();
 
             // while loading show the progress indicator
             if (events == null || registrations == null) {
