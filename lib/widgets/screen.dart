@@ -35,7 +35,7 @@ class Screen extends Scaffold {
     Color backgroundColor,
     @required Widget body,
     @required bool withBottomNavigation,
-    @required String header,
+    @required ScreenHeader header,
     bool withDismissKeyboard,
   }) : this(
           key: key,
@@ -87,12 +87,12 @@ class _Header extends StatelessWidget {
   const _Header({
     Key key,
     Widget body,
-    String header,
+    ScreenHeader header,
   })  : _header = header,
         _body = body,
         super(key: key);
 
-  final String _header;
+  final ScreenHeader _header;
   final Widget _body;
 
   @override
@@ -100,7 +100,7 @@ class _Header extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          _ScreenHeader(_header),
+          _header,
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
@@ -115,10 +115,78 @@ class _Header extends StatelessWidget {
   }
 }
 
+class ScreenHeader extends StatelessWidget {
+  const ScreenHeader({
+    Key key,
+    @required Widget body,
+  })  : _body = body,
+        super(key: key);
+
+  ScreenHeader.only({
+    Key key,
+    bool withText,
+    bool withSwitch,
+    bool withBackgroundImage,
+    bool withProfile,
+    String text,
+    DecorationImage backgroundImage,
+    ImageProvider profileImage,
+  })  : _body = _ScreenHeader(
+          text: text ?? "",
+          backgroundImage: backgroundImage,
+          profileImage: profileImage,
+          withText: text != null || withText == true,
+          withSwitch: withSwitch ?? false,
+          withBackgroundImage:
+              backgroundImage != null || withBackgroundImage == true,
+          withProfile: withProfile ?? false,
+        ),
+        super(key: key);
+
+  factory ScreenHeader.text(
+    String text, {
+    Key key,
+    DecorationImage backgroundImage,
+    ImageProvider profileImage,
+  }) {
+    return ScreenHeader.only(
+      key: key,
+      text: text,
+      backgroundImage: backgroundImage,
+      profileImage: profileImage,
+      withText: true,
+      withBackgroundImage: true,
+      withProfile: true,
+      withSwitch: true,
+    );
+  }
+
+  final Widget _body;
+
+  @override
+  Widget build(BuildContext context) {
+    return _body;
+  }
+}
+
 class _ScreenHeader extends StatelessWidget {
-  const _ScreenHeader(String text) : _text = text;
+  const _ScreenHeader({
+    String text,
+    this.backgroundImage,
+    this.profileImage,
+    this.withText,
+    this.withBackgroundImage,
+    this.withSwitch,
+    this.withProfile,
+  }) : _text = text ?? "";
 
   final String _text;
+  final DecorationImage backgroundImage;
+  final ImageProvider profileImage;
+  final bool withText;
+  final bool withBackgroundImage;
+  final bool withSwitch;
+  final bool withProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -126,30 +194,39 @@ class _ScreenHeader extends StatelessWidget {
       alignment: Alignment.bottomLeft,
       width: MediaQuery.of(context).size.width,
       height: 100,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
-        image: DecorationImage(
-          image: AssetImage("assets/images/header_bg_clipped-min.png"),
-          fit: BoxFit.cover,
-        ),
+        image: withBackgroundImage == true
+            ? (backgroundImage ??
+                const DecorationImage(
+                  image: AssetImage("assets/images/header_bg_clipped-min.png"),
+                  fit: BoxFit.cover,
+                ))
+            : null,
       ),
       child: Row(
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.7,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: DefaultText(
-                _text,
-                textLevel: TextLevel.h1,
-                color: Colors.white,
-              ),
-            ),
+            child: withText
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: DefaultText(
+                      _text,
+                      textLevel: TextLevel.h1,
+                      color: Colors.white,
+                    ),
+                  )
+                : null,
           ),
           BlocProvider(
             create: (_) => HeaderCubit(),
-            child: const Expanded(
-              child: _ProfileSwitch(),
+            child: Expanded(
+              child: _ProfileSwitch(
+                withProfile: withProfile,
+                withSwitch: withSwitch,
+                profileImage: profileImage,
+              ),
             ),
           ),
         ],
@@ -159,37 +236,49 @@ class _ScreenHeader extends StatelessWidget {
 }
 
 class _ProfileSwitch extends StatelessWidget {
-  const _ProfileSwitch({Key key}) : super(key: key);
+  const _ProfileSwitch({
+    Key key,
+    this.withSwitch,
+    this.withProfile,
+    this.profileImage,
+  }) : super(key: key);
+
+  final bool withSwitch;
+  final bool withProfile;
+  final ImageProvider profileImage;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        BlocBuilder<HeaderCubit, bool>(
-          buildWhen: (oldState, newState) => oldState != newState,
-          builder: (context, state) => Switch(
-            value: state,
-            onChanged: (newValue) {
-              context.read<HeaderCubit>().toggleSwitch(newValue);
-            },
-            activeColor: Colors.white,
-            // inactiveTrackColor: Colors.white,
-            activeThumbImage: const ResizeImage(
-              AssetImage("assets/icons/favorites_off.png"),
-              width: 13,
-              height: 13,
-            ),
-            inactiveThumbImage: const ResizeImage(
-              AssetImage("assets/icons/favorites.png"),
-              width: 13,
-              height: 13,
+        if (withSwitch == true)
+          BlocBuilder<HeaderCubit, bool>(
+            buildWhen: (oldState, newState) => oldState != newState,
+            builder: (context, state) => Switch(
+              value: state,
+              onChanged: (newValue) {
+                context.read<HeaderCubit>().toggleSwitch(newValue);
+              },
+              activeColor: Colors.white,
+              // inactiveTrackColor: Colors.white,
+              activeThumbImage: const ResizeImage(
+                AssetImage("assets/icons/favorites_off.png"),
+                width: 13,
+                height: 13,
+              ),
+              inactiveThumbImage: const ResizeImage(
+                AssetImage("assets/icons/favorites.png"),
+                width: 13,
+                height: 13,
+              ),
             ),
           ),
-        ),
-        const CircleAvatar(
-          backgroundColor: Colors.grey,
-          radius: 15.0,
-        ),
+        if (withProfile == true)
+          CircleAvatar(
+            backgroundColor: Colors.grey,
+            radius: 15.0,
+            backgroundImage: profileImage,
+          ),
       ],
     );
   }

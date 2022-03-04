@@ -10,7 +10,7 @@ class WorkshopsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Screen.withHeader(
       withBottomNavigation: true,
-      header: "Workshops",
+      header: ScreenHeader.text("Workshops"),
       body: const WorkshopsScreen(),
     );
   }

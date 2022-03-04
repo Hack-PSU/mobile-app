@@ -13,7 +13,7 @@ class EventsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Screen.withHeader(
       withBottomNavigation: true,
-      header: "Events",
+      header: ScreenHeader.text("Events"),
       body: const EventsScreen(),
     );
   }
