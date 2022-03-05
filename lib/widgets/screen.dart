@@ -11,46 +11,26 @@ class Screen extends Scaffold {
     Key key,
     AppBar appBar,
     Color backgroundColor,
+    ScreenHeader header,
     this.withBottomNavigation = false,
     this.withDismissKeyboard = false,
     this.onNavigationRouteChange,
     @required Widget body,
+    Color contentBackgroundColor,
   }) : super(
           key: key,
-          backgroundColor:
-              backgroundColor ?? const Color.fromRGBO(224, 224, 224, 1.0),
-          appBar: appBar,
-          body: _Page(
-            body,
-            withDismissKeyboard: withDismissKeyboard,
-            withBottomNavigation: withBottomNavigation,
-          ),
-          bottomNavigationBar:
-              withBottomNavigation ? const BottomNavigation() : null,
-        );
-
-  Screen.withHeader({
-    Key key,
-    AppBar appBar,
-    Color backgroundColor,
-    @required Widget body,
-    @required bool withBottomNavigation,
-    @required ScreenHeader header,
-    bool withDismissKeyboard,
-  }) : this(
-          key: key,
-          appBar: appBar,
           backgroundColor: backgroundColor ?? Colors.white,
-          withBottomNavigation: withBottomNavigation,
-          withDismissKeyboard: withDismissKeyboard,
+          appBar: appBar,
           body: _Page(
             _Header(
               body: body,
               header: header,
+              contentBackgroundColor: contentBackgroundColor,
             ),
-            withBottomNavigation: withBottomNavigation,
             withDismissKeyboard: withDismissKeyboard,
           ),
+          bottomNavigationBar:
+              withBottomNavigation ? const BottomNavigation() : null,
         );
 
   final bool withBottomNavigation;
@@ -62,12 +42,10 @@ class _Page extends StatelessWidget {
   const _Page(
     this.body, {
     this.withDismissKeyboard = false,
-    this.withBottomNavigation = false,
   });
 
   final Widget body;
   final bool withDismissKeyboard;
-  final bool withBottomNavigation;
 
   @override
   Widget build(BuildContext context) {
@@ -86,27 +64,27 @@ class _Page extends StatelessWidget {
 class _Header extends StatelessWidget {
   const _Header({
     Key key,
-    Widget body,
-    ScreenHeader header,
-  })  : _header = header,
-        _body = body,
-        super(key: key);
+    this.body,
+    this.header,
+    this.contentBackgroundColor,
+  }) : super(key: key);
 
-  final ScreenHeader _header;
-  final Widget _body;
+  final ScreenHeader header;
+  final Widget body;
+  final Color contentBackgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
         children: [
-          _header,
+          if (header != null) header,
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
                 color: Color.fromRGBO(224, 224, 224, 1.0),
               ),
-              child: _body,
+              child: body,
             ),
           ),
         ],
@@ -135,10 +113,9 @@ class ScreenHeader extends StatelessWidget {
           text: text ?? "",
           backgroundImage: backgroundImage,
           profileImage: profileImage,
-          withText: text != null || withText == true,
+          withText: withText ?? false,
           withSwitch: withSwitch ?? false,
-          withBackgroundImage:
-              backgroundImage != null || withBackgroundImage == true,
+          withBackgroundImage: withBackgroundImage ?? false,
           withProfile: withProfile ?? false,
         ),
         super(key: key);
@@ -194,6 +171,8 @@ class _ScreenHeader extends StatelessWidget {
       alignment: Alignment.bottomLeft,
       width: MediaQuery.of(context).size.width,
       height: 100,
+      padding:
+          const EdgeInsets.symmetric(horizontal: 15.0).copyWith(bottom: 5.0),
       decoration: BoxDecoration(
         color: Colors.white,
         image: withBackgroundImage == true
@@ -205,30 +184,25 @@ class _ScreenHeader extends StatelessWidget {
             : null,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: withText
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: DefaultText(
-                      _text,
-                      textLevel: TextLevel.h1,
-                      color: Colors.white,
-                    ),
-                  )
-                : null,
-          ),
-          BlocProvider(
-            create: (_) => HeaderCubit(),
-            child: Expanded(
-              child: _ProfileSwitch(
-                withProfile: withProfile,
-                withSwitch: withSwitch,
-                profileImage: profileImage,
+          if (withText == true)
+            DefaultText(
+              _text,
+              textLevel: TextLevel.h1,
+              color: Colors.white,
+            ),
+          if (withProfile == true || withSwitch == true)
+            BlocProvider(
+              create: (_) => HeaderCubit(),
+              child: Expanded(
+                child: _ProfileSwitch(
+                  withProfile: withProfile,
+                  withSwitch: withSwitch,
+                  profileImage: profileImage,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
@@ -250,6 +224,7 @@ class _ProfileSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         if (withSwitch == true)
           BlocBuilder<HeaderCubit, bool>(
@@ -274,10 +249,20 @@ class _ProfileSwitch extends StatelessWidget {
             ),
           ),
         if (withProfile == true)
-          CircleAvatar(
-            backgroundColor: Colors.grey,
-            radius: 15.0,
-            backgroundImage: profileImage,
+          GestureDetector(
+            onTap: () {
+              // TODO -- insert navigating to profile page
+            },
+            child: Padding(
+              padding: withSwitch == false
+                  ? const EdgeInsets.only(bottom: 9.0)
+                  : EdgeInsets.zero,
+              child: CircleAvatar(
+                backgroundColor: Colors.grey,
+                radius: 15.0,
+                backgroundImage: profileImage,
+              ),
+            ),
           ),
       ],
     );

@@ -19,6 +19,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Screen(
       withBottomNavigation: true,
+      header: ScreenHeader.only(
+        withProfile: true,
+      ),
       body: const HomeScreen(),
     );
   }
