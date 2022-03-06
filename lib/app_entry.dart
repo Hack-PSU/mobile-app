@@ -1,14 +1,14 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/bloc/navigation/bottom_navigation_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/auth/auth_bloc.dart';
 import 'bloc/auth/auth_state.dart';
+import 'bloc/navigation/bottom_navigation_bloc.dart';
 import 'bloc/navigation/bottom_navigation_state.dart';
-import 'cubit/bottom_navigation_cubit.dart';
 import 'cubit/event_cubit.dart';
 import 'cubit/registration_cubit.dart';
 import 'data/authentication_repository.dart';
@@ -54,12 +54,37 @@ class MyApp extends StatelessWidget {
                     context.read<AuthenticationRepository>()),
           ),
         ],
-        child: const MaterialApp(
-          title: "HackPSU",
-          home: RootRouter(),
+        child: const ImageCache(
+          images: [
+            AssetImage("assets/images/header_mountains.png"),
+          ],
+          child: MaterialApp(
+            title: "HackPSU",
+            home: RootRouter(),
+          ),
         ),
       ),
     );
+  }
+}
+
+class ImageCache extends StatelessWidget {
+  const ImageCache({
+    Key key,
+    @required this.images,
+    @required this.child,
+  }) : super(key: key);
+
+  final List<ImageProvider> images;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    for (final ImageProvider image in images) {
+      precacheImage(image, context);
+    }
+
+    return child;
   }
 }
 

@@ -178,7 +178,7 @@ class _ScreenHeader extends StatelessWidget {
         image: withBackgroundImage == true
             ? (backgroundImage ??
                 const DecorationImage(
-                  image: AssetImage("assets/images/header_bg_clipped-min.png"),
+                  image: AssetImage("assets/images/header_mountains.png"),
                   fit: BoxFit.cover,
                 ))
             : null,
