@@ -15,7 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         super(
           authenticationRepository.currentUser != null
               ? AuthState.authenticated(authenticationRepository.currentUser)
-              : AuthState.unauthenticated(),
+              : const AuthState.unauthenticated(),
         ) {
     on<AuthUserChanged>(_onAuthUserChanged);
     on<AuthLogout>(_onAuthLogout);
@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(
       event.user != null
           ? AuthState.authenticated(event.user)
-          : AuthState.unauthenticated(),
+          : const AuthState.unauthenticated(),
     );
   }
 

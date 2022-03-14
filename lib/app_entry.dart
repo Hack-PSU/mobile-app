@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,7 +7,8 @@ import 'package:provider/provider.dart';
 
 import 'bloc/auth/auth_bloc.dart';
 import 'bloc/auth/auth_state.dart';
-import 'cubit/bottom_navigation_cubit.dart';
+import 'bloc/navigation/bottom_navigation_bloc.dart';
+import 'bloc/navigation/bottom_navigation_state.dart';
 import 'cubit/event_cubit.dart';
 import 'cubit/registration_cubit.dart';
 import 'data/authentication_repository.dart';
@@ -18,8 +20,6 @@ import 'screens/home_page.dart';
 import 'screens/sign_in_page.dart';
 import 'screens/workshops_page.dart';
 import 'utils/flavor_constants.dart';
-import 'widgets/bottom_navigation.dart';
-import 'widgets/screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key key}) : super(key: key);
@@ -41,9 +41,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<BottomNavigationCubit>(
-            create: (_) => BottomNavigationCubit(),
-          ),
           BlocProvider<EventCubit>(
             create: (context) => EventCubit(context.read<EventRepository>()),
           ),
@@ -57,12 +54,37 @@ class MyApp extends StatelessWidget {
                     context.read<AuthenticationRepository>()),
           ),
         ],
-        child: const MaterialApp(
-          title: "HackPSU",
-          home: RootRouter(),
+        child: const ImageCache(
+          images: [
+            AssetImage("assets/images/header_mountains.png"),
+          ],
+          child: MaterialApp(
+            title: "HackPSU",
+            home: RootRouter(),
+          ),
         ),
       ),
     );
+  }
+}
+
+class ImageCache extends StatelessWidget {
+  const ImageCache({
+    Key key,
+    @required this.images,
+    @required this.child,
+  }) : super(key: key);
+
+  final List<ImageProvider> images;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    for (final ImageProvider image in images) {
+      precacheImage(image, context);
+    }
+
+    return child;
   }
 }
 
@@ -97,17 +119,34 @@ class MainRouter extends StatelessWidget {
   const MainRouter({Key key}) : super(key: key);
 
   static const List<Widget> _pages = [
-    HomeScreen(),
-    EventsScreen(),
-    WorkshopsScreen(),
+    HomePage(),
+    EventsPage(),
+    WorkshopsPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BottomNavigationCubit, Routes>(
-      builder: (context, route) => Screen(
-        withBottomNavigation: true,
-        body: _pages[Routes.values.indexOf(route)],
+    return BlocProvider<BottomNavigationBloc>(
+      create: (context) {
+        return BottomNavigationBloc(
+          Routes.Home,
+          onNavigationRouteChange: (route) {
+            switch (route) {
+              case Routes.Home:
+                context.read<RegistrationCubit>().getUserInfo();
+                context.read<EventCubit>().getEvents();
+                break;
+              case Routes.Events:
+                context.read<EventCubit>().getEvents();
+                break;
+              case Routes.Workshops:
+                break;
+            }
+          },
+        );
+      },
+      child: BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
+        builder: (context, state) => _pages[state.routeIndex],
       ),
     );
   }

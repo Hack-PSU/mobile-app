@@ -1,12 +1,23 @@
-// TODO -- use MaterialPageRoute to declaratively change the route based on
-// TODO -- BlocConsumer
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/event_cubit.dart';
 
+import '../cubit/event_cubit.dart';
 import '../models/event.dart';
 import '../widgets/default_text.dart';
+import '../widgets/screen.dart';
+
+class EventsPage extends StatelessWidget {
+  const EventsPage({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Screen(
+      withBottomNavigation: true,
+      header: ScreenHeader.text("Events"),
+      body: const EventsScreen(),
+    );
+  }
+}
 
 class EventsScreen extends StatelessWidget {
   const EventsScreen({Key key}) : super(key: key);
@@ -15,7 +26,7 @@ class EventsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EventCubit, List<Event>>(
       builder: (context, events) {
-        context.read<EventCubit>().getEvents();
+        // context.read<EventCubit>().getEvents();
 
         if (events == null) {
           return const Center(
