@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackpsu/card_items/event_workshop_card.dart';
 import '../cubit/event_cubit.dart';
 
 import '../models/event.dart';
@@ -16,38 +17,40 @@ class EventsScreen extends StatelessWidget {
     return BlocBuilder<EventCubit, List<Event>>(
       builder: (context, events) {
         context.read<EventCubit>().getEvents();
-
         if (events == null) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-
         return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: events.map((e) => _showEvent(e)).toList(),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ...events.map((e) => EventWorkshopCard(event: e)).toList()
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _showEvent(Event event) {
-    // TODO -- return event_repo_card here
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-      ),
-      child: Column(
-        children: [
-          DefaultText(
-            event.locationName,
-            fontLevel: TextLevel.body1,
-            fontSize: 16,
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _showEvent(Event event) {
+  //   // TODO -- return event_repo_card here
+  //   return Container(
+  //     decoration: const BoxDecoration(
+  //       borderRadius: BorderRadius.all(Radius.circular(5)),
+  //     ),
+  //     child: Column(
+  //       children: [
+  //         DefaultText(
+  //           event.eventTitle,
+  //           fontLevel: TextLevel.body1,
+  //           fontSize: 16,
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
