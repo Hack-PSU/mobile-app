@@ -8,8 +8,8 @@ enum EventType {
   ACTIVITY,
   @JsonValue("workshop")
   WORKSHOP,
-  @JsonValue('meal')
-  MEAL,
+  @JsonValue('food')
+  FOOD,
 }
 
 @JsonSerializable(

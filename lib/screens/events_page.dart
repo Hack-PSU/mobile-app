@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackpsu/widgets/agenda.dart';
 
 import '../cubit/event_cubit.dart';
 import '../models/event.dart';
@@ -15,6 +16,8 @@ class EventsPage extends StatelessWidget {
       withBottomNavigation: true,
       header: ScreenHeader.text("Events"),
       body: const EventsScreen(),
+      safeAreaLeft: true,
+      safeAreaRight: true,
     );
   }
 }
@@ -35,16 +38,18 @@ class EventsScreen extends StatelessWidget {
         }
 
         return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: events.map((e) => _showEvent(e)).toList(),
+          child: Agenda<Event>(
+            orientation: Axis.horizontal,
+            data: events,
+            groupElement: (e) => e.eventStartTime.millisecondsSinceEpoch,
+            renderItems: (item) => _showEvent(item),
           ),
         );
       },
     );
   }
 
-  Widget _showEvent(Event event) {
+  Widget _showEvent(List<Event> events) {
     // TODO -- return event_repo_card here
     return Container(
       decoration: const BoxDecoration(
@@ -52,10 +57,12 @@ class EventsScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          DefaultText(
-            event.locationName,
-            textLevel: TextLevel.body1,
-            fontSize: 16,
+          ...events.map(
+            (event) => DefaultText(
+              event.locationName,
+              textLevel: TextLevel.body1,
+              fontSize: 16,
+            ),
           ),
         ],
       ),

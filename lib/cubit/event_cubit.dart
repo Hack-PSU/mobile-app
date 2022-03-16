@@ -13,4 +13,9 @@ class EventCubit extends Cubit<List<Event>> {
     final event = await _eventRepository.getEvents();
     emit(event);
   }
+
+  Future<void> getEventsByType(EventType type) async {
+    final events = await _eventRepository.getEvents();
+    emit(events.where((e) => e.eventType == type).toList());
+  }
 }
