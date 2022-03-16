@@ -17,15 +17,23 @@ class Screen extends Scaffold {
     this.onNavigationRouteChange,
     @required Widget body,
     Color contentBackgroundColor,
+    bool safeAreaTop,
+    bool safeAreaBottom,
+    bool safeAreaLeft,
+    bool safeAreaRight,
   }) : super(
           key: key,
           backgroundColor: backgroundColor ?? Colors.white,
           appBar: appBar,
           body: _Page(
-            _Header(
+            _Body(
               body: body,
               header: header,
               contentBackgroundColor: contentBackgroundColor,
+              safeAreaTop: safeAreaTop,
+              safeAreaLeft: safeAreaLeft,
+              safeAreaRight: safeAreaRight,
+              safeAreaBottom: safeAreaBottom,
             ),
             withDismissKeyboard: withDismissKeyboard,
           ),
@@ -61,21 +69,33 @@ class _Page extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header({
+class _Body extends StatelessWidget {
+  const _Body({
     Key key,
     this.body,
     this.header,
     this.contentBackgroundColor,
+    this.safeAreaTop,
+    this.safeAreaBottom,
+    this.safeAreaLeft,
+    this.safeAreaRight,
   }) : super(key: key);
 
   final ScreenHeader header;
   final Widget body;
   final Color contentBackgroundColor;
+  final bool safeAreaTop;
+  final bool safeAreaBottom;
+  final bool safeAreaLeft;
+  final bool safeAreaRight;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: safeAreaTop ?? true,
+      left: safeAreaLeft ?? true,
+      right: safeAreaRight ?? true,
+      bottom: safeAreaBottom ?? true,
       child: Column(
         children: [
           if (header != null) header,

@@ -19,6 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ) {
     on<AuthUserChanged>(_onAuthUserChanged);
     on<AuthLogout>(_onAuthLogout);
+    on<AuthVerifying>(_onAuthVerifying);
     _userSubscription = _authenticationRepository.user.listen(
       (user) => add(AuthUserChanged(user)),
     );
@@ -33,6 +34,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ? AuthState.authenticated(event.user)
           : const AuthState.unauthenticated(),
     );
+  }
+
+  void _onAuthVerifying(AuthVerifying event, Emitter<AuthState> emit) {
+    emit(const AuthState.verifying());
   }
 
   void _onAuthLogout(AuthLogout event, Emitter<AuthState> emit) {
