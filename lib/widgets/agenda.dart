@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hackpsu/styles/theme_colors.dart';
 import 'package:hackpsu/widgets/default_text.dart';
+import 'package:intl/date_symbols.dart';
 import 'package:intl/intl.dart';
 
 enum ElementOrientation { horizontal, vertical }
@@ -28,7 +29,7 @@ class Agenda<M> extends StatelessWidget {
 
     return ListView.separated(
       physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.all(8),
       itemCount: sortedKeys.length,
       itemBuilder: (context, int index) {
         final int key = sortedKeys[index];
@@ -60,8 +61,10 @@ class _Block<M> extends StatelessWidget {
   final Widget Function(List<M>) renderItems;
 
   String _formatTime() {
-    final DateFormat formatter = DateFormat.jm();
-    return formatter.format(DateTime.fromMillisecondsSinceEpoch(separator));
+    final DateFormat formatter = DateFormat("h:mm a");
+    return formatter
+        .format(DateTime.fromMillisecondsSinceEpoch(separator))
+        .toLowerCase();
   }
 
   @override
