@@ -56,6 +56,14 @@ dependencies:
   # datetime
   intl: ^0.17.0
 
+  # unique id for favorites and hydration
+  nanoid: ^1.0.0
+  hydrated_bloc: ^8.1.0
+
+  # filesystem
+  path_provider: ^2.0.9
+
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

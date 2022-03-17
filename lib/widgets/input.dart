@@ -39,11 +39,11 @@ class Input extends StatelessWidget {
       decoration: decoration != null
           ? decoration.copyWith(
               labelText: label,
-              fillColor: fillColor,
+              fillColor: fillColor ?? Colors.black12,
             )
           : getDefaultStyles().copyWith(
               labelText: label,
-              fillColor: fillColor,
+              fillColor: fillColor ?? Colors.black12,
             ),
     );
   }

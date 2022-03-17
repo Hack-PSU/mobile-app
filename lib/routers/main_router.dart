@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackpsu/models/event.dart';
 import '../bloc/navigation/bottom_navigation_bloc.dart';
 import '../bloc/navigation/bottom_navigation_state.dart';
 import '../cubit/event_cubit.dart';
@@ -30,7 +31,7 @@ class MainRouter extends StatelessWidget {
                 context.read<EventCubit>().getEvents();
                 break;
               case Routes.Events:
-                context.read<EventCubit>().getEvents();
+                context.read<EventCubit>().getEventsByType(EventType.WORKSHOP);
                 break;
               case Routes.Workshops:
                 break;

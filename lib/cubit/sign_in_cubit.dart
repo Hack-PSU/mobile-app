@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
-import 'package:hackpsu/bloc/auth/auth_event.dart';
 
 import '../bloc/auth/auth_bloc.dart';
+import '../bloc/auth/auth_event.dart';
 import '../data/authentication_repository.dart';
 import '../models/email.dart';
 import '../models/password.dart';
