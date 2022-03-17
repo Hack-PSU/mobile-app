@@ -33,40 +33,69 @@ class HomeScreen extends StatelessWidget {
               );
             }
 
-            return SingleChildScrollView(
-                child: Column(children: [
-              FittedBox(
-                  child: Row(children: [
-                HomepageHeader(),
-              ])),
-              FittedBox(
-                  child: Row(children: [
-                Center(
-                  child: Column(
-                    children: [
-                      CountdownTimerCard(),
-                      // registrations is passed in from here
-                      UserPinCard(registrations),
-                      ...events
-                          .map((e) => DefaultText(
-                                e.eventTitle ?? "Event",
-                                fontSize: 14,
-                              ))
-                          .toList(),
-                      Button(
-                        variant: ButtonVariant.TextButton,
-                        onPressed: () {
-                          context.read<AuthenticationRepository>().signOut();
-                        },
-                        child: DefaultText(
-                          "Log out",
+            return Column(
+              children: [
+                AppBar(
+                  backgroundColor: Colors.white,
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: CircleAvatar(radius: 40),
+                    )
+                  ],
+                  flexibleSpace: SafeArea(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              color: Color(0xffF5F5F5),
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/Logo.png'),
+                              ),
+                            ),
+                          ),
                         ),
                       )
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            HomepageHeader(),
+                            CountdownTimerCard(),
+                            // registrations is passed in from here
+                            UserPinCard(registrations),
+                            ...events
+                                .map((e) => DefaultText(
+                                      e.eventTitle ?? "Event",
+                                      fontSize: 14,
+                                    ))
+                                .toList(),
+                            Button(
+                              variant: ButtonVariant.TextButton,
+                              onPressed: () {
+                                context.read<AuthenticationRepository>().signOut();
+                              },
+                              child: DefaultText(
+                                "Log out",
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                )
-              ]))
-            ]));
+                ),
+              ],
+            );
           },
         );
       },
