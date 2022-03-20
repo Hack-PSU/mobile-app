@@ -31,7 +31,7 @@ class _AuthNavigator extends StatelessWidget {
         buildWhen: (previous, current) => previous.status != current.status,
         builder: (context, state) {
           if (state.status == AuthStatus.loading) {
-            return const Loading(label: "Gathering Info...", repeat: true);
+            return const Loading(label: "Signing In...", repeat: true);
           }
 
           return Navigator(
