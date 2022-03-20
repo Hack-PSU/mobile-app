@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/favorites/favorites_bloc.dart';
+import '../bloc/favorites/favorites_event.dart';
+import '../bloc/favorites/favorites_state.dart';
 import '../bloc/navigation/bottom_navigation_state.dart';
 import '../cubit/header_cubit.dart';
 import 'bottom_navigation.dart';
@@ -248,26 +251,33 @@ class _ProfileSwitch extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         if (withSwitch == true)
-          BlocBuilder<HeaderCubit, bool>(
-            buildWhen: (oldState, newState) => oldState != newState,
-            builder: (context, state) => Switch(
-              value: state,
-              onChanged: (newValue) {
-                context.read<HeaderCubit>().toggleSwitch(newValue);
-              },
-              activeColor: Colors.white,
-              // inactiveTrackColor: Colors.white,
-              activeThumbImage: const ResizeImage(
-                AssetImage("assets/icons/favorites_off.png"),
-                width: 13,
-                height: 13,
-              ),
-              inactiveThumbImage: const ResizeImage(
-                AssetImage("assets/icons/favorites.png"),
-                width: 13,
-                height: 13,
-              ),
-            ),
+          BlocBuilder<FavoritesBloc, FavoritesState>(
+            buildWhen: (previous, current) => previous.status != current.status,
+            builder: (context, state) {
+              return Switch(
+                // value == false means enabled
+                value: state.status != FavoritesStatus.enabled,
+                onChanged: (newValue) {
+                  if (newValue == false) {
+                    context.read<FavoritesBloc>().add(EnableFavorites());
+                  } else {
+                    context.read<FavoritesBloc>().add(DisableFavorites());
+                  }
+                },
+                activeColor: Colors.white,
+                // inactiveTrackColor: Colors.white,
+                activeThumbImage: const ResizeImage(
+                  AssetImage("assets/icons/favorites_off.png"),
+                  width: 13,
+                  height: 13,
+                ),
+                inactiveThumbImage: const ResizeImage(
+                  AssetImage("assets/icons/favorites.png"),
+                  width: 13,
+                  height: 13,
+                ),
+              );
+            },
           ),
         if (withProfile == true)
           GestureDetector(

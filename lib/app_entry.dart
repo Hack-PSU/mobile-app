@@ -48,8 +48,8 @@ class MyApp extends StatelessWidget {
                 authenticationRepository:
                     context.read<AuthenticationRepository>()),
           ),
-          BlocProvider<FavoritesCubit>(
-            create: (_) => FavoritesCubit(),
+          BlocProvider<FavoritesBloc>(
+            create: (_) => FavoritesBloc(),
           ),
         ],
         child: const ImageCache(

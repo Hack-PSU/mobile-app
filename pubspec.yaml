@@ -56,8 +56,7 @@ dependencies:
   # datetime
   intl: ^0.17.0
 
-  # unique id for favorites and hydration
-  nanoid: ^1.0.0
+  # persistent bloc
   hydrated_bloc: ^8.1.0
 
   # filesystem

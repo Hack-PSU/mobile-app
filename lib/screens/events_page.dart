@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../bloc/favorites/favorites_bloc.dart';
 import '../bloc/favorites/favorites_event.dart';
+import '../bloc/favorites/favorites_state.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/favorites_cubit.dart';
 import '../models/event.dart';
@@ -45,9 +46,8 @@ class EventsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EventCubit, List<Event>>(
       builder: (context, events) {
-        return BlocBuilder<FavoritesCubit, List<String>>(
+        return BlocBuilder<FavoritesBloc, FavoritesState>(
           builder: (context, favorites) {
-            debugPrint(favorites.toString());
             if (events == null) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -60,8 +60,7 @@ class EventsScreen extends StatelessWidget {
               labels: const ["Friday", "Saturday", "Sunday"],
               data: data,
               groupElement: _groupElement,
-              renderItems: (items) => _showEvent(
-                  context, context.read<FavoritesCubit>().getFavorite, events),
+              renderItems: (items) => _showEvent(context, favorites, events),
             );
           },
         );
@@ -70,8 +69,7 @@ class EventsScreen extends StatelessWidget {
   }
 
   Widget _showEvent(
-      BuildContext context, Function(Event) isFavorite, List<Event> events) {
-    // TODO -- return event_repo_card here
+      BuildContext context, FavoritesState state, List<Event> events) {
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -85,12 +83,13 @@ class EventsScreen extends StatelessWidget {
                   event.uid,
                   textLevel: TextLevel.body1,
                   fontSize: 16,
-                  color: isFavorite(event) == true ? Colors.red : Colors.black,
+                  color: state.isFavorite(event) ? Colors.red : Colors.black,
                 ),
                 Button(
                   variant: ButtonVariant.ElevatedButton,
-                  onPressed: () =>
-                      context.read<FavoritesCubit>().addFavorite(event),
+                  onPressed: () => context
+                      .read<FavoritesBloc>()
+                      .add(AddFavoritesItem(event)),
                 ),
               ],
             ),

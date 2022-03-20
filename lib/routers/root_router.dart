@@ -22,7 +22,6 @@ class RootRouter extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        debugPrint(context.read<FavoritesCubit>().state.toString());
         if (state.status == AuthStatus.authenticated) {
           return const MainRouter();
         } else {
