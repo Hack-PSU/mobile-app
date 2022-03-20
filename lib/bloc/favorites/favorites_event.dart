@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../models/event.dart';
+
 class FavoritesEvent extends Equatable {
   const FavoritesEvent();
 
@@ -11,10 +13,14 @@ class FavoritesEnabled extends FavoritesEvent {}
 
 class FavoritesDisabled extends FavoritesEvent {}
 
+class AddMoreFavorites extends FavoritesEvent {
+  const AddMoreFavorites(this.items);
+
+  final List<Event> items;
+}
+
 class AddFavoritesItem extends FavoritesEvent {
-  const AddFavoritesItem({
-    this.id,
-  });
+  const AddFavoritesItem(this.id);
 
   final String id;
 

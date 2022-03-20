@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 import '../styles/theme_colors.dart';
 import 'default_text.dart';
 
-enum ElementOrientation { horizontal, vertical }
-
 class Agenda<M> extends StatelessWidget {
   const Agenda({
     Key key,
@@ -79,6 +77,7 @@ class _Block<M> extends StatelessWidget {
           child: DefaultText(
             _formatTime(),
             textLevel: TextLevel.h3,
+            weight: FontWeight.bold,
             color: ThemeColors.HackyBlue,
             maxLines: 2,
             textAlign: TextAlign.right,

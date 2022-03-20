@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/models/event.dart';
+
 import '../bloc/navigation/bottom_navigation_bloc.dart';
 import '../bloc/navigation/bottom_navigation_state.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
+import '../models/event.dart';
 import '../screens/events_page.dart';
 import '../screens/home_page.dart';
 import '../screens/workshops_page.dart';
@@ -31,9 +32,12 @@ class MainRouter extends StatelessWidget {
                 context.read<EventCubit>().getEvents();
                 break;
               case Routes.Events:
-                context.read<EventCubit>().getEventsByType(EventType.WORKSHOP);
+                context
+                    .read<EventCubit>()
+                    .filter((el) => el.eventType != EventType.WORKSHOP);
                 break;
               case Routes.Workshops:
+                context.read<EventCubit>().getEventsByType(EventType.WORKSHOP);
                 break;
             }
           },

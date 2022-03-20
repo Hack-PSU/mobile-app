@@ -4,6 +4,12 @@ import 'package:hackpsu/styles/theme_colors.dart';
 
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/auth/auth_state.dart';
+import '../bloc/favorites/favorites_bloc.dart';
+import '../bloc/favorites/favorites_event.dart';
+import '../bloc/favorites/favorites_state.dart';
+import '../cubit/event_cubit.dart';
+import '../cubit/favorites_cubit.dart';
+import '../models/event.dart';
 import '../widgets/loading.dart';
 import 'auth_router.dart';
 import 'main_router.dart';
@@ -16,6 +22,7 @@ class RootRouter extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
+        debugPrint(context.read<FavoritesCubit>().state.toString());
         if (state.status == AuthStatus.authenticated) {
           return const MainRouter();
         } else {

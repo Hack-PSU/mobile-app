@@ -18,4 +18,9 @@ class EventCubit extends Cubit<List<Event>> {
     final events = await _eventRepository.getEvents();
     emit(events.where((e) => e.eventType == type).toList());
   }
+
+  Future<void> filter(bool Function(Event item) predicate) async {
+    final events = await _eventRepository.getEvents();
+    emit(events.where(predicate).toList());
+  }
 }

@@ -5,11 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/auth/auth_bloc.dart';
+import 'bloc/favorites/favorites_bloc.dart';
 import 'cubit/event_cubit.dart';
+import 'cubit/favorites_cubit.dart';
 import 'cubit/registration_cubit.dart';
 import 'data/authentication_repository.dart';
 import 'data/event_repository.dart';
 import 'data/user_repository.dart';
+import 'models/event.dart';
 import 'routers/root_router.dart';
 import 'utils/flavor_constants.dart';
 
@@ -44,6 +47,9 @@ class MyApp extends StatelessWidget {
             create: (context) => AuthBloc(
                 authenticationRepository:
                     context.read<AuthenticationRepository>()),
+          ),
+          BlocProvider<FavoritesCubit>(
+            create: (_) => FavoritesCubit(),
           ),
         ],
         child: const ImageCache(
