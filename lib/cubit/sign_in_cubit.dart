@@ -54,6 +54,7 @@ class SignInCubit extends Cubit<SignInState> {
       );
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInWithEmailAndPasswordError catch (e) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           error: e.message,
@@ -61,6 +62,7 @@ class SignInCubit extends Cubit<SignInState> {
         ),
       );
     } catch (_) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           status: FormzStatus.submissionFailure,
@@ -76,6 +78,7 @@ class SignInCubit extends Cubit<SignInState> {
       await _authenticationRepository.signInWithGoogle();
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInWithGoogleError catch (e) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           error: e.message,
@@ -83,6 +86,7 @@ class SignInCubit extends Cubit<SignInState> {
         ),
       );
     } catch (_) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           status: FormzStatus.submissionFailure,
@@ -98,6 +102,7 @@ class SignInCubit extends Cubit<SignInState> {
       await _authenticationRepository.signInWithGitHub(context);
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInWithGithubError catch (e) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           error: e.message,
@@ -105,6 +110,7 @@ class SignInCubit extends Cubit<SignInState> {
         ),
       );
     } catch (_) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           status: FormzStatus.submissionFailure,
