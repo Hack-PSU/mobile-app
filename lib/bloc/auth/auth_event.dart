@@ -17,4 +17,6 @@ class AuthUserChanged extends AuthEvent {
   List<Object> get props => [user];
 }
 
+class AuthVerifying extends AuthEvent {}
+
 class AuthLogout extends AuthEvent {}

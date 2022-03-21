@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hackpsu/bloc/auth/auth_bloc.dart';
 
 import '../cubit/sign_in_cubit.dart';
 import '../data/authentication_repository.dart';
@@ -18,12 +19,9 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Screen(
       withDismissKeyboard: true,
-      withBottomNavigation: false,
-      body: BlocProvider<SignInCubit>(
-        create: (context) =>
-            SignInCubit(context.read<AuthenticationRepository>()),
-        child: const SignInScreen(),
-      ),
+      safeAreaBottom: false,
+      safeAreaTop: false,
+      body: const SignInScreen(),
     );
   }
 }
