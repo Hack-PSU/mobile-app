@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hackpsu/bloc/auth/auth_bloc.dart';
 
 import '../cubit/sign_in_cubit.dart';
-import '../data/authentication_repository.dart';
 import '../models/sign_in_state.dart';
 import '../utils/custom_icons.dart';
 import '../widgets/button.dart';
@@ -69,6 +67,15 @@ class SignInScreen extends StatelessWidget {
                   textLevel: TextLevel.h2,
                   color: const Color(0xFF113654),
                 ),
+              ),
+              BlocBuilder<SignInCubit, SignInState>(
+                buildWhen: (previous, current) =>
+                    previous.error != current.error,
+                builder: (context, state) {
+                  return DefaultText(
+                    state.error ?? "",
+                  );
+                },
               ),
               Padding(
                 padding:
