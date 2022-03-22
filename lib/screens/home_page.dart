@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hackpsu/widgets/agenda.dart';
-
+import 'package:carousel_slider/carousel_slider.dart';
 import '../card_items/countdown_timer_card.dart';
 import '../card_items/pin_card.dart';
 import '../cubit/event_cubit.dart';
@@ -52,7 +52,33 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CountdownTimerCard(),
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      height: 200.0,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 3),
+                      enlargeCenterPage: true,
+                      scrollDirection: Axis.horizontal,
+                    ),
+                    items: [
+                      "assets/images/header_mountains.png",
+                      "assets/images/Logo.png",
+                      "assets/images/Logo.png"
+                    ].map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              decoration:
+                                  const BoxDecoration(color: Colors.blue),
+                              child: Image(image: AssetImage(i)));
+                        },
+                      );
+                    }).toList(),
+                  )
+                  /*CountdownTimerCard(),
                   // registrations is passed in from here
                   UserPinCard(registrations),
                   ...events
@@ -69,7 +95,7 @@ class HomeScreen extends StatelessWidget {
                     child: DefaultText(
                       "Log out",
                     ),
-                  )
+                  )*/
                 ],
               ),
             );
