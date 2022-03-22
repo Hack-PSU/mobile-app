@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
 import '../models/event.dart';
 import '../widgets/default_text.dart';
 
@@ -21,6 +22,9 @@ class EventWorkshopCard extends StatelessWidget {
       }
     }
 
+    String formatStartTime = DateFormat.jm().format(event.eventStartTime);
+    String formatEndTime = DateFormat.jm().format(event.eventEndTime);
+
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: InkWell(
@@ -30,11 +34,11 @@ class EventWorkshopCard extends StatelessWidget {
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
             builder: (BuildContext context) {
-              // TODO: add content and formatting
               return Container(
                 padding: const EdgeInsets.all(15.0),
                 height: 300,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,9 +65,14 @@ class EventWorkshopCard extends StatelessWidget {
                                     DefaultText(event.wsPresenterNames ?? '',
                                         color: const Color(0xFF6A85B9),
                                         fontLevel: TextLevel.body2),
-                                  DefaultText("6:00pm - 7:00pm",
-                                      fontLevel: TextLevel.body2,
-                                      color: const Color(0xFF6A85B9)),
+                                  Text(
+                                    '$formatStartTime - $formatEndTime',
+                                    style: const TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xFF6A85B9)),
+                                  ),
                                 ]),
                           ),
                           // TODO: add the change in event.starred function
@@ -80,7 +89,10 @@ class EventWorkshopCard extends StatelessWidget {
                             ),
                           ),
                         ]),
-                    DefaultText(event.locationName),
+                    Chip(
+                      avatar: const Icon(Icons.location_on_rounded),
+                      label: DefaultText(event.locationName),
+                    ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.only(top: 10.0),
