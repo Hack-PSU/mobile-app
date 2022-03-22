@@ -68,15 +68,6 @@ class SignInScreen extends StatelessWidget {
                   color: const Color(0xFF113654),
                 ),
               ),
-              BlocBuilder<SignInCubit, SignInState>(
-                buildWhen: (previous, current) =>
-                    previous.error != current.error,
-                builder: (context, state) {
-                  return DefaultText(
-                    state.error ?? "",
-                  );
-                },
-              ),
               Padding(
                 padding:
                     const EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
@@ -86,6 +77,33 @@ class SignInScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
                 child: _PasswordInput(),
+              ),
+              BlocBuilder<SignInCubit, SignInState>(
+                buildWhen: (previous, current) =>
+                    previous != null &&
+                    current != null &&
+                    previous.error != current.error,
+                builder: (context, state) {
+                  return Row(
+                    children: [
+                      if (state.error != null)
+                        const Padding(
+                            padding: EdgeInsets.only(
+                                top: 14.0, left: 20.0, right: 5.0),
+                            child: Icon(Icons.error,
+                                size: 23.0, color: Colors.red)),
+                      if (state.error != null)
+                        Padding(
+                            padding:
+                                const EdgeInsets.only(top: 10.0, right: 5.0),
+                            child: DefaultText(
+                              state.error ?? "",
+                              color: Colors.red,
+                              weight: FontWeight.w600,
+                            ))
+                    ],
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
