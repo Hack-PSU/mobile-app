@@ -28,15 +28,15 @@ class _HomePageState extends State<HomePage> {
   double _logoHeight;
 
   _scrollListener() {
-    if (_controller.position.pixels == 0) {
+    if (_controller.position.pixels <= 50) {
       setState(() {
         _logoWidth = 135;
         _logoHeight = 135;
       });
     } else {
       setState(() {
-        _logoWidth = 50;
-        _logoHeight = 50;
+        _logoWidth = 70;
+        _logoHeight = 70;
       });
     }
   }
@@ -94,6 +94,42 @@ class _HomePageState extends State<HomePage> {
                                   //           fontSize: 14,
                                   //         ))
                                   //     .toList(),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
+                                  Text("THIS IS A SAMPLE EVENT"),
                                   Button(
                                     variant: ButtonVariant.TextButton,
                                     onPressed: () {
@@ -103,11 +139,6 @@ class _HomePageState extends State<HomePage> {
                                       "Log out",
                                     ),
                                   ),
-                                  Text("hello"),
-                                  Text("hello"),
-                                  Text("hello"),
-                                  Text("hello"),
-                                  Text("hello"),
                                 ],
                               ),
                             ),
