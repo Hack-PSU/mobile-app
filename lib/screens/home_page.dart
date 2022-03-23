@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hackpsu/card_items/homepage_header.dart';
 import 'package:provider/provider.dart';
+import 'package:hackpsu/widgets/agenda.dart';
 
 import '../card_items/countdown_timer_card.dart';
 import '../card_items/pin_card.dart';
@@ -12,6 +13,22 @@ import '../models/event.dart';
 import '../models/registration.dart';
 import '../widgets/button.dart';
 import '../widgets/default_text.dart';
+import '../widgets/screen.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Screen(
+      withBottomNavigation: true,
+      header: ScreenHeader.only(
+        withProfile: true,
+      ),
+      body: const HomeScreen(),
+    );
+  }
+}
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -23,8 +40,8 @@ class HomeScreen extends StatelessWidget {
         return BlocBuilder<RegistrationCubit, List<Registration>>(
           builder: (context, registrations) {
             // fetch data first
-            context.read<EventCubit>().getEvents();
-            context.read<RegistrationCubit>().getUserInfo();
+            // context.read<EventCubit>().getEvents();
+            // context.read<RegistrationCubit>().getUserInfo();
 
             // while loading show the progress indicator
             if (events == null || registrations == null) {

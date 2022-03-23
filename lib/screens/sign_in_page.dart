@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../cubit/sign_in_cubit.dart';
-import '../data/authentication_repository.dart';
 import '../models/sign_in_state.dart';
 import '../utils/custom_icons.dart';
 import '../widgets/button.dart';
@@ -18,12 +17,9 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Screen(
       withDismissKeyboard: true,
-      withBottomNavigation: false,
-      body: BlocProvider<SignInCubit>(
-        create: (context) =>
-            SignInCubit(context.read<AuthenticationRepository>()),
-        child: const SignInScreen(),
-      ),
+      safeAreaBottom: false,
+      safeAreaTop: false,
+      body: const SignInScreen(),
     );
   }
 }
@@ -81,6 +77,33 @@ class SignInScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
                 child: _PasswordInput(),
+              ),
+              BlocBuilder<SignInCubit, SignInState>(
+                buildWhen: (previous, current) =>
+                    previous != null &&
+                    current != null &&
+                    previous.error != current.error,
+                builder: (context, state) {
+                  return Row(
+                    children: [
+                      if (state.error != null)
+                        const Padding(
+                            padding: EdgeInsets.only(
+                                top: 14.0, left: 20.0, right: 5.0),
+                            child: Icon(Icons.error,
+                                size: 23.0, color: Colors.red)),
+                      if (state.error != null)
+                        Padding(
+                            padding:
+                                const EdgeInsets.only(top: 10.0, right: 5.0),
+                            child: DefaultText(
+                              state.error ?? "",
+                              color: Colors.red,
+                              weight: FontWeight.w600,
+                            ))
+                    ],
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
