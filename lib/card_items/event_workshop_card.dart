@@ -59,12 +59,12 @@ class EventWorkshopCard extends StatelessWidget {
                                 children: [
                                   DefaultText(
                                     event.eventTitle,
-                                    fontLevel: TextLevel.h4,
+                                    textLevel: TextLevel.h4,
                                   ),
                                   if (event.wsPresenterNames != null)
                                     DefaultText(event.wsPresenterNames ?? '',
                                         color: const Color(0xFF6A85B9),
-                                        fontLevel: TextLevel.body2),
+                                        textLevel: TextLevel.body2),
                                   Text(
                                     '$formatStartTime - $formatEndTime',
                                     style: const TextStyle(
@@ -110,11 +110,11 @@ class EventWorkshopCard extends StatelessWidget {
                           children: [
                             DefaultText(
                               'Description',
-                              fontLevel: TextLevel.body1,
+                              textLevel: TextLevel.body1,
                             ),
                             DefaultText(
                               event.eventDescription,
-                              fontLevel: TextLevel.body2,
+                              textLevel: TextLevel.body2,
                             ),
                           ]),
                     )
@@ -143,11 +143,11 @@ class EventWorkshopCard extends StatelessWidget {
                     DefaultText(
                       parseLocation(event.locationName),
                       color: const Color(0x99000000),
-                      fontLevel: TextLevel.overline,
+                      textLevel: TextLevel.overline,
                     ),
                     DefaultText(
                       event.eventTitle,
-                      fontLevel: TextLevel.sub1,
+                      textLevel: TextLevel.sub1,
                     ),
                     if (event.wsPresenterNames == null)
                       Center(
@@ -156,7 +156,7 @@ class EventWorkshopCard extends StatelessWidget {
                     if (event.wsPresenterNames != null)
                       DefaultText(event.wsPresenterNames ?? '',
                           color: const Color(0xFF6A85B9),
-                          fontLevel: TextLevel.body2)
+                          textLevel: TextLevel.body2)
                   ]),
             ),
             // TODO: add the change in event.starred function
