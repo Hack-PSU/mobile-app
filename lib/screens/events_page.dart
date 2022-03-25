@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackpsu/card_items/event_workshop_card.dart';
+import '../cubit/event_cubit.dart';
 import 'package:intl/intl.dart';
 
 import '../bloc/favorites/favorites_bloc.dart';
