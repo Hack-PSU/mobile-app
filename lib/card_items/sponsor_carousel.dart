@@ -39,7 +39,6 @@ class SponsorCarousel extends StatelessWidget {
           autoPlay: true,
           autoPlayInterval: const Duration(seconds: 3),
           enlargeCenterPage: true,
-          scrollDirection: Axis.horizontal,
         ),
         items: [
           [ECHO_AR_SVG, ECHO_AR_URL],
@@ -55,7 +54,7 @@ class SponsorCarousel extends StatelessWidget {
               return InkWell(
                   onTap: () async {
                     if (!await launch(i[1])) {
-                      throw 'Could not launch $i[1]';
+                      throw "Could not launch $i[1]";
                     }
                   },
                   child: Container(
