@@ -78,24 +78,7 @@ class EventsScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          ...events.map(
-            (event) => Column(
-              children: [
-                DefaultText(
-                  event.uid,
-                  textLevel: TextLevel.body1,
-                  fontSize: 16,
-                  color: state.isFavorite(event) ? Colors.red : Colors.black,
-                ),
-                Button(
-                  variant: ButtonVariant.ElevatedButton,
-                  onPressed: () => context
-                      .read<FavoritesBloc>()
-                      .add(AddFavoritesItem(event)),
-                ),
-              ],
-            ),
-          ),
+          ...events.map((event) => EventWorkshopCard(event: event)),
         ],
       ),
     );

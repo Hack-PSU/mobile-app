@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../card_items/event_workshop_card.dart';
 import '../cubit/event_cubit.dart';
 import '../models/event.dart';
 import '../widgets/agenda_view.dart';
@@ -53,7 +54,7 @@ class WorkshopsScreen extends StatelessWidget {
           renderItems: (el) => Column(
             children: el
                 .map(
-                  (e) => DefaultText(e.eventTitle),
+                  (e) => EventWorkshopCard(event: e),
                 )
                 .toList(),
           ),

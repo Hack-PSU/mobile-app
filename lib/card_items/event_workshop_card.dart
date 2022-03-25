@@ -22,8 +22,8 @@ class EventWorkshopCard extends StatelessWidget {
       }
     }
 
-    String formatStartTime = DateFormat.jm().format(event.eventStartTime);
-    String formatEndTime = DateFormat.jm().format(event.eventEndTime);
+    final String formatStartTime = DateFormat.jm().format(event.eventStartTime);
+    final String formatEndTime = DateFormat.jm().format(event.eventEndTime);
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -47,10 +47,15 @@ class EventWorkshopCard extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 5.0, right: 10.0),
-                              child: CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage:
-                                      NetworkImage(event.eventIcon)),
+                              child: event.eventIcon != ''
+                                  ? CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage:
+                                          NetworkImage(event.eventIcon))
+                                  : const Icon(
+                                      Icons.event_available,
+                                      size: 50,
+                                    ),
                             ),
 
                           Expanded(
@@ -129,10 +134,16 @@ class EventWorkshopCard extends StatelessWidget {
           child: Row(children: [
             if (event.eventIcon != null)
               Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: CircleAvatar(
-                      radius: 25,
-                      backgroundImage: NetworkImage(event.eventIcon))),
+                padding: const EdgeInsets.only(left: 10.0),
+                child: event.eventIcon != ''
+                    ? CircleAvatar(
+                        radius: 25,
+                        backgroundImage: NetworkImage(event.eventIcon))
+                    : const Icon(
+                        Icons.event_available,
+                        size: 50,
+                      ),
+              ),
             const Padding(padding: EdgeInsets.only(right: 10.0)),
 
             Expanded(
