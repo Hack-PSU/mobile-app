@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/default_text.dart';
+
 final hackathonDate = DateTime.utc(2022, 4, 8, 14)
     .add(const Duration(hours: 5)); // Add 5 hours to account for EST off set
 
@@ -69,8 +71,9 @@ class _CountdownTimerCardState extends State<CountdownTimerCard> {
   @override
   Widget build(BuildContext context) {
     final StringDuration diff = currentDifferentString;
-    return Center(
-        child: Text(
-            "${diff.days} Days ${diff.hours} Hours ${diff.minutes} Minutes ${diff.seconds} Seconds"));
+    return DefaultText(
+        "${diff.days} Days,\n${diff.hours} Hours,\n${diff.minutes} Minutes,\n${diff.seconds} Seconds!",
+        textLevel: TextLevel.h4, color: Colors.white, fontSize: 32, weight: FontWeight.w700
+    );
   }
 }
