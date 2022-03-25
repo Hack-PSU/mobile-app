@@ -75,5 +75,5 @@ T _$enumDecodeNullable<T>(
 const _$EventTypeEnumMap = {
   EventType.ACTIVITY: 'activity',
   EventType.WORKSHOP: 'workshop',
-  EventType.MEAL: 'meal',
+  EventType.FOOD: 'food',
 };

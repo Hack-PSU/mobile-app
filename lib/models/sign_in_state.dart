@@ -17,7 +17,7 @@ class SignInState extends BaseModel {
   final String error;
 
   @override
-  List<Object> get props => [email, password, status];
+  List<Object> get props => [email, password, status, error];
 
   SignInState copyWith({
     Email email,
@@ -31,5 +31,10 @@ class SignInState extends BaseModel {
       status: status ?? this.status,
       error: error ?? this.error,
     );
+  }
+
+  @override
+  bool isReady() {
+    return true;
   }
 }

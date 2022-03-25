@@ -1,35 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../bloc/navigation/bottom_navigation_bloc.dart';
+import '../bloc/navigation/bottom_navigation_event.dart';
 
+import '../bloc/navigation/bottom_navigation_state.dart';
 import '../cubit/bottom_navigation_cubit.dart';
 
-enum Routes { Home, Events, Workshops }
-
 class BottomNavigation extends StatelessWidget {
-  final homeSvg = "assets/icons/bottom_nav_home.svg";
-  final eventsSvg = "assets/icons/bottom_nav_events.svg";
-  final workshopsSvg = "assets/icons/bottom_nav_workshops.svg";
-  final Color selectedColor = Color.fromRGBO(106, 133, 185, 1.0);
-  final void Function(Routes item) onSelectItem;
-
-  BottomNavigation({this.onSelectItem});
+  const BottomNavigation({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BottomNavigationCubit, Routes>(
-      builder: (context, route) => BottomNavigationBar(
-        currentIndex: Routes.values.indexOf(route),
+    const String homeSvg = "assets/icons/bottom_nav_home.svg";
+    const String eventsSvg = "assets/icons/bottom_nav_events.svg";
+    const String workshopsSvg = "assets/icons/bottom_nav_workshops.svg";
+    const Color selectedColor = Color.fromRGBO(106, 133, 185, 1.0);
+
+    return BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
+      builder: (context, state) => BottomNavigationBar(
+        currentIndex: state.routeIndex,
         onTap: (index) {
-          context.read<BottomNavigationCubit>().navigate(Routes.values[index]);
-          if (onSelectItem != null) {
-            onSelectItem(Routes.values[index]);
+          context
+              .read<BottomNavigationBloc>()
+              .add(RouteChanged(Routes.values[index]));
+          if (state.onNavigationRouteChange != null) {
+            state.onNavigationRouteChange(Routes.values[index]);
           }
         },
         selectedFontSize: 14.0,
         unselectedFontSize: 14.0,
         selectedItemColor: selectedColor,
-        selectedIconTheme: IconThemeData(
+        selectedIconTheme: const IconThemeData(
           color: selectedColor,
           opacity: 1.0,
         ),
@@ -38,7 +42,7 @@ class BottomNavigation extends StatelessWidget {
             "Home",
             SvgPicture.asset(
               homeSvg,
-              color: route == Routes.Home ? selectedColor : Colors.black,
+              color: state.route == Routes.Home ? selectedColor : Colors.black,
               width: 25.0,
             ),
           ),
@@ -46,7 +50,8 @@ class BottomNavigation extends StatelessWidget {
             "Events",
             SvgPicture.asset(
               eventsSvg,
-              color: route == Routes.Events ? selectedColor : Colors.black,
+              color:
+                  state.route == Routes.Events ? selectedColor : Colors.black,
               width: 20.0,
             ),
           ),
@@ -54,7 +59,9 @@ class BottomNavigation extends StatelessWidget {
             "Workshops",
             SvgPicture.asset(
               workshopsSvg,
-              color: route == Routes.Workshops ? selectedColor : Colors.black,
+              color: state.route == Routes.Workshops
+                  ? selectedColor
+                  : Colors.black,
               width: 20.0,
             ),
           ),

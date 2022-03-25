@@ -12,7 +12,8 @@ class Input extends StatelessWidget {
     this.password,
     @required this.onChanged,
     this.autocorrect,
-  });
+    Key key,
+  }) : super(key: key);
 
   final String label;
   final TextInputType inputType;
@@ -38,11 +39,11 @@ class Input extends StatelessWidget {
       decoration: decoration != null
           ? decoration.copyWith(
               labelText: label,
-              fillColor: fillColor,
+              fillColor: fillColor ?? Colors.black12,
             )
           : getDefaultStyles().copyWith(
               labelText: label,
-              fillColor: fillColor,
+              fillColor: fillColor ?? Colors.black12,
             ),
     );
   }
