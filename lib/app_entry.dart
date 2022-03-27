@@ -9,6 +9,7 @@ import 'bloc/favorites/favorites_bloc.dart';
 import 'cubit/event_cubit.dart';
 import 'cubit/favorites_cubit.dart';
 import 'cubit/registration_cubit.dart';
+import 'cubit/workshop_cubit.dart';
 import 'data/authentication_repository.dart';
 import 'data/event_repository.dart';
 import 'data/user_repository.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<EventCubit>(
             create: (context) => EventCubit(context.read<EventRepository>()),
+          ),
+          BlocProvider<WorkshopCubit>(
+            create: (context) => WorkshopCubit(context.read<EventRepository>()),
           ),
           BlocProvider<RegistrationCubit>(
             create: (context) =>

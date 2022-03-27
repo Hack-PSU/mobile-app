@@ -70,11 +70,12 @@ class FavoritesState extends Equatable {
   }
 
   bool isFavorite(Event event) {
-    if (status == FavoritesStatus.disabled) {
-      return false;
-    } else {
-      return items.contains(event.uid);
-    }
+    return items.contains(event.uid);
+    // if (status == FavoritesStatus.disabled) {
+    //   return false;
+    // } else {
+    //
+    // }
   }
 
   @override

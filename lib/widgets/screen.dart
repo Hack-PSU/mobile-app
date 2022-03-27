@@ -106,7 +106,7 @@ class _Body extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: contentBackgroundColor ??
-                    const Color.fromRGBO(224, 224, 224, 1.0),
+                    const Color.fromRGBO(245, 245, 245, 1.0),
               ),
               child: body,
             ),

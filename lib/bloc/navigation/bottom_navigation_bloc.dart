@@ -20,7 +20,7 @@ class BottomNavigationBloc
   void _onRouteChanged(
       RouteChanged event, Emitter<BottomNavigationState> emit) {
     emit(
-      BottomNavigationState.switchRoute(
+      state.switchRoute(
         event.route,
       ),
     );

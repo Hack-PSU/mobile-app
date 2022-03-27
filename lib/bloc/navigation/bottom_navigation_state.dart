@@ -17,7 +17,21 @@ class BottomNavigationState extends Equatable {
           onNavigationRouteChange: onNavigationRouteChange,
         );
 
-  const BottomNavigationState.switchRoute(Routes route) : this._(route: route);
+  BottomNavigationState switchRoute(Routes route) {
+    onNavigationRouteChange(route);
+    return copyWith(route: route);
+  }
+
+  BottomNavigationState copyWith({
+    Routes route,
+    Function(Routes) onNavigationChange,
+  }) {
+    return BottomNavigationState._(
+      route: route ?? this.route,
+      onNavigationRouteChange:
+          onNavigationRouteChange ?? this.onNavigationRouteChange,
+    );
+  }
 
   int get routeIndex => Routes.values.indexOf(route);
 

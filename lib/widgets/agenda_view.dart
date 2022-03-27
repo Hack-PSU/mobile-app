@@ -1,43 +1,40 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
+import '../models/event.dart';
 import '../styles/theme_colors.dart';
 import 'agenda.dart';
 import 'default_text.dart';
 
-class AgendaView<M> extends StatefulWidget {
+class AgendaView extends StatefulWidget {
   const AgendaView({
     Key key,
     @required this.data,
     @required this.labels,
     @required this.groupElement,
     @required this.renderItems,
-    this.orientation = Axis.horizontal,
+    @required this.favorites,
+    @required this.favoritesEnabled,
   }) : super(key: key);
 
-  final Axis orientation;
-  final Map<String, List<M>> data;
-  final int Function(M) groupElement;
-  final Widget Function(List<M>) renderItems;
+  final Map<String, List<Event>> data;
+  final int Function(Event) groupElement;
+  final Widget Function(List<Event>) renderItems;
   final List<String> labels;
+  final Set<String> favorites;
+  final bool favoritesEnabled;
 
   @override
-  State<StatefulWidget> createState() => AgendaViewState<M>();
+  State<StatefulWidget> createState() => AgendaViewState();
 }
 
-class AgendaViewState<M> extends State<AgendaView<M>>
-    with TickerProviderStateMixin {
+class AgendaViewState extends State<AgendaView> with TickerProviderStateMixin {
   TabController _tabController;
-  Map<String, List<M>> data;
 
   @override
   void initState() {
     super.initState();
-    data = Map.fromIterables(
-      widget.data.keys.where((el) => widget.labels.contains(el)),
-      widget.labels.map((label) => widget.data[label]),
-    );
-    _tabController = TabController(length: data.length, vsync: this);
+    _tabController = TabController(length: widget.labels.length, vsync: this);
   }
 
   @override
@@ -46,30 +43,47 @@ class AgendaViewState<M> extends State<AgendaView<M>>
     super.dispose();
   }
 
-  List<Widget> _generateTabChildren() {
+  List<Widget> _generateTabChildren(Map<String, List<Event>> data) {
     return data.keys
-        .map((key) => Container(
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(224, 224, 224, 1.0),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
+        .map(
+          (key) => Container(
+            decoration: const BoxDecoration(
+              color: Color.fromRGBO(245, 245, 245, 1.0),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 2).copyWith(top: 8),
-              child: Agenda<M>(
-                orientation: widget.orientation,
-                data: data[key],
-                groupElement: widget.groupElement,
-                renderItems: widget.renderItems,
-              ),
-            ))
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 2).copyWith(top: 8),
+            child: Agenda<Event>(
+              orientation: Axis.horizontal,
+              data: data[key],
+              groupElement: widget.groupElement,
+              renderItems: widget.renderItems,
+            ),
+          ),
+        )
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, List<Event>> data = <String, List<Event>>{};
+    // if (widget.favoritesEnabled == true) {
+    for (final String label in widget.labels) {
+      List<Event> eventList = <Event>[];
+      if (widget.favoritesEnabled == true) {
+        if (widget.data[label] != null) {
+          eventList = widget.data[label]
+              .where((e) => widget.favorites.contains(e.uid))
+              .toList();
+        }
+      } else {
+        eventList = widget.data[label];
+      }
+      data[label] = eventList;
+    }
+
     return Column(
       children: [
         _Navigation(
@@ -79,7 +93,7 @@ class AgendaViewState<M> extends State<AgendaView<M>>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: _generateTabChildren(),
+            children: _generateTabChildren(data),
           ),
         ),
       ],
@@ -100,16 +114,18 @@ class _Navigation extends StatelessWidget {
 
   List<Tab> _generateTabs() {
     return labels
-        .map((el) => Tab(
-              child: Align(
-                child: DefaultText(
-                  el.toUpperCase(),
-                  textLevel: TextLevel.button,
-                  weight: FontWeight.bold,
-                  fontSize: 13.5,
-                ),
+        .map(
+          (el) => Tab(
+            child: Align(
+              child: DefaultText(
+                el.toUpperCase(),
+                textLevel: TextLevel.button,
+                weight: FontWeight.bold,
+                fontSize: 13.5,
               ),
-            ))
+            ),
+          ),
+        )
         .toList();
   }
 

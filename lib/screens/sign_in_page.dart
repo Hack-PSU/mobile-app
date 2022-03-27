@@ -94,13 +94,13 @@ class SignInScreen extends StatelessWidget {
                                 size: 23.0, color: Colors.red)),
                       if (state.error != null)
                         Padding(
-                            padding:
-                                const EdgeInsets.only(top: 10.0, right: 5.0),
-                            child: DefaultText(
-                              state.error ?? "",
-                              color: Colors.red,
-                              weight: FontWeight.w600,
-                            ))
+                          padding: const EdgeInsets.only(top: 10.0, right: 5.0),
+                          child: DefaultText(
+                            state.error ?? "",
+                            color: Colors.red,
+                            weight: FontWeight.w600,
+                          ),
+                        ),
                     ],
                   );
                 },
