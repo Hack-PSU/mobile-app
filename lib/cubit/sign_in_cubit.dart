@@ -2,15 +2,21 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 
+import '../bloc/auth/auth_bloc.dart';
+import '../bloc/auth/auth_event.dart';
 import '../data/authentication_repository.dart';
 import '../models/email.dart';
 import '../models/password.dart';
 import '../models/sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
-  SignInCubit(this._authenticationRepository) : super(const SignInState());
+  SignInCubit(
+    this._authenticationRepository,
+    this._authBloc,
+  ) : super(const SignInState());
 
   final AuthenticationRepository _authenticationRepository;
+  final AuthBloc _authBloc;
 
   void emailChanged(String newEmail) {
     final email = Email.dirty(newEmail);
@@ -41,12 +47,14 @@ class SignInCubit extends Cubit<SignInState> {
       ),
     );
     try {
+      _authBloc.add(AuthVerifying());
       await _authenticationRepository.signInWithEmailAndPassword(
         email: state.email.value,
         password: state.password.value,
       );
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInWithEmailAndPasswordError catch (e) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           error: e.message,
@@ -54,6 +62,7 @@ class SignInCubit extends Cubit<SignInState> {
         ),
       );
     } catch (_) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           status: FormzStatus.submissionFailure,
@@ -65,9 +74,11 @@ class SignInCubit extends Cubit<SignInState> {
   Future<void> signInWithGoogle() async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
+      _authBloc.add(AuthVerifying());
       await _authenticationRepository.signInWithGoogle();
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInWithGoogleError catch (e) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           error: e.message,
@@ -75,6 +86,7 @@ class SignInCubit extends Cubit<SignInState> {
         ),
       );
     } catch (_) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           status: FormzStatus.submissionFailure,
@@ -86,9 +98,11 @@ class SignInCubit extends Cubit<SignInState> {
   Future<void> signInWithGitHub(BuildContext context) async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
+      _authBloc.add(AuthVerifying());
       await _authenticationRepository.signInWithGitHub(context);
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInWithGithubError catch (e) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           error: e.message,
@@ -96,6 +110,7 @@ class SignInCubit extends Cubit<SignInState> {
         ),
       );
     } catch (_) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           status: FormzStatus.submissionFailure,

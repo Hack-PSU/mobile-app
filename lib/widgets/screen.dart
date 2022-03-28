@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hackpsu/screens/profile.dart';
 
+import '../bloc/favorites/favorites_bloc.dart';
+import '../bloc/favorites/favorites_event.dart';
+import '../bloc/favorites/favorites_state.dart';
 import '../bloc/navigation/bottom_navigation_state.dart';
 import '../cubit/header_cubit.dart';
 import 'bottom_navigation.dart';
@@ -18,15 +21,23 @@ class Screen extends Scaffold {
     this.onNavigationRouteChange,
     @required Widget body,
     Color contentBackgroundColor,
+    bool safeAreaTop,
+    bool safeAreaBottom,
+    bool safeAreaLeft,
+    bool safeAreaRight,
   }) : super(
           key: key,
           backgroundColor: backgroundColor ?? Colors.white,
           appBar: appBar,
           body: _Page(
-            _Header(
+            _Body(
               body: body,
               header: header,
               contentBackgroundColor: contentBackgroundColor,
+              safeAreaTop: safeAreaTop,
+              safeAreaLeft: safeAreaLeft,
+              safeAreaRight: safeAreaRight,
+              safeAreaBottom: safeAreaBottom,
             ),
             withDismissKeyboard: withDismissKeyboard,
           ),
@@ -62,28 +73,41 @@ class _Page extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header({
+class _Body extends StatelessWidget {
+  const _Body({
     Key key,
     this.body,
     this.header,
     this.contentBackgroundColor,
+    this.safeAreaTop,
+    this.safeAreaBottom,
+    this.safeAreaLeft,
+    this.safeAreaRight,
   }) : super(key: key);
 
   final ScreenHeader header;
   final Widget body;
   final Color contentBackgroundColor;
+  final bool safeAreaTop;
+  final bool safeAreaBottom;
+  final bool safeAreaLeft;
+  final bool safeAreaRight;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: safeAreaTop ?? true,
+      left: safeAreaLeft ?? true,
+      right: safeAreaRight ?? true,
+      bottom: safeAreaBottom ?? true,
       child: Column(
         children: [
           if (header != null) header,
           Expanded(
             child: Container(
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(224, 224, 224, 1.0),
+              decoration: BoxDecoration(
+                color: contentBackgroundColor ??
+                    const Color.fromRGBO(224, 224, 224, 1.0),
               ),
               child: body,
             ),
@@ -228,26 +252,33 @@ class _ProfileSwitch extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         if (withSwitch == true)
-          BlocBuilder<HeaderCubit, bool>(
-            buildWhen: (oldState, newState) => oldState != newState,
-            builder: (context, state) => Switch(
-              value: state,
-              onChanged: (newValue) {
-                context.read<HeaderCubit>().toggleSwitch(newValue);
-              },
-              activeColor: Colors.white,
-              // inactiveTrackColor: Colors.white,
-              activeThumbImage: const ResizeImage(
-                AssetImage("assets/icons/favorites_off.png"),
-                width: 13,
-                height: 13,
-              ),
-              inactiveThumbImage: const ResizeImage(
-                AssetImage("assets/icons/favorites.png"),
-                width: 13,
-                height: 13,
-              ),
-            ),
+          BlocBuilder<FavoritesBloc, FavoritesState>(
+            buildWhen: (previous, current) => previous.status != current.status,
+            builder: (context, state) {
+              return Switch(
+                // value == false means enabled
+                value: state.status != FavoritesStatus.enabled,
+                onChanged: (newValue) {
+                  if (newValue == false) {
+                    context.read<FavoritesBloc>().add(EnableFavorites());
+                  } else {
+                    context.read<FavoritesBloc>().add(DisableFavorites());
+                  }
+                },
+                activeColor: Colors.white,
+                // inactiveTrackColor: Colors.white,
+                activeThumbImage: const ResizeImage(
+                  AssetImage("assets/icons/favorites_off.png"),
+                  width: 13,
+                  height: 13,
+                ),
+                inactiveThumbImage: const ResizeImage(
+                  AssetImage("assets/icons/favorites.png"),
+                  width: 13,
+                  height: 13,
+                ),
+              );
+            },
           ),
         if (withProfile == true)
           GestureDetector(
