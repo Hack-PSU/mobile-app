@@ -33,4 +33,11 @@ class ProfileState extends BaseModel {
 
     );
   }
+
+  @override
+  bool isReady() {
+    return true;
+  }
+
+
 }

@@ -70,7 +70,7 @@ class HomepageHeader extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
-                            Icon(Icons.discord),
+                            Icon(Icons.circle),
                             Container(width: 10,),
                             DefaultText("DISCORD", textLevel: TextLevel.button, color: Color(0xFFFFFFFF),),
                           ],

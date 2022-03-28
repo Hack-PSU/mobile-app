@@ -12,7 +12,7 @@ import '../widgets/default_text.dart';
 import '../data/authentication_repository.dart';
 
 import '../cubit/profile_cubit.dart';
-import '../models/profile_model';
+import '../models/profile_model.dart';
 import '../widgets/screen.dart';
 
 
@@ -132,24 +132,6 @@ class ProfilePage extends StatelessWidget {
     });
   }
 
-class _EmailInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ControlledInput<ProfileCubit, ProfileState>(
-      buildWhen: (previous, current) => previous.email != current.email,
-      builder: (dispatch, state) {
-        return Input(
-          label: "Email",
-          autocorrect: false,
-          inputType: TextInputType.emailAddress,
-          onChanged: (newEmail) {
-            dispatch.emailChanged(newEmail);
-          },
-        );
-      },
-    );
-  }
-}
 
 
 class _EmailGetter extends StatelessWidget {

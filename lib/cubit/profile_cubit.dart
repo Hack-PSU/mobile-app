@@ -7,7 +7,7 @@ import 'package:hackpsu/models/password.dart';
 import '../data/authentication_repository.dart';
 import '../models/email.dart';
 import '../models/password.dart';
-import '../models/profile_model';
+import '../models/profile_model.dart';
 
 
 class ProfileCubit extends Cubit<ProfileState>{
@@ -36,5 +36,6 @@ class ProfileCubit extends Cubit<ProfileState>{
       ),
     );
   }
+
 
 }
