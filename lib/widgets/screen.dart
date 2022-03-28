@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hackpsu/screens/profile.dart';
 
 import '../bloc/navigation/bottom_navigation_state.dart';
 import '../cubit/header_cubit.dart';
@@ -251,7 +252,12 @@ class _ProfileSwitch extends StatelessWidget {
         if (withProfile == true)
           GestureDetector(
             onTap: () {
-              // TODO -- insert navigating to profile page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => new ProfilePage(),
+                  ),
+               ); // TODO -- insert navigating to profile page
             },
             child: Padding(
               padding: withSwitch == false
