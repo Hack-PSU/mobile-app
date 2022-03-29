@@ -12,6 +12,7 @@ import 'cubit/registration_cubit.dart';
 import 'cubit/workshop_cubit.dart';
 import 'data/authentication_repository.dart';
 import 'data/event_repository.dart';
+import 'data/notification_repository.dart';
 import 'data/user_repository.dart';
 import 'models/event.dart';
 import 'routers/root_router.dart';
@@ -34,6 +35,10 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (_) => UserRepository('${Config.baseUrl}/users/register'),
         ),
+        RepositoryProvider(
+          create: (_) =>
+              NotificationRepository('${Config.fcmUrl}/notifications'),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -49,8 +54,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
-                authenticationRepository:
-                    context.read<AuthenticationRepository>()),
+              authenticationRepository:
+                  context.read<AuthenticationRepository>(),
+              notificationRepository: context.read<NotificationRepository>(),
+              userRepository: context.read<UserRepository>(),
+            ),
           ),
           BlocProvider<FavoritesBloc>(
             create: (_) => FavoritesBloc(),

@@ -55,6 +55,7 @@ class SignInCubit extends Cubit<SignInState> {
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInWithEmailAndPasswordError catch (e) {
       _authBloc.add(AuthError());
+      print(e.message);
       emit(
         state.copyWith(
           error: e.message,

@@ -7,6 +7,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
+  void _onSelectNotification(String payload) {}
+
   Future<void> init() async {
     if (Platform.isIOS) {
       // request permissions if in iOS
@@ -28,6 +30,17 @@ class PushNotificationService {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
 
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: AndroidInitializationSettings("launch_background"),
+      iOS: IOSInitializationSettings(),
+    );
+
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: _onSelectNotification,
+    );
+
     if (!kIsWeb) {
       // create Android Notification channel
       // overrides default FCM channel
@@ -48,15 +61,12 @@ class PushNotificationService {
       );
     }
 
-    print(await _fcm.getToken());
-
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
         final RemoteNotification notification = message.notification;
         final AndroidNotification android = message.notification.android;
 
         if (notification != null && android != null && !kIsWeb) {
-          //
           flutterLocalNotificationsPlugin.show(
             notification.hashCode,
             notification.title,
@@ -71,7 +81,6 @@ class PushNotificationService {
             ),
           );
         }
-
         print(
             "Message: ${message.notification.title}, ${message.notification.body}");
       },

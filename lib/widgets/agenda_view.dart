@@ -69,7 +69,7 @@ class AgendaViewState extends State<AgendaView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final Map<String, List<Event>> data = <String, List<Event>>{};
-    // if (widget.favoritesEnabled == true) {
+
     for (final String label in widget.labels) {
       List<Event> eventList = <Event>[];
       if (widget.favoritesEnabled == true) {
