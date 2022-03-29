@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'bloc/auth/auth_bloc.dart';
 import 'bloc/favorites/favorites_bloc.dart';
+import 'bloc/notification/notification_bloc.dart';
 import 'cubit/event_cubit.dart';
 import 'cubit/favorites_cubit.dart';
 import 'cubit/registration_cubit.dart';
@@ -52,12 +53,17 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 RegistrationCubit(context.read<UserRepository>()),
           ),
+          BlocProvider<NotificationBloc>(
+            create: (context) => NotificationBloc(
+              userRepository: context.read<UserRepository>(),
+              notificationRepository: context.read<NotificationRepository>(),
+            ),
+          ),
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
               authenticationRepository:
                   context.read<AuthenticationRepository>(),
-              notificationRepository: context.read<NotificationRepository>(),
-              userRepository: context.read<UserRepository>(),
+              notificationBloc: BlocProvider.of<NotificationBloc>(context),
             ),
           ),
           BlocProvider<FavoritesBloc>(

@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+
+import '../services/api_client.dart';
+
+enum _Method { GET, POST }
 
 class NotificationRepository {
   NotificationRepository(
@@ -17,10 +22,18 @@ class NotificationRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseMessaging _fcm;
 
-  Future<void> register(String pin) async {
+  Stream<String> get onTokenRefresh => _fcm.onTokenRefresh;
+
+  Future<String> _getUserIdToken() async {
     final user = _firebaseAuth.currentUser;
-    final token = await user.getIdToken();
-    final fcmToken = await _fcm.getToken();
+    return user.getIdToken();
+  }
+
+  Future<void> register(String pin, [String fcmToken = ""]) async {
+    final token = await _getUserIdToken();
+    if (fcmToken == "") {
+      fcmToken = await _fcm.getToken();
+    }
     if (kDebugMode) {
       print(fcmToken);
     }
@@ -44,6 +57,74 @@ class NotificationRepository {
         print(e);
       }
       throw Exception("Unable to register device");
+    }
+  }
+
+  Future<void> subscribeAll(String pin) async {
+    final token = await _getUserIdToken();
+    final client = ApiClient.withToken(token);
+
+    try {
+      client
+          .post(Uri.parse("$_url/user/subscribe/all"), body: {"userPin": pin});
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw Exception("Unable to subscribe to broadcast");
+    } finally {
+      client.close();
+    }
+  }
+
+  Future<void> unsubscribeAll(String pin) async {
+    final token = await _getUserIdToken();
+    final client = ApiClient.withToken(token);
+
+    try {
+      await client.post(
+        Uri.parse("$_url/user/unsubscribe/all"),
+        body: {
+          "userPin": pin,
+        },
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw Exception("Unable to unsubscribe to broadcast");
+    }
+  }
+
+  Future<void> subscribeEvent(String pin, String uid) async {
+    final token = await _getUserIdToken();
+    final client = ApiClient.withToken(token);
+
+    try {
+      await client.post(Uri.parse("$_url/user/subscribe/$uid"), body: {
+        "userPin": pin,
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw Exception("Unable to subscribe to event: $uid");
+    }
+  }
+
+  Future<void> unsubscribeEvent(String pin, String uid) async {
+    final token = await _getUserIdToken();
+    final client = ApiClient.withToken(token);
+
+    try {
+      await client.post(Uri.parse("$_url/user/unsubscribe/$uid"), body: {
+        "userPin": pin,
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw Exception("Unable to unsubscribe to event $uid");
     }
   }
 }
