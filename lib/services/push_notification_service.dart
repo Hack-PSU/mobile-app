@@ -11,6 +11,63 @@ import 'package:url_launcher/url_launcher.dart';
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
+  void _showNotification(
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
+    RemoteMessage message,
+    AndroidNotificationChannel channel,
+  ) {
+    final RemoteNotification notification = message.notification;
+
+    flutterLocalNotificationsPlugin.show(
+      notification.hashCode,
+      notification.title,
+      notification.body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          icon: 'ic_hackpsu_logo',
+        ),
+      ),
+      payload: jsonEncode(message.data),
+    );
+  }
+
+  void _scheduleNotification(
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
+    RemoteMessage message,
+    AndroidNotificationChannel channel,
+  ) {
+    final RemoteNotification notification = message.notification;
+    final Map<String, dynamic> data = message.data;
+
+    final tz.TZDateTime scheduleTime = tz.TZDateTime.fromMillisecondsSinceEpoch(
+      tz.local,
+      int.parse(
+        data["scheduleTime"] as String,
+      ),
+    );
+    flutterLocalNotificationsPlugin.zonedSchedule(
+      notification.hashCode,
+      notification.title,
+      notification.body,
+      scheduleTime,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          icon: "ic_hackpsu_logo",
+        ),
+      ),
+      payload: jsonEncode(data),
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidAllowWhileIdle: true,
+    );
+  }
+
   Future<void> _onSelectNotification(String payload) async {
     final data = jsonDecode(payload);
     if (data != null && data["link"] != null) {
@@ -81,44 +138,16 @@ class PushNotificationService {
 
         if (notification != null && android != null && !kIsWeb) {
           if (data != null && data["isScheduled"] == "true") {
-            final tz.TZDateTime scheduleTime =
-                tz.TZDateTime.fromMillisecondsSinceEpoch(
-              tz.local,
-              int.parse(
-                data["scheduleTime"] as String,
-              ),
-            );
-            flutterLocalNotificationsPlugin.zonedSchedule(
-              notification.hashCode,
-              notification.title,
-              notification.body,
-              scheduleTime,
-              NotificationDetails(
-                android: AndroidNotificationDetails(
-                  channel.id,
-                  channel.name,
-                  channelDescription: channel.description,
-                  icon: "launch_background",
-                ),
-              ),
-              uiLocalNotificationDateInterpretation:
-                  UILocalNotificationDateInterpretation.absoluteTime,
-              androidAllowWhileIdle: true,
+            _scheduleNotification(
+              flutterLocalNotificationsPlugin,
+              message,
+              channel,
             );
           } else {
-            flutterLocalNotificationsPlugin.show(
-              notification.hashCode,
-              notification.title,
-              notification.body,
-              NotificationDetails(
-                android: AndroidNotificationDetails(
-                  channel.id,
-                  channel.name,
-                  channelDescription: channel.description,
-                  icon: 'ic_hackpsu_logo',
-                ),
-              ),
-              payload: jsonEncode(message.data),
+            _showNotification(
+              flutterLocalNotificationsPlugin,
+              message,
+              channel,
             );
           }
         }
