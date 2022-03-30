@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-class NotificationState extends Equatable {
-  const NotificationState._({
+class UserState extends Equatable {
+  const UserState._({
     this.pin,
     this.token,
   });
 
-  const NotificationState.initialize()
+  const UserState.initialize()
       : this._(
           token: "",
           pin: "",
@@ -15,28 +15,28 @@ class NotificationState extends Equatable {
   final String token;
   final String pin;
 
-  NotificationState updateToken(String token) {
+  UserState updateToken(String token) {
     return copyWith(
       token: token,
     );
   }
 
-  NotificationState updatePin(String pin) {
+  UserState updatePin(String pin) {
     return copyWith(
       pin: pin,
     );
   }
 
-  NotificationState copyWith({
+  UserState copyWith({
     String token,
     String pin,
   }) {
-    return NotificationState._(
+    return UserState._(
       token: token ?? this.token,
       pin: pin ?? this.pin,
     );
   }
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [token, pin];
 }

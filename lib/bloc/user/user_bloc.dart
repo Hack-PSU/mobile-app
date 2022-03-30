@@ -7,24 +7,24 @@ import 'package:flutter/material.dart';
 
 import '../../data/notification_repository.dart';
 import '../../data/user_repository.dart';
-import 'notification_event.dart';
-import 'notification_state.dart';
+import 'user_event.dart';
+import 'user_state.dart';
 
-class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
-  NotificationBloc({
+class UserBloc extends Bloc<UserEvent, UserState> {
+  UserBloc({
     @required UserRepository userRepository,
     @required NotificationRepository notificationRepository,
   })  : _notificationRepository = notificationRepository,
         _userRepository = userRepository,
         super(
-          const NotificationState.initialize(),
+          const UserState.initialize(),
         ) {
     on<SubscribeTopic>(_onSubscribeTopic);
     on<UnsubscribeTopic>(_onUnsubscribeTopic);
-    on<RefreshToken>(_onRefreshToken);
+    on<RegisterUser>(_onRegisterUser);
     _tokenSubscription = _notificationRepository.onTokenRefresh.listen((token) {
       if (state.pin != "") {
-        add(RefreshToken(token));
+        add(RegisterUser(token));
       }
     });
   }
@@ -33,10 +33,11 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   final NotificationRepository _notificationRepository;
   StreamSubscription<String> _tokenSubscription;
 
-  Future<void> _onRefreshToken(
-    RefreshToken event,
-    Emitter<NotificationState> emit,
+  Future<void> _onRegisterUser(
+    RegisterUser event,
+    Emitter<UserState> emit,
   ) async {
+    // get user pin
     if (state.pin == "") {
       try {
         final userPin = await _userRepository.getUserPin();
@@ -49,6 +50,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       }
     }
 
+    // register user into FCM
     if (state.pin != "") {
       try {
         if (event.token != "") {
@@ -65,6 +67,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       }
     }
 
+    // subscribe user to broadcast
     if (state.pin != "") {
       try {
         await _notificationRepository.subscribeAll(state.pin);
@@ -79,16 +82,16 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
   Future<void> _onSubscribeTopic(
     SubscribeTopic event,
-    Emitter<NotificationState> emit,
+    Emitter<UserState> emit,
   ) async {
     await _notificationRepository.subscribeEvent(state.pin, event.topic);
   }
 
   Future<void> _onUnsubscribeTopic(
     UnsubscribeTopic event,
-    Emitter<NotificationState> emit,
+    Emitter<UserState> emit,
   ) async {
-    await _notificationRepository.subscribeEvent(state.pin, event.topic);
+    await _notificationRepository.unsubscribeEvent(state.pin, event.topic);
   }
 
   @override

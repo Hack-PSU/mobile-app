@@ -1,19 +1,15 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/card_items/event_workshop_card.dart';
-import '../cubit/event_cubit.dart';
 import 'package:intl/intl.dart';
 
 import '../bloc/favorites/favorites_bloc.dart';
 import '../bloc/favorites/favorites_event.dart';
 import '../bloc/favorites/favorites_state.dart';
+import '../card_items/event_workshop_card.dart';
 import '../cubit/event_cubit.dart';
-import '../cubit/favorites_cubit.dart';
 import '../models/event.dart';
 import '../widgets/agenda_view.dart';
-import '../widgets/button.dart';
-import '../widgets/default_text.dart';
 import '../widgets/event_card_list.dart';
 import '../widgets/screen.dart';
 

@@ -90,10 +90,14 @@ class SignInScreen extends StatelessWidget {
                       children: [
                         if (state.error != null)
                           const Padding(
-                              padding: EdgeInsets.only(
-                                  top: 14.0, left: 20.0, right: 5.0),
-                              child: Icon(Icons.error,
-                                  size: 23.0, color: Colors.red)),
+                            padding: EdgeInsets.only(
+                                top: 14.0, left: 20.0, right: 5.0),
+                            child: Icon(
+                              Icons.error,
+                              size: 23.0,
+                              color: Colors.red,
+                            ),
+                          ),
                         if (state.error != null)
                           Padding(
                             padding:

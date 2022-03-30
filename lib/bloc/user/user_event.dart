@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-class NotificationEvent extends Equatable {
-  const NotificationEvent();
+class UserEvent extends Equatable {
+  const UserEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class RefreshToken extends NotificationEvent {
-  const RefreshToken([
+class RegisterUser extends UserEvent {
+  const RegisterUser([
     this.token = "",
   ]);
 
@@ -18,7 +18,7 @@ class RefreshToken extends NotificationEvent {
   List<Object> get props => [token];
 }
 
-class SubscribeTopic extends NotificationEvent {
+class SubscribeTopic extends UserEvent {
   const SubscribeTopic({
     this.topic,
   });
@@ -29,7 +29,7 @@ class SubscribeTopic extends NotificationEvent {
   List<Object> get props => [topic];
 }
 
-class UnsubscribeTopic extends NotificationEvent {
+class UnsubscribeTopic extends UserEvent {
   const UnsubscribeTopic({
     this.topic,
   });

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'bloc/auth/auth_bloc.dart';
 import 'bloc/favorites/favorites_bloc.dart';
-import 'bloc/notification/notification_bloc.dart';
+import 'bloc/user/user_bloc.dart';
 import 'cubit/event_cubit.dart';
 import 'cubit/favorites_cubit.dart';
 import 'cubit/registration_cubit.dart';
@@ -53,8 +53,8 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 RegistrationCubit(context.read<UserRepository>()),
           ),
-          BlocProvider<NotificationBloc>(
-            create: (context) => NotificationBloc(
+          BlocProvider<UserBloc>(
+            create: (context) => UserBloc(
               userRepository: context.read<UserRepository>(),
               notificationRepository: context.read<NotificationRepository>(),
             ),
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
             create: (context) => AuthBloc(
               authenticationRepository:
                   context.read<AuthenticationRepository>(),
-              notificationBloc: BlocProvider.of<NotificationBloc>(context),
+              userBloc: BlocProvider.of<UserBloc>(context),
             ),
           ),
           BlocProvider<FavoritesBloc>(
