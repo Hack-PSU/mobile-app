@@ -11,14 +11,14 @@ import 'package:url_launcher/url_launcher.dart';
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
-  void _showNotification(
+  Future<void> _showNotification(
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
     RemoteMessage message,
     AndroidNotificationChannel channel,
-  ) {
+  ) async {
     final RemoteNotification notification = message.notification;
 
-    flutterLocalNotificationsPlugin.show(
+    await flutterLocalNotificationsPlugin.show(
       notification.hashCode,
       notification.title,
       notification.body,
@@ -34,11 +34,11 @@ class PushNotificationService {
     );
   }
 
-  void _scheduleNotification(
+  Future<void> _scheduleNotification(
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
     RemoteMessage message,
     AndroidNotificationChannel channel,
-  ) {
+  ) async {
     final RemoteNotification notification = message.notification;
     final Map<String, dynamic> data = message.data;
 
@@ -48,7 +48,7 @@ class PushNotificationService {
         data["scheduleTime"] as String,
       ),
     );
-    flutterLocalNotificationsPlugin.zonedSchedule(
+    await flutterLocalNotificationsPlugin.zonedSchedule(
       notification.hashCode,
       notification.title,
       notification.body,
@@ -151,8 +151,10 @@ class PushNotificationService {
             );
           }
         }
-        print(
-            "Message: ${message.notification.title}, ${message.notification.body}");
+        if (kDebugMode) {
+          print(
+              "Message: ${message.notification.title}, ${message.notification.body}");
+        }
       },
     );
   }
