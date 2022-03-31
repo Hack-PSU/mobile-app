@@ -18,8 +18,22 @@ class ProfileState extends BaseModel {
   @override
   List<Object> get props => [email, password, profileImage];
 
+  String getEmail() {
+    email != null ? email.value : "qb1199299@gmail.com";
+    return "qb1199299@gmail.com";
+
+  }
+
+  String getName() {
+    return "Quinn B";
+  }
 
 
+    String getPin() {
+    return "12345";
+  }
+
+  
   ProfileState copyWith({
     Email email,
     Password password,
@@ -38,6 +52,4 @@ class ProfileState extends BaseModel {
   bool isReady() {
     return true;
   }
-
-
 }

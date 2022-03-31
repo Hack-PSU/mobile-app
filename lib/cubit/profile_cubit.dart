@@ -11,10 +11,13 @@ import '../models/profile_model.dart';
 
 
 class ProfileCubit extends Cubit<ProfileState>{
-  ProfileCubit(this._authenticationRepository) : super(const ProfileState());
+  ProfileCubit(
+  this._authenticationRepository,
+  ) : super(const ProfileState());
 
   final AuthenticationRepository _authenticationRepository;
 
+  
 
   void emailChanged(String newEmail) {
     final email = Email.dirty(newEmail);
@@ -37,5 +40,18 @@ class ProfileCubit extends Cubit<ProfileState>{
     );
   }
 
-
+  void changePassword(String currentPassword, String newPassword) async {
+  final user = await FirebaseAuth.instance.currentUser;
+  final cred = EmailAuthProvider.credential(
+      email: user.email, password: "asdfghjkl");
+  user.reauthenticateWithCredential(cred).then((value) {
+    user.updatePassword(newPassword).then((_) {
+      //Success, do something
+    }).catchError((error) {
+      print("error");
+    });
+  }).catchError((err) {
+    print(err);
+  
+  });}
 }
