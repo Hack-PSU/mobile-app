@@ -72,7 +72,10 @@ class PushNotificationService {
     final data = jsonDecode(payload);
     if (data != null && data["link"] != null) {
       final String link = data["link"] as String;
-      await launch(link);
+      if (kDebugMode) {
+        print(link);
+      }
+      await launch(link, forceWebView: true);
     }
   }
 
@@ -123,10 +126,11 @@ class PushNotificationService {
       }
 
       // Update iOS foreground notification presentation
+      // Disable default iOS notification to use Flutter Local Notifications
       await _fcm.setForegroundNotificationPresentationOptions(
-        alert: true,
-        badge: true,
-        sound: true,
+        alert: false,
+        badge: false,
+        sound: false,
       );
     }
 
@@ -136,8 +140,10 @@ class PushNotificationService {
         final AndroidNotification android = message.notification.android;
         final Map<String, dynamic> data = message.data;
 
-        if (notification != null && android != null && !kIsWeb) {
-          if (data != null && data["isScheduled"] == "true") {
+        if (notification != null && !kIsWeb) {
+          if (data != null &&
+              data.containsKey("isScheduled") &&
+              data["isScheduled"] == "true") {
             _scheduleNotification(
               flutterLocalNotificationsPlugin,
               message,
