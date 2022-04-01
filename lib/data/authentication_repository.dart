@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../secrets.dart';
@@ -71,7 +72,7 @@ class SignInWithEmailAndPasswordError implements Exception {
   final String message;
 }
 
-enum CredentialType { GOOGLE, GITHUB, UNKNOWN }
+enum CredentialType { GOOGLE, GITHUB, APPLE, UNKNOWN }
 
 class SignInWithCredentialError implements Exception {
   const SignInWithCredentialError([
@@ -127,6 +128,19 @@ class SignInWithGithubError extends SignInWithCredentialError {
 
   factory SignInWithGithubError.fromCode(String code) {
     return SignInWithGithubError(
+      SignInWithCredentialError.fromCode(code),
+    );
+  }
+}
+
+class SignInWithAppleError extends SignInWithCredentialError {
+  const SignInWithAppleError([
+    String message = "An unknown error has occurred.",
+    CredentialType credential = CredentialType.APPLE,
+  ]) : super(message, credential);
+
+  factory SignInWithAppleError.fromCode(String code) {
+    return SignInWithAppleError(
       SignInWithCredentialError.fromCode(code),
     );
   }
@@ -216,6 +230,55 @@ class AuthenticationRepository {
       throw SignInWithGithubError.fromCode(e.code);
     } catch (_) {
       throw const SignInWithGithubError();
+    }
+  }
+
+  Future<void> signInWithApple() async {
+    final AuthorizationResult result = await TheAppleSignIn.performRequests(
+      [
+        const AppleIdRequest(
+          requestedScopes: [Scope.email, Scope.fullName],
+        ),
+      ],
+    );
+
+    switch (result.status) {
+      case AuthorizationStatus.authorized:
+        final AppleIdCredential appleIdCredential = result.credential;
+        final OAuthProvider oAuthProvider = OAuthProvider('apple.com');
+        final OAuthCredential credential = oAuthProvider.credential(
+          idToken: String.fromCharCodes(appleIdCredential.identityToken),
+          accessToken:
+              String.fromCharCodes(appleIdCredential.authorizationCode),
+        );
+
+        try {
+          final UserCredential userCredential =
+              await _firebaseAuth.signInWithCredential(credential);
+
+          final user = userCredential.user;
+          final fullName = appleIdCredential.fullName;
+
+          if (fullName != null &&
+              fullName.givenName != null &&
+              fullName.familyName != null) {
+            final displayName = '${fullName.givenName} ${fullName.familyName}';
+            await user.updateDisplayName(displayName);
+          }
+
+          return user;
+        } on FirebaseAuthException catch (e) {
+          throw SignInWithAppleError.fromCode(e.code);
+        } catch (e) {
+          throw const SignInWithAppleError();
+        }
+        break;
+      case AuthorizationStatus.cancelled:
+        throw const SignInWithAppleError();
+        break;
+      case AuthorizationStatus.error:
+        throw const SignInWithAppleError();
+        break;
     }
   }
 

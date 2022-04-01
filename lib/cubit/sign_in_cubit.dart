@@ -120,6 +120,30 @@ class SignInCubit extends Cubit<SignInState> {
     }
   }
 
+  Future<void> signInWithApple() async {
+    emit(state.copyWith(status: FormzStatus.submissionInProgress));
+    try {
+      _authBloc.add(AuthVerifying());
+      await _authenticationRepository.signInWithApple();
+      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+    } on SignInWithAppleError catch (e) {
+      _authBloc.add(AuthError());
+      emit(
+        state.copyWith(
+          error: e.message,
+          status: FormzStatus.submissionFailure,
+        ),
+      );
+    } catch (_) {
+      _authBloc.add(AuthError());
+      emit(
+        state.copyWith(
+          status: FormzStatus.submissionFailure,
+        ),
+      );
+    }
+  }
+
   Future<void> forgotPassword() async {
     await _authenticationRepository.launchURLApp();
   }

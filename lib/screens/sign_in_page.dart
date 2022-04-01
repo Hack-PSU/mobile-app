@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../cubit/sign_in_cubit.dart';
 import '../models/sign_in_state.dart';
@@ -178,45 +179,61 @@ class SignInScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.00),
-                  child: Column(
-                    children: [
-                      Button(
-                        variant: ButtonVariant.ElevatedButton,
-                        icon: const Icon(CustomIcons.google),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 37),
-                        ),
-                        onPressed: () {
-                          context.read<SignInCubit>().signInWithGoogle();
-                        },
-                        child: DefaultText(
-                          "Sign in with Google",
-                        ),
-                      ),
-                      Button(
-                        variant: ButtonVariant.ElevatedButton,
-                        icon: const Icon(CustomIcons.github),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 37),
-                          primary: Colors.black,
-                        ),
-                        onPressed: () {
-                          context.read<SignInCubit>().signInWithGitHub(context);
-                        },
-                        child: DefaultText(
-                          "Sign in with GitHub",
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                _SignInButtons(),
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SignInButtons extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.00),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Button(
+            variant: ButtonVariant.ElevatedButton,
+            icon: const Icon(CustomIcons.google),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 37),
+            ),
+            onPressed: () {
+              context.read<SignInCubit>().signInWithGoogle();
+            },
+            child: DefaultText(
+              "Sign in with Google",
+            ),
+          ),
+          Button(
+            variant: ButtonVariant.ElevatedButton,
+            icon: const Icon(CustomIcons.github),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 37),
+              primary: Colors.black,
+            ),
+            onPressed: () {
+              context.read<SignInCubit>().signInWithGitHub(context);
+            },
+            child: DefaultText(
+              "Sign in with GitHub",
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0),
+            child: SignInWithAppleButton(
+              onPressed: () {
+                context.read<SignInCubit>().signInWithApple();
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
