@@ -1,57 +1,69 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hackpsu/models/email.dart';
-import 'package:hackpsu/models/password.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 import '../data/authentication_repository.dart';
 import '../models/email.dart';
 import '../models/password.dart';
-import '../models/profile_model.dart';
+import '../models/profile_state.dart';
 
-
-class ProfileCubit extends Cubit<ProfileState>{
+class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(
-  this._authenticationRepository,
-  ) : super(const ProfileState());
+    this._authenticationRepository,
+  )   : _firebaseAuth = FirebaseAuth.instance,
+        super(
+          ProfileState.initialize(),
+        );
 
   final AuthenticationRepository _authenticationRepository;
+  final FirebaseAuth _firebaseAuth;
 
-  
-
-  void emailChanged(String newEmail) {
-    final email = Email.dirty(newEmail);
-
+  void oldPasswordChanged(String newValue) {
+    final password = Password.dirty(newValue);
     emit(
       state.copyWith(
-        email: email,
+        oldPassword: password,
       ),
     );
   }
 
-
-  void passwordChanged(String newPassword) {
-    final password = Password.dirty(newPassword);
+  void newPasswordChanged(String newValue) {
+    final password = Password.dirty(newValue);
     emit(
       state.copyWith(
-        password: password,
-        // status: Formz.validate([state.email, password]),
+        newPassword: password,
       ),
     );
   }
 
-  void changePassword(String currentPassword, String newPassword) async {
-  final user = await FirebaseAuth.instance.currentUser;
-  final cred = EmailAuthProvider.credential(
-      email: user.email, password: "asdfghjkl");
-  user.reauthenticateWithCredential(cred).then((value) {
-    user.updatePassword(newPassword).then((_) {
-      //Success, do something
-    }).catchError((error) {
-      print("error");
-    });
-  }).catchError((err) {
-    print(err);
-  
-  });}
+  Future<void> changePassword() async {
+    final user = _firebaseAuth.currentUser;
+
+    print(state.email);
+    print(state.oldPassword.value);
+
+    final AuthCredential credential = EmailAuthProvider.credential(
+      email: state.email,
+      password: state.oldPassword.value,
+    );
+
+    try {
+      await user.reauthenticateWithCredential(credential);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw Exception("Unable to reauthenticate");
+    }
+
+    try {
+      await user.updatePassword(state.newPassword.value);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      throw Exception("Unable to change password");
+    }
+  }
 }

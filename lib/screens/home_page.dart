@@ -9,10 +9,13 @@ import '../card_items/pin_card.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
 import '../data/authentication_repository.dart';
+import '../data/user_repository.dart';
 import '../models/event.dart';
 import '../models/registration.dart';
+import '../styles/theme_colors.dart';
 import '../widgets/button.dart';
 import '../widgets/default_text.dart';
+import '../widgets/loading.dart';
 import '../widgets/screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -57,49 +60,24 @@ class HomePageState extends State<HomePage> {
       children: [
         Screen(
           withBottomNavigation: true,
+          contentBackgroundColor: Colors.white,
           header: ScreenHeader.only(
             withProfile: true,
+            // profileImage: Icons.verified_user,
           ),
           body: BlocBuilder<EventCubit, List<Event>>(
             builder: (context, events) {
               return BlocBuilder<RegistrationCubit, List<Registration>>(
                 builder: (context, registrations) {
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: ListView(
-                          controller: _controller,
-                          children: [
-                            Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const HomepageHeader(),
-                                  UserPinCard(registrations),
-                                  ...events
-                                      .map((e) => DefaultText(
-                                            e.eventTitle ?? "Event",
-                                            fontSize: 14,
-                                          ))
-                                      .toList(),
-                                  Button(
-                                    variant: ButtonVariant.TextButton,
-                                    onPressed: () {
-                                      context
-                                          .read<AuthenticationRepository>()
-                                          .signOut();
-                                    },
-                                    child: DefaultText(
-                                      "Log out",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  if (events != null && registrations != null) {
+                    return _Content(
+                      controller: _controller,
+                      events: events,
+                      registrations: registrations,
+                    );
+                  }
+                  return const Loading(
+                    label: "Loading Content...",
                   );
                 },
               );
@@ -120,6 +98,50 @@ class HomePageState extends State<HomePage> {
                   image: AssetImage('assets/images/Logo.png'),
                 ),
               ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content({
+    @required ScrollController controller,
+    this.registrations,
+    this.events,
+  }) : _controller = controller;
+
+  final ScrollController _controller;
+  final List<Registration> registrations;
+  final List<Event> events;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      controller: _controller,
+      children: [
+        Center(
+          child: Container(
+            decoration: const BoxDecoration(
+              color: ThemeColors.Creamery,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const HomepageHeader(),
+                const UserPinCard(),
+                Button(
+                  variant: ButtonVariant.TextButton,
+                  onPressed: () {
+                    context.read<AuthenticationRepository>().signOut();
+                  },
+                  child: DefaultText(
+                    "Log out",
+                  ),
+                ),
+              ],
             ),
           ),
         ),

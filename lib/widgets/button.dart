@@ -21,7 +21,7 @@ class ButtonConfig {
   final Widget icon;
   final double iconSize;
   final Color color;
-  final DefaultText child;
+  final Widget child;
   final Function() onPressed;
 }
 
@@ -99,7 +99,7 @@ class Button extends StatelessWidget {
   Button({
     @required this.variant,
     @required Function() onPressed,
-    DefaultText child,
+    Widget child,
     ButtonStyle style,
     Widget icon,
     double iconSize,

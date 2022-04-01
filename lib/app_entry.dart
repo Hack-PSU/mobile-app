@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/screens/profile.dart';
+import 'package:hackpsu/screens/profile_page_2.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/auth/auth_bloc.dart';

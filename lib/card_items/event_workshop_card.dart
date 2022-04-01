@@ -258,7 +258,7 @@ class _BottomSheet {
                           ),
                         ],
                       ),
-                    )
+                    ),
                 ],
               ),
             );

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/screens/profile.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hackpsu/screens/profile_page_2.dart';
 
 import '../bloc/favorites/favorites_bloc.dart';
 import '../bloc/favorites/favorites_event.dart';
 import '../bloc/favorites/favorites_state.dart';
 import '../bloc/navigation/bottom_navigation_state.dart';
 import '../cubit/header_cubit.dart';
+import '../styles/theme_colors.dart';
 import 'bottom_navigation.dart';
 import 'default_text.dart';
 
@@ -93,24 +95,24 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: safeAreaTop ?? true,
-      left: safeAreaLeft ?? true,
-      right: safeAreaRight ?? true,
-      bottom: safeAreaBottom ?? true,
-      child: Column(
-        children: [
-          if (header != null) header,
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: contentBackgroundColor ??
-                    const Color.fromRGBO(245, 245, 245, 1.0),
-              ),
+    return Container(
+      decoration: BoxDecoration(
+        color:
+            contentBackgroundColor ?? const Color.fromRGBO(245, 245, 245, 1.0),
+      ),
+      child: SafeArea(
+        top: safeAreaTop ?? true,
+        left: safeAreaLeft ?? true,
+        right: safeAreaRight ?? true,
+        bottom: safeAreaBottom ?? true,
+        child: Column(
+          children: [
+            if (header != null) header,
+            Expanded(
               child: body,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -281,21 +283,25 @@ class _ProfileSwitch extends StatelessWidget {
         if (withProfile == true)
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => new ProfilePage(),
-                  ),
-               ); // TODO -- insert navigating to profile page
+              Navigator.of(context).pushNamed("profile");
             },
             child: Padding(
               padding: withSwitch == false
                   ? const EdgeInsets.only(bottom: 9.0)
                   : EdgeInsets.zero,
-              child: CircleAvatar(
-                backgroundColor: Colors.grey,
-                radius: 15.0,
-                backgroundImage: profileImage,
+              child: Container(
+                padding: const EdgeInsets.all(2.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(
+                    width: 2,
+                    color: ThemeColors.UniversityBlue,
+                  ),
+                ),
+                child: SvgPicture.asset(
+                  "assets/icons/person.svg",
+                  color: ThemeColors.UniversityBlue,
+                ),
               ),
             ),
           ),
