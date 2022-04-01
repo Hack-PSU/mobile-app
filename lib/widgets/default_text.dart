@@ -38,6 +38,7 @@ class DefaultText extends Text {
             fontWeight: weight,
             letterSpacing: letterSpacing,
             color: color,
+            overflow: TextOverflow.ellipsis,
           ),
           key: key,
         );

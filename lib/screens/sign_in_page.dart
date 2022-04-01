@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -224,14 +226,15 @@ class _SignInButtons extends StatelessWidget {
               "Sign in with GitHub",
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: SignInWithAppleButton(
-              onPressed: () {
-                context.read<SignInCubit>().signInWithApple();
-              },
+          if (Platform.isIOS)
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: SignInWithAppleButton(
+                onPressed: () {
+                  context.read<SignInCubit>().signInWithApple();
+                },
+              ),
             ),
-          ),
         ],
       ),
     );
