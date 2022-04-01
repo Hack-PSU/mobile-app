@@ -75,50 +75,13 @@ class HomePageState extends State<HomePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const HomepageHeader(),
-                                  // registrations is passed in from here
-                                  // UserPinCard(registrations),
-                                  // ...events
-                                  //     .map((e) => DefaultText(
-                                  //           e.eventTitle ?? "Event",
-                                  //           fontSize: 14,
-                                  //         ))
-                                  //     .toList(),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
+                                  UserPinCard(registrations),
+                                  ...events
+                                      .map((e) => DefaultText(
+                                            e.eventTitle ?? "Event",
+                                            fontSize: 14,
+                                          ))
+                                      .toList(),
                                   Button(
                                     variant: ButtonVariant.TextButton,
                                     onPressed: () {
