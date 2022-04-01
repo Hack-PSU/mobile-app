@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/auth/auth_event.dart';
+import '../bloc/auth/auth_state.dart';
 import '../data/authentication_repository.dart';
 import '../models/email.dart';
 import '../models/password.dart';
@@ -125,7 +126,9 @@ class SignInCubit extends Cubit<SignInState> {
     try {
       _authBloc.add(AuthVerifying());
       await _authenticationRepository.signInWithApple();
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      if (_authBloc.state.status == AuthStatus.unauthenticated) {
+        emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      }
     } on SignInWithAppleError catch (e) {
       _authBloc.add(AuthError());
       emit(
@@ -134,7 +137,7 @@ class SignInCubit extends Cubit<SignInState> {
           status: FormzStatus.submissionFailure,
         ),
       );
-    } catch (_) {
+    } catch (e) {
       _authBloc.add(AuthError());
       emit(
         state.copyWith(

@@ -265,8 +265,6 @@ class AuthenticationRepository {
             final displayName = '${fullName.givenName} ${fullName.familyName}';
             await user.updateDisplayName(displayName);
           }
-
-          return user;
         } on FirebaseAuthException catch (e) {
           throw SignInWithAppleError.fromCode(e.code);
         } catch (e) {
@@ -274,10 +272,10 @@ class AuthenticationRepository {
         }
         break;
       case AuthorizationStatus.cancelled:
-        throw const SignInWithAppleError();
+        throw const SignInWithAppleError("Status Cancelled");
         break;
       case AuthorizationStatus.error:
-        throw const SignInWithAppleError();
+        throw const SignInWithAppleError("Status Error");
         break;
     }
   }
