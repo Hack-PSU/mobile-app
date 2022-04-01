@@ -67,7 +67,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
           BlocProvider<FavoritesBloc>(
-            create: (_) => FavoritesBloc(),
+            create: (context) => FavoritesBloc(
+              userBloc: BlocProvider.of<UserBloc>(context),
+            ),
           ),
         ],
         child: const ImageCache(

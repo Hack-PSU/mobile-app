@@ -8,8 +8,6 @@ import 'package:http/http.dart' as http;
 
 import '../services/api_client.dart';
 
-enum _Method { GET, POST }
-
 class NotificationRepository {
   NotificationRepository(
     String configUrl, {
@@ -65,8 +63,12 @@ class NotificationRepository {
     final client = ApiClient.withToken(token);
 
     try {
-      client
-          .post(Uri.parse("$_url/user/subscribe/all"), body: {"userPin": pin});
+      await client.post(
+        Uri.parse("$_url/user/subscribe/all"),
+        body: {
+          "userPin": pin,
+        },
+      );
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -101,9 +103,12 @@ class NotificationRepository {
     final client = ApiClient.withToken(token);
 
     try {
-      await client.post(Uri.parse("$_url/user/subscribe/$uid"), body: {
-        "userPin": pin,
-      });
+      await client.post(
+        Uri.parse("$_url/user/subscribe/event/$uid"),
+        body: {
+          "userPin": pin,
+        },
+      );
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -117,9 +122,12 @@ class NotificationRepository {
     final client = ApiClient.withToken(token);
 
     try {
-      await client.post(Uri.parse("$_url/user/unsubscribe/$uid"), body: {
-        "userPin": pin,
-      });
+      await client.post(
+        Uri.parse("$_url/user/unsubscribe/event/$uid"),
+        body: {
+          "userPin": pin,
+        },
+      );
     } catch (e) {
       if (kDebugMode) {
         print(e);

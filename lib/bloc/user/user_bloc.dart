@@ -84,6 +84,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     SubscribeTopic event,
     Emitter<UserState> emit,
   ) async {
+    if (kDebugMode) {
+      print(event.topic);
+    }
     await _notificationRepository.subscribeEvent(state.pin, event.topic);
   }
 
@@ -91,6 +94,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     UnsubscribeTopic event,
     Emitter<UserState> emit,
   ) async {
+    if (kDebugMode) {
+      print(event.topic);
+    }
     await _notificationRepository.unsubscribeEvent(state.pin, event.topic);
   }
 

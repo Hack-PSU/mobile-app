@@ -227,36 +227,38 @@ class _BottomSheet {
                     avatar: const Icon(Icons.location_on_rounded),
                     label: DefaultText(event.locationName),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(top: 10.0),
-                    padding: const EdgeInsets.only(
-                      left: 10.0,
-                      right: 10.0,
-                      top: 5.0,
-                      bottom: 10.0,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 4,
-                        color: Colors.black12,
+                  if (event.eventDescription != null)
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.only(top: 10.0),
+                      padding: const EdgeInsets.only(
+                        left: 10.0,
+                        right: 10.0,
+                        top: 5.0,
+                        bottom: 10.0,
                       ),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        DefaultText(
-                          'Description',
-                          textLevel: TextLevel.body1,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 4,
+                          color: Colors.black12,
                         ),
-                        DefaultText(
-                          event.eventDescription,
-                          textLevel: TextLevel.body2,
-                        ),
-                      ],
-                    ),
-                  )
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DefaultText(
+                            'Description',
+                            textLevel: TextLevel.body1,
+                          ),
+                          DefaultText(
+                            event.eventDescription,
+                            textLevel: TextLevel.body2,
+                          ),
+                        ],
+                      ),
+                    )
                 ],
               ),
             );
