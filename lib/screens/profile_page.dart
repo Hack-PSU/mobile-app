@@ -189,8 +189,8 @@ class _ProfileOptions extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10.0),
-          InkWell(
-            onTap: () {
+          Button(
+            onPressed: () {
               showGeneralDialog(
                 context: context,
                 barrierDismissible: true,
@@ -204,34 +204,31 @@ class _ProfileOptions extends StatelessWidget {
                 },
               );
             },
-            child: Button(
-              onPressed: () {},
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.white),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
-              variant: ButtonVariant.TextButton,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DefaultText(
-                    "View Pin: ${userBloc.state.pin}",
-                    color: Colors.blue,
-                  ),
-                  const Icon(
-                    Icons.arrow_forward,
-                    size: 25.0,
-                    color: Colors.blue,
-                  ),
-                ],
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
               ),
+            ),
+            variant: ButtonVariant.TextButton,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DefaultText(
+                  "View Pin: ${userBloc.state.pin}",
+                  color: Colors.blue,
+                ),
+                const Icon(
+                  Icons.arrow_forward,
+                  size: 25.0,
+                  color: Colors.blue,
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 10.0),
