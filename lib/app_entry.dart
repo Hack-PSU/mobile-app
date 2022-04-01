@@ -7,11 +7,14 @@ import 'package:provider/provider.dart';
 
 import 'bloc/auth/auth_bloc.dart';
 import 'bloc/favorites/favorites_bloc.dart';
+import 'bloc/user/user_bloc.dart';
 import 'cubit/event_cubit.dart';
 import 'cubit/favorites_cubit.dart';
 import 'cubit/registration_cubit.dart';
+import 'cubit/workshop_cubit.dart';
 import 'data/authentication_repository.dart';
 import 'data/event_repository.dart';
+import 'data/notification_repository.dart';
 import 'data/user_repository.dart';
 import 'models/event.dart';
 import 'routers/root_router.dart';
@@ -34,23 +37,40 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (_) => UserRepository('${Config.baseUrl}/users/register'),
         ),
+        RepositoryProvider(
+          create: (_) =>
+              NotificationRepository('${Config.fcmUrl}/notifications'),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<EventCubit>(
             create: (context) => EventCubit(context.read<EventRepository>()),
           ),
+          BlocProvider<WorkshopCubit>(
+            create: (context) => WorkshopCubit(context.read<EventRepository>()),
+          ),
           BlocProvider<RegistrationCubit>(
             create: (context) =>
                 RegistrationCubit(context.read<UserRepository>()),
           ),
+          BlocProvider<UserBloc>(
+            create: (context) => UserBloc(
+              userRepository: context.read<UserRepository>(),
+              notificationRepository: context.read<NotificationRepository>(),
+            ),
+          ),
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
-                authenticationRepository:
-                    context.read<AuthenticationRepository>()),
+              authenticationRepository:
+                  context.read<AuthenticationRepository>(),
+              userBloc: BlocProvider.of<UserBloc>(context),
+            ),
           ),
           BlocProvider<FavoritesBloc>(
-            create: (_) => FavoritesBloc(),
+            create: (context) => FavoritesBloc(
+              userBloc: BlocProvider.of<UserBloc>(context),
+            ),
           ),
         ],
         child: const ImageCache(

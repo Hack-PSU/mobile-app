@@ -35,4 +35,22 @@ class UserRepository {
       throw Exception('Failed to get user info from API');
     }
   }
+
+  Future<String> getUserPin() async {
+    final registrations = await getUserInfo();
+    registrations.sort((a, b) => (a.time).compareTo(b.time));
+    // registrations.forEach((element) {
+    //   print(element.uid);
+    // });
+    // final active = registrations.where((r) {
+    //   print(r.toString());
+    //   return r.active == true;
+    // });
+    // print(active);
+    if (registrations.isNotEmpty) {
+      final currentHackathon = registrations.last;
+      return (currentHackathon.pin - currentHackathon.basePin).toString();
+    }
+    return "";
+  }
 }

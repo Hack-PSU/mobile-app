@@ -1,7 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../bloc/favorites/favorites_bloc.dart';
+import '../bloc/favorites/favorites_state.dart';
 import '../styles/theme_colors.dart';
 import 'default_text.dart';
 
@@ -21,6 +24,10 @@ class Agenda<M> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (data == null) {
+      return Container();
+    }
+
     final elements = groupBy<M, int>(data, groupElement);
     final sortedKeys =
         elements.keys.toSet().toList().sorted((a, b) => a.compareTo(b));
@@ -39,7 +46,7 @@ class Agenda<M> extends StatelessWidget {
         );
       },
       separatorBuilder: (context, int index) {
-        return const SizedBox(height: 50);
+        return const SizedBox(height: 20);
       },
     );
   }
@@ -67,28 +74,32 @@ class _Block<M> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: orientation,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width *
-              (orientation == Axis.horizontal ? 0.2 : 1),
-          child: DefaultText(
-            _formatTime(),
-            textLevel: TextLevel.h3,
-            weight: FontWeight.bold,
-            color: ThemeColors.HackyBlue,
-            maxLines: 2,
-            textAlign: TextAlign.right,
-          ),
-        ),
-        if (orientation == Axis.horizontal) const SizedBox(width: 10),
-        if (orientation == Axis.vertical) const SizedBox(height: 10),
-        Expanded(
-          child: renderItems(items),
-        ),
-      ],
+    return BlocBuilder<FavoritesBloc, FavoritesState>(
+      builder: (context, state) {
+        return Flex(
+          direction: orientation,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width *
+                  (orientation == Axis.horizontal ? 0.2 : 1),
+              child: DefaultText(
+                _formatTime(),
+                textLevel: TextLevel.h3,
+                weight: FontWeight.bold,
+                color: ThemeColors.HackyBlue,
+                maxLines: 2,
+                textAlign: TextAlign.right,
+              ),
+            ),
+            if (orientation == Axis.horizontal) const SizedBox(width: 10),
+            if (orientation == Axis.vertical) const SizedBox(height: 10),
+            Expanded(
+              child: renderItems(items),
+            ),
+          ],
+        );
+      },
     );
   }
 }

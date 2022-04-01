@@ -19,15 +19,15 @@ class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   ScrollController _controller;
   double _logoWidth;
   double _logoHeight;
 
-  _scrollListener() {
+  void _scrollListener() {
     if (_controller.position.pixels <= 50) {
       setState(() {
         _logoWidth = 135;
@@ -64,17 +64,6 @@ class _HomePageState extends State<HomePage> {
             builder: (context, events) {
               return BlocBuilder<RegistrationCubit, List<Registration>>(
                 builder: (context, registrations) {
-                  // fetch data first
-                  // context.read<EventCubit>().getEvents();
-                  // context.read<RegistrationCubit>().getUserInfo();
-
-                  // while loading show the progress indicator
-                  // if (events == null || registrations == null) {
-                  //   return const Center(
-                  //     child: CircularProgressIndicator(),
-                  //   );
-                  // }
-
                   return Column(
                     children: [
                       Expanded(
@@ -86,54 +75,19 @@ class _HomePageState extends State<HomePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const HomepageHeader(),
-                                  // registrations is passed in from here
-                                  // UserPinCard(registrations),
-                                  // ...events
-                                  //     .map((e) => DefaultText(
-                                  //           e.eventTitle ?? "Event",
-                                  //           fontSize: 14,
-                                  //         ))
-                                  //     .toList(),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
+                                  UserPinCard(registrations),
+                                  ...events
+                                      .map((e) => DefaultText(
+                                            e.eventTitle ?? "Event",
+                                            fontSize: 14,
+                                          ))
+                                      .toList(),
                                   Button(
                                     variant: ButtonVariant.TextButton,
                                     onPressed: () {
-                                      context.read<AuthenticationRepository>().signOut();
+                                      context
+                                          .read<AuthenticationRepository>()
+                                          .signOut();
                                     },
                                     child: DefaultText(
                                       "Log out",
