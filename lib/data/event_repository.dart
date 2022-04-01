@@ -22,4 +22,14 @@ class EventRepository {
       throw Exception('Failed to get events from API');
     }
   }
+
+  Future<List<Event>> getEventsByType(EventType type) async {
+    final events = await getEvents();
+    return events.where((e) => e.eventType == type).toList();
+  }
+
+  Future<List<Event>> filter(bool Function(Event item) predicate) async {
+    final events = await getEvents();
+    return events.where(predicate).toList();
+  }
 }

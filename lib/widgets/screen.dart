@@ -15,9 +15,8 @@ class Screen extends Scaffold {
     AppBar appBar,
     Color backgroundColor,
     ScreenHeader header,
-    this.withBottomNavigation = false,
-    this.withDismissKeyboard = false,
-    this.onNavigationRouteChange,
+    bool withBottomNavigation = false,
+    bool withDismissKeyboard = false,
     @required Widget body,
     Color contentBackgroundColor,
     bool safeAreaTop,
@@ -26,6 +25,7 @@ class Screen extends Scaffold {
     bool safeAreaRight,
   }) : super(
           key: key,
+          resizeToAvoidBottomInset: false,
           backgroundColor: backgroundColor ?? Colors.white,
           appBar: appBar,
           body: _Page(
@@ -43,10 +43,6 @@ class Screen extends Scaffold {
           bottomNavigationBar:
               withBottomNavigation ? const BottomNavigation() : null,
         );
-
-  final bool withBottomNavigation;
-  final bool withDismissKeyboard;
-  final Function(Routes) onNavigationRouteChange;
 }
 
 class _Page extends StatelessWidget {
@@ -82,6 +78,7 @@ class _Body extends StatelessWidget {
     this.safeAreaBottom,
     this.safeAreaLeft,
     this.safeAreaRight,
+    this.withKeyboardAvoiding,
   }) : super(key: key);
 
   final ScreenHeader header;
@@ -91,6 +88,7 @@ class _Body extends StatelessWidget {
   final bool safeAreaBottom;
   final bool safeAreaLeft;
   final bool safeAreaRight;
+  final bool withKeyboardAvoiding;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +104,7 @@ class _Body extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: contentBackgroundColor ??
-                    const Color.fromRGBO(224, 224, 224, 1.0),
+                    const Color.fromRGBO(245, 245, 245, 1.0),
               ),
               child: body,
             ),

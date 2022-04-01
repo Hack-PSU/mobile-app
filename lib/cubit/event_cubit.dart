@@ -10,17 +10,15 @@ class EventCubit extends Cubit<List<Event>> {
   final EventRepository _eventRepository;
 
   Future<void> getEvents() async {
-    final event = await _eventRepository.getEvents();
+    final event = await _eventRepository
+        .filter((item) => item.eventType != EventType.WORKSHOP);
     emit(event);
   }
 
-  Future<void> getEventsByType(EventType type) async {
-    final events = await _eventRepository.getEvents();
-    emit(events.where((e) => e.eventType == type).toList());
-  }
-
-  Future<void> filter(bool Function(Event item) predicate) async {
-    final events = await _eventRepository.getEvents();
-    emit(events.where(predicate).toList());
+  // wrapper function to execute a callback
+  // the function ensures current state is flushed before executing
+  Future<void> executeNew(Function() exec) async {
+    emit(null);
+    exec();
   }
 }
