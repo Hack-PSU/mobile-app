@@ -22,65 +22,75 @@ const MICROSOFT_URL = "https://www.microsoft.com/";
 const NITTANY_AI_URL = "https://nittanyai.psu.edu/";
 
 class SponsorCarousel extends StatelessWidget {
+  const SponsorCarousel({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      DefaultText(
-        "Our Sponsors",
-        textLevel: TextLevel.h2,
-      ),
-      const Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-      ),
-      CarouselSlider(
-        options: CarouselOptions(
-          height: 200.0,
-          autoPlay: true,
-          autoPlayInterval: const Duration(seconds: 3),
-          enlargeCenterPage: true,
-        ),
-        items: [
-          [ECHO_AR_SVG, ECHO_AR_URL],
-          [EECS_SVG, EECS_URL],
-          [HVC_SVG, HVC_URL],
-          [ICDS_SVG, ICDS_URL],
-          [LION_LAUNCHPAD_SVG, LION_LAUNCHPAD_URL],
-          [MICROSOFT_SVG, MICROSOFT_URL],
-          [NITTANY_AI_SVG, NITTANY_AI_URL]
-        ].map((i) {
-          return Builder(
-            builder: (BuildContext context) {
-              return InkWell(
-                  onTap: () async {
-                    if (!await launch(i[1])) {
-                      throw "Could not launch $i[1]";
-                    }
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          DefaultText(
+            "Our Sponsors",
+            textLevel: TextLevel.h2,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(bottom: 10.0),
+          ),
+          CarouselSlider(
+            options: CarouselOptions(
+              height: 200.0,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 3),
+              enlargeCenterPage: true,
+            ),
+            items: [
+              [ECHO_AR_SVG, ECHO_AR_URL],
+              [EECS_SVG, EECS_URL],
+              [HVC_SVG, HVC_URL],
+              [ICDS_SVG, ICDS_URL],
+              [LION_LAUNCHPAD_SVG, LION_LAUNCHPAD_URL],
+              [MICROSOFT_SVG, MICROSOFT_URL],
+              [NITTANY_AI_SVG, NITTANY_AI_URL]
+            ].map(
+              (i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return InkWell(
+                      onTap: () async {
+                        if (!await launch(i[1])) {
+                          throw "Could not launch $i[1]";
+                        }
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
+                              bottomLeft: Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0),
+                            )),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              i[0],
+                              width: MediaQuery.of(context).size.width * 0.70,
+                            )
+                          ],
+                        ),
+                      ),
+                    );
                   },
-                  child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                            bottomLeft: Radius.circular(10.0),
-                            bottomRight: Radius.circular(10.0),
-                          )),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            i[0],
-                            width: MediaQuery.of(context).size.width * 0.70,
-                          )
-                        ],
-                      )));
-            },
-          );
-        }).toList(),
-      )
-    ]));
+                );
+              },
+            ).toList(),
+          )
+        ],
+      ),
+    );
   }
 }

@@ -7,6 +7,7 @@ import 'package:hackpsu/widgets/agenda.dart';
 import '../card_items/countdown_timer_card.dart';
 //import '../card_items/sponsor_carousel.dart';
 import '../card_items/pin_card.dart';
+import '../card_items/sponsor_carousel.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
 import '../data/authentication_repository.dart';
@@ -133,6 +134,7 @@ class _Content extends StatelessWidget {
               children: [
                 const HomepageHeader(),
                 const UserPinCard(),
+                SponsorCarousel(),
                 Button(
                   variant: ButtonVariant.TextButton,
                   onPressed: () {
