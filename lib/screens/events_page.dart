@@ -1,19 +1,16 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/card_items/event_workshop_card.dart';
-import '../cubit/event_cubit.dart';
 import 'package:intl/intl.dart';
 
 import '../bloc/favorites/favorites_bloc.dart';
 import '../bloc/favorites/favorites_event.dart';
 import '../bloc/favorites/favorites_state.dart';
+import '../card_items/event_workshop_card.dart';
 import '../cubit/event_cubit.dart';
-import '../cubit/favorites_cubit.dart';
 import '../models/event.dart';
 import '../widgets/agenda_view.dart';
-import '../widgets/button.dart';
-import '../widgets/default_text.dart';
+import '../widgets/event_card_list.dart';
 import '../widgets/screen.dart';
 
 class EventsPage extends StatelessWidget {
@@ -44,11 +41,31 @@ class EventsScreen extends StatelessWidget {
     return item.eventStartTime.millisecondsSinceEpoch;
   }
 
+  Map<String, List<Event>> _sortData(
+      bool favoritesEnabled, Set<String> favorites, List<Event> events) {
+    List<Event> newEvents;
+    if (favoritesEnabled == true) {
+      newEvents = events.where((e) => favorites.contains(e.uid)).toList();
+    } else {
+      newEvents = events;
+    }
+    return groupBy<Event, String>(newEvents, _groupEvents);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final favoritesBloc = context.read<FavoritesBloc>();
+
     return BlocBuilder<EventCubit, List<Event>>(
       builder: (context, events) {
         return BlocBuilder<FavoritesBloc, FavoritesState>(
+          buildWhen: (previous, current) {
+            if (previous.items != null && current.items != null) {
+              return previous.items != current.items ||
+                  current.status != previous.status;
+            }
+            return false;
+          },
           builder: (context, favorites) {
             if (events == null) {
               return const Center(
@@ -58,11 +75,16 @@ class EventsScreen extends StatelessWidget {
 
             final data = groupBy<Event, String>(events, _groupEvents);
 
-            return AgendaView<Event>(
+            return AgendaView(
               labels: const ["Friday", "Saturday", "Sunday"],
+              favorites: favorites.items,
+              favoritesEnabled: favorites.status == FavoritesStatus.enabled,
               data: data,
               groupElement: _groupElement,
-              renderItems: (items) => _showEvent(context, favorites, events),
+              renderItems: (el) => EventCardList(
+                bloc: favoritesBloc,
+                events: el,
+              ),
             );
           },
         );
@@ -70,34 +92,60 @@ class EventsScreen extends StatelessWidget {
     );
   }
 
-  Widget _showEvent(
-      BuildContext context, FavoritesState state, List<Event> events) {
+  Widget _showEvents(BuildContext context, List<Event> events) {
     return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
-        children: [
-          ...events.map(
-            (event) => Column(
-              children: [
-                DefaultText(
-                  event.uid,
-                  textLevel: TextLevel.body1,
-                  fontSize: 16,
-                  color: state.isFavorite(event) ? Colors.red : Colors.black,
+          children: events
+              .map(
+                (event) => EventWorkshopCard(
+                  event: event,
+                  onAddFavorite: (Event event) {
+                    context.read<FavoritesBloc>().add(AddFavoritesItem(event));
+                  },
+                  onRemoveFavorite: (Event event) {
+                    context
+                        .read<FavoritesBloc>()
+                        .add(RemoveFavoritesItem(event));
+                  },
                 ),
-                Button(
-                  variant: ButtonVariant.ElevatedButton,
-                  onPressed: () => context
-                      .read<FavoritesBloc>()
-                      .add(AddFavoritesItem(event)),
-                ),
-              ],
-            ),
+              )
+              .toList()
+          // ],
           ),
-        ],
-      ),
     );
   }
+
+  // Widget _showEvent(
+  //     BuildContext context, FavoritesState state, List<Event> events) {
+  //   return Container(
+  //     decoration: const BoxDecoration(
+  //       borderRadius: BorderRadius.all(Radius.circular(5)),
+  //     ),
+  //     child: Column(
+  //       children: [
+  //         ...events.map(
+  //           (event) => Column(
+  //             children: [
+  //               DefaultText(
+  //                 event.uid,
+  //                 textLevel: TextLevel.body1,
+  //                 fontSize: 16,
+  //                 color: state.isFavorite(event) ? Colors.red : Colors.black,
+  //               ),
+  //               Button(
+  //                 variant: ButtonVariant.ElevatedButton,
+  //                 onPressed: () => context
+  //                     .read<FavoritesBloc>()
+  //                     .add(AddFavoritesItem(event)),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

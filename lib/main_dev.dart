@@ -6,10 +6,15 @@ import 'package:path_provider/path_provider.dart';
 
 import './app_entry.dart';
 import './utils/flavor_constants.dart';
+import 'services/push_notification_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  final PushNotificationService notificationService = PushNotificationService();
+  notificationService.init();
+
   Config.appFlavor = Flavor.DEV;
 
   HttpOverrides.global = MyHttpOverrides();

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hackpsu/screens/profile_page_2.dart';
 
 import '../bloc/favorites/favorites_bloc.dart';
 import '../bloc/favorites/favorites_event.dart';
 import '../bloc/favorites/favorites_state.dart';
 import '../bloc/navigation/bottom_navigation_state.dart';
 import '../cubit/header_cubit.dart';
+import '../styles/theme_colors.dart';
 import 'bottom_navigation.dart';
 import 'default_text.dart';
 
@@ -15,9 +18,8 @@ class Screen extends Scaffold {
     AppBar appBar,
     Color backgroundColor,
     ScreenHeader header,
-    this.withBottomNavigation = false,
-    this.withDismissKeyboard = false,
-    this.onNavigationRouteChange,
+    bool withBottomNavigation = false,
+    bool withDismissKeyboard = false,
     @required Widget body,
     Color contentBackgroundColor,
     bool safeAreaTop,
@@ -26,6 +28,7 @@ class Screen extends Scaffold {
     bool safeAreaRight,
   }) : super(
           key: key,
+          resizeToAvoidBottomInset: false,
           backgroundColor: backgroundColor ?? Colors.white,
           appBar: appBar,
           body: _Page(
@@ -43,10 +46,6 @@ class Screen extends Scaffold {
           bottomNavigationBar:
               withBottomNavigation ? const BottomNavigation() : null,
         );
-
-  final bool withBottomNavigation;
-  final bool withDismissKeyboard;
-  final Function(Routes) onNavigationRouteChange;
 }
 
 class _Page extends StatelessWidget {
@@ -82,6 +81,7 @@ class _Body extends StatelessWidget {
     this.safeAreaBottom,
     this.safeAreaLeft,
     this.safeAreaRight,
+    this.withKeyboardAvoiding,
   }) : super(key: key);
 
   final ScreenHeader header;
@@ -91,27 +91,28 @@ class _Body extends StatelessWidget {
   final bool safeAreaBottom;
   final bool safeAreaLeft;
   final bool safeAreaRight;
+  final bool withKeyboardAvoiding;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: safeAreaTop ?? true,
-      left: safeAreaLeft ?? true,
-      right: safeAreaRight ?? true,
-      bottom: safeAreaBottom ?? true,
-      child: Column(
-        children: [
-          if (header != null) header,
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: contentBackgroundColor ??
-                    const Color.fromRGBO(224, 224, 224, 1.0),
-              ),
+    return Container(
+      decoration: BoxDecoration(
+        color:
+            contentBackgroundColor ?? const Color.fromRGBO(245, 245, 245, 1.0),
+      ),
+      child: SafeArea(
+        top: safeAreaTop ?? true,
+        left: safeAreaLeft ?? true,
+        right: safeAreaRight ?? true,
+        bottom: safeAreaBottom ?? true,
+        child: Column(
+          children: [
+            if (header != null) header,
+            Expanded(
               child: body,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -282,16 +283,26 @@ class _ProfileSwitch extends StatelessWidget {
         if (withProfile == true)
           GestureDetector(
             onTap: () {
-              // TODO -- insert navigating to profile page
+              Navigator.of(context).pushNamed("profile");
             },
             child: Padding(
               padding: withSwitch == false
                   ? const EdgeInsets.only(bottom: 9.0)
                   : EdgeInsets.zero,
-              child: CircleAvatar(
-                backgroundColor: Colors.grey,
-                radius: 15.0,
-                backgroundImage: profileImage,
+              child: Container(
+                padding: const EdgeInsets.all(2.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Colors.white,
+                  border: Border.all(
+                    width: 2,
+                    color: ThemeColors.StadiumOrange,
+                  ),
+                ),
+                child: SvgPicture.asset(
+                  "assets/icons/person.svg",
+                  color: ThemeColors.StadiumOrange,
+                ),
               ),
             ),
           ),

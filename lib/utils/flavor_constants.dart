@@ -10,6 +10,9 @@ enum Flavor {
 class Config {
   static Flavor appFlavor;
 
+  static String get fcmUrl =>
+      'https://us-central1-hackpsu18.cloudfunctions.net';
+
   static String get baseUrl {
     return getConstantByFlavor(
       prodConst: 'https://api.hackpsu.org/v2',

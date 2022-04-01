@@ -5,13 +5,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/authentication_repository.dart';
+import '../user/user_bloc.dart';
+import '../user/user_event.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     @required AuthenticationRepository authenticationRepository,
+    @required UserBloc userBloc,
   })  : _authenticationRepository = authenticationRepository,
+        _userBloc = userBloc,
         super(
           authenticationRepository.currentUser != null
               ? AuthState.authenticated(authenticationRepository.currentUser)
@@ -27,9 +31,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   final AuthenticationRepository _authenticationRepository;
+  final UserBloc _userBloc;
+
   StreamSubscription<User> _userSubscription;
 
-  void _onAuthUserChanged(AuthUserChanged event, Emitter<AuthState> emit) {
+  Future<void> _onAuthUserChanged(
+      AuthUserChanged event, Emitter<AuthState> emit) async {
+    if (event.user != null) {
+      _userBloc.add(const RegisterUser());
+    }
     emit(
       event.user != null
           ? AuthState.authenticated(event.user)

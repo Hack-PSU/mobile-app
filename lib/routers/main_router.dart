@@ -5,6 +5,7 @@ import '../bloc/navigation/bottom_navigation_bloc.dart';
 import '../bloc/navigation/bottom_navigation_state.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
+import '../cubit/workshop_cubit.dart';
 import '../models/event.dart';
 import '../screens/events_page.dart';
 import '../screens/home_page.dart';
@@ -32,12 +33,15 @@ class MainRouter extends StatelessWidget {
                 context.read<EventCubit>().getEvents();
                 break;
               case Routes.Events:
-                context
-                    .read<EventCubit>()
-                    .filter((el) => el.eventType != EventType.WORKSHOP);
+                context.read<EventCubit>().getEvents();
+                // context.read<EventCubit>().executeNew(
+                //       () => context.read<EventCubit>().filter(
+                //             (item) => item.eventType != EventType.WORKSHOP,
+                //           ),
+                //     );
                 break;
               case Routes.Workshops:
-                context.read<EventCubit>().getEventsByType(EventType.WORKSHOP);
+                context.read<WorkshopCubit>().getWorkshops();
                 break;
             }
           },

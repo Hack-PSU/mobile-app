@@ -10,25 +10,28 @@ import '../card_items/pin_card.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
 import '../data/authentication_repository.dart';
+import '../data/user_repository.dart';
 import '../models/event.dart';
 import '../models/registration.dart';
+import '../styles/theme_colors.dart';
 import '../widgets/button.dart';
 import '../widgets/default_text.dart';
+import '../widgets/loading.dart';
 import '../widgets/screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   ScrollController _controller;
   double _logoWidth;
   double _logoHeight;
 
-  _scrollListener() {
+  void _scrollListener() {
     if (_controller.position.pixels <= 50) {
       setState(() {
         _logoWidth = 135;
@@ -58,121 +61,24 @@ class _HomePageState extends State<HomePage> {
       children: [
         Screen(
           withBottomNavigation: true,
+          contentBackgroundColor: Colors.white,
           header: ScreenHeader.only(
             withProfile: true,
+            // profileImage: Icons.verified_user,
           ),
           body: BlocBuilder<EventCubit, List<Event>>(
             builder: (context, events) {
               return BlocBuilder<RegistrationCubit, List<Registration>>(
                 builder: (context, registrations) {
-                  // fetch data first
-                  // context.read<EventCubit>().getEvents();
-                  // context.read<RegistrationCubit>().getUserInfo();
-
-                  // while loading show the progress indicator
-                  // if (events == null || registrations == null) {
-                  //   return const Center(
-                  //     child: CircularProgressIndicator(),
-                  //   );
-                  // }
-
-                  // return Center(
-                  //   child: Column(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: [
-                  //       CountdownTimerCard(),
-                  //       // registrations is passed in from here
-                  //       UserPinCard(registrations),
-                  //       ...events
-                  //           .map((e) => DefaultText(
-                  //                 e.eventTitle ?? "Event",
-                  //                 fontSize: 14,
-                  //               ))
-                  //           .toList(),
-                  //       Button(
-                  //         variant: ButtonVariant.TextButton,
-                  //         onPressed: () {
-                  //           context.read<AuthenticationRepository>().signOut();
-                  //         },
-                  //         child: DefaultText(
-                  //           "Log out",
-                  //         ),
-                  //       ),
-                  //       //SponsorCarousel()
-                  //     ],
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: ListView(
-                          controller: _controller,
-                          children: [
-                            Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const HomepageHeader(),
-                                  // registrations is passed in from here
-                                  // UserPinCard(registrations),
-                                  // ...events
-                                  //     .map((e) => DefaultText(
-                                  //           e.eventTitle ?? "Event",
-                                  //           fontSize: 14,
-                                  //         ))
-                                  //     .toList(),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Text("THIS IS A SAMPLE EVENT"),
-                                  Button(
-                                    variant: ButtonVariant.TextButton,
-                                    onPressed: () {
-                                      context
-                                          .read<AuthenticationRepository>()
-                                          .signOut();
-                                    },
-                                    child: DefaultText(
-                                      "Log out",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  if (events != null && registrations != null) {
+                    return _Content(
+                      controller: _controller,
+                      events: events,
+                      registrations: registrations,
+                    );
+                  }
+                  return const Loading(
+                    label: "Loading Content...",
                   );
                 },
               );
@@ -193,6 +99,50 @@ class _HomePageState extends State<HomePage> {
                   image: AssetImage('assets/images/Logo.png'),
                 ),
               ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content({
+    @required ScrollController controller,
+    this.registrations,
+    this.events,
+  }) : _controller = controller;
+
+  final ScrollController _controller;
+  final List<Registration> registrations;
+  final List<Event> events;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      controller: _controller,
+      children: [
+        Center(
+          child: Container(
+            decoration: const BoxDecoration(
+              color: ThemeColors.Creamery,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const HomepageHeader(),
+                const UserPinCard(),
+                Button(
+                  variant: ButtonVariant.TextButton,
+                  onPressed: () {
+                    context.read<AuthenticationRepository>().signOut();
+                  },
+                  child: DefaultText(
+                    "Log out",
+                  ),
+                ),
+              ],
             ),
           ),
         ),

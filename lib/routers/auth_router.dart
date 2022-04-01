@@ -43,7 +43,7 @@ class _AuthNavigator extends StatelessWidget {
                   builder = (BuildContext context) => const SignInPage();
                   break;
                 case 'signUp':
-                  builder = (BuildContext context) => CreateAccount();
+                  builder = (BuildContext context) => const CreateAccountPage();
                   break;
                 default:
                   throw Exception("Invalid route ${settings.name}");
