@@ -100,7 +100,7 @@ class SignInCubit extends Cubit<SignInState> {
   Future<void> signInWithGitHub(BuildContext context) async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      _authBloc.add(AuthVerifying());
+      // _authBloc.add(AuthVerifying());
       await _authenticationRepository.signInWithGitHub(context);
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInWithGithubError catch (e) {
