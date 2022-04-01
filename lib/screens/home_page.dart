@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/card_items/homepage_header.dart';
 import 'package:provider/provider.dart';
-import 'package:hackpsu/widgets/agenda.dart';
 
-import '../card_items/countdown_timer_card.dart';
+import '../card_items/homepage_header.dart';
+import '../card_items/next_event_card.dart';
 import '../card_items/pin_card.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
 import '../data/authentication_repository.dart';
-import '../data/user_repository.dart';
 import '../models/event.dart';
 import '../models/registration.dart';
 import '../styles/theme_colors.dart';
@@ -132,6 +130,7 @@ class _Content extends StatelessWidget {
               children: [
                 const HomepageHeader(),
                 const UserPinCard(),
+                const NextEventCard(),
                 Button(
                   variant: ButtonVariant.TextButton,
                   onPressed: () {
