@@ -181,7 +181,7 @@ class SignInScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (Platform.isIOS) _SignInButtons(),
+                _SignInButtons(),
               ],
             ),
           ),
@@ -226,14 +226,15 @@ class _SignInButtons extends StatelessWidget {
               "Sign in with GitHub",
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: SignInWithAppleButton(
-              onPressed: () {
-                context.read<SignInCubit>().signInWithApple();
-              },
+          if (Platform.isIOS)
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: SignInWithAppleButton(
+                onPressed: () {
+                  context.read<SignInCubit>().signInWithApple();
+                },
+              ),
             ),
-          ),
         ],
       ),
     );
