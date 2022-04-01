@@ -293,14 +293,15 @@ class _ProfileSwitch extends StatelessWidget {
                 padding: const EdgeInsets.all(2.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
+                  color: Colors.white,
                   border: Border.all(
                     width: 2,
-                    color: ThemeColors.UniversityBlue,
+                    color: ThemeColors.StadiumOrange,
                   ),
                 ),
                 child: SvgPicture.asset(
                   "assets/icons/person.svg",
-                  color: ThemeColors.UniversityBlue,
+                  color: ThemeColors.StadiumOrange,
                 ),
               ),
             ),
