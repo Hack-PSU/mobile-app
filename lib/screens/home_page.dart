@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../card_items/homepage_header.dart';
 import '../card_items/next_event_card.dart';
 import '../card_items/pin_card.dart';
+import '../card_items/sponsor_carousel.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
 import '../cubit/workshop_cubit.dart';
@@ -132,18 +133,19 @@ class _Content extends StatelessWidget {
                 const HomepageHeader(),
                 const UserPinCard(),
                 BlocBuilder<EventCubit, List<Event>>(
-                    builder: (context, events) {
-                  if (events == null) {
-                    return DefaultText(
-                      "No upcoming events",
-                      textLevel: TextLevel.h4,
+                  builder: (context, events) {
+                    if (events == null) {
+                      return DefaultText(
+                        "No upcoming events",
+                        textLevel: TextLevel.h4,
+                      );
+                    }
+                    return NextEventCard(
+                      events: events,
+                      type: NextEventType.EVENT,
                     );
-                  }
-                  return NextEventCard(
-                    events: events,
-                    type: NextEventType.EVENT,
-                  );
-                }),
+                  },
+                ),
                 BlocBuilder<WorkshopCubit, List<Event>>(
                   builder: (context, workshops) {
                     if (workshops == null) {
@@ -158,6 +160,8 @@ class _Content extends StatelessWidget {
                     );
                   },
                 ),
+                const SizedBox(height: 20.0),
+                const SponsorCarousel(),
                 Button(
                   variant: ButtonVariant.TextButton,
                   onPressed: () {
