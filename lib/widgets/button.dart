@@ -98,7 +98,7 @@ class _IconButton extends StatelessWidget {
 class Button extends StatelessWidget {
   Button({
     @required this.variant,
-    @required Function() onPressed,
+    Function() onPressed,
     Widget child,
     ButtonStyle style,
     Widget icon,
