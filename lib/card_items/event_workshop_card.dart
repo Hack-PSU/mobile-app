@@ -63,14 +63,6 @@ class EventWorkshopCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
                 children: [
-                  if (event.eventIcon != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: CircleAvatar(
-                        radius: 25,
-                        backgroundImage: NetworkImage(event.eventIcon),
-                      ),
-                    ),
                   const Padding(padding: EdgeInsets.only(right: 10.0)),
                   Expanded(
                     child: Column(
@@ -156,6 +148,31 @@ class _BottomSheet {
         borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
       ),
       builder: (BuildContext context) {
+        Icon getEventIcon(EventType eventType) {
+          if (eventType == EventType.ACTIVITY) {
+            return const Icon(
+              Icons.event_available,
+              size: 40,
+            );
+          }
+          if (eventType == EventType.FOOD) {
+            return const Icon(
+              Icons.fastfood,
+              size: 40,
+            );
+          }
+          if (eventType == EventType.WORKSHOP) {
+            return const Icon(
+              Icons.co_present,
+              size: 40,
+            );
+          }
+          return const Icon(
+            Icons.error,
+            size: 40,
+          );
+        }
+
         return BlocBuilder<FavoritesBloc, FavoritesState>(
           buildWhen: buildWhen,
           builder: (context, state) {
@@ -168,20 +185,21 @@ class _BottomSheet {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (event.eventIcon != null)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5.0, right: 10.0),
-                          child: CircleAvatar(
-                              radius: 25,
-                              backgroundImage: NetworkImage(event.eventIcon)),
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5.0, right: 10.0),
+                        child: event.eventIcon != null
+                            ? CircleAvatar(
+                                radius: 25,
+                                backgroundImage: NetworkImage(event.eventIcon))
+                            : getEventIcon(event.eventType),
+                      ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             DefaultText(
                               event.eventTitle,
-                              textLevel: TextLevel.overline,
+                              textLevel: TextLevel.sub1,
                             ),
                             if (event.wsPresenterNames != null)
                               DefaultText(
