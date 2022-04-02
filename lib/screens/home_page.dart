@@ -160,6 +160,7 @@ class _Content extends StatelessWidget {
                     );
                   },
                 ),
+                const SizedBox(height: 20.0),
                 const SponsorCarousel(),
                 Button(
                   variant: ButtonVariant.TextButton,
