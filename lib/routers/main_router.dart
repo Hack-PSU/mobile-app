@@ -31,6 +31,7 @@ class MainRouter extends StatelessWidget {
               case Routes.Home:
                 context.read<RegistrationCubit>().getUserInfo();
                 context.read<EventCubit>().getEvents();
+                context.read<WorkshopCubit>().getWorkshops();
                 break;
               case Routes.Events:
                 context.read<EventCubit>().getEvents();
