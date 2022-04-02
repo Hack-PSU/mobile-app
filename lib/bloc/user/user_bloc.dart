@@ -38,16 +38,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     Emitter<UserState> emit,
   ) async {
     // get user pin
-    if (state.pin == "") {
-      try {
-        final userPin = await _userRepository.getUserPin();
-        emit(state.updatePin(userPin));
-      } catch (e) {
-        if (kDebugMode) {
-          print(e);
-        }
-        throw Exception("Unable to fetch user pin");
+    try {
+      final userPin = await _userRepository.getUserPin();
+      emit(state.updatePin(userPin));
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
       }
+      throw Exception("Unable to fetch user pin");
     }
 
     // register user into FCM
