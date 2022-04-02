@@ -255,6 +255,7 @@ class _BottomSheet {
                           DefaultText(
                             event.eventDescription,
                             textLevel: TextLevel.body2,
+                            maxLines: 10,
                           ),
                         ],
                       ),

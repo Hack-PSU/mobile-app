@@ -285,9 +285,12 @@ class _ChangePassword extends StatelessWidget {
               children: [
                 const SizedBox(height: 20.0),
                 TextFormField(
+                  obscureText: true,
+                  enableSuggestions: false,
                   autocorrect: false,
                   autovalidateMode: AutovalidateMode.always,
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(20.0),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
                         color: ThemeColors.HackyBlue,
@@ -318,9 +321,12 @@ class _ChangePassword extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 TextFormField(
+                  obscureText: true,
+                  enableSuggestions: false,
                   autocorrect: false,
                   autovalidateMode: AutovalidateMode.always,
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(20.0),
                     focusedBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
                         color: ThemeColors.HackyBlue,
