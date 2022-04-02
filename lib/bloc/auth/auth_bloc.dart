@@ -36,7 +36,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   StreamSubscription<User> _userSubscription;
 
   Future<void> _onAuthUserChanged(
-      AuthUserChanged event, Emitter<AuthState> emit) async {
+    AuthUserChanged event,
+    Emitter<AuthState> emit,
+  ) async {
     if (event.user != null) {
       _userBloc.add(const RegisterUser());
     }
