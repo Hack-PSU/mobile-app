@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hackpsu/card_items/homepage_header.dart';
 import 'package:provider/provider.dart';
-import 'package:hackpsu/widgets/agenda.dart';
 
-import '../card_items/countdown_timer_card.dart';
+import '../card_items/homepage_header.dart';
+import '../card_items/next_event_card.dart';
 import '../card_items/pin_card.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
+import '../cubit/workshop_cubit.dart';
 import '../data/authentication_repository.dart';
-import '../data/user_repository.dart';
 import '../models/event.dart';
 import '../models/registration.dart';
 import '../styles/theme_colors.dart';
@@ -132,6 +131,33 @@ class _Content extends StatelessWidget {
               children: [
                 const HomepageHeader(),
                 const UserPinCard(),
+                BlocBuilder<EventCubit, List<Event>>(
+                    builder: (context, events) {
+                  if (events == null) {
+                    return DefaultText(
+                      "No upcoming events",
+                      textLevel: TextLevel.h4,
+                    );
+                  }
+                  return NextEventCard(
+                    events: events,
+                    type: NextEventType.EVENT,
+                  );
+                }),
+                BlocBuilder<WorkshopCubit, List<Event>>(
+                  builder: (context, workshops) {
+                    if (workshops == null) {
+                      return DefaultText(
+                        "No upcoming workshops",
+                        textLevel: TextLevel.h4,
+                      );
+                    }
+                    return NextEventCard(
+                      events: workshops,
+                      type: NextEventType.WORKSHOP,
+                    );
+                  },
+                ),
                 Button(
                   variant: ButtonVariant.TextButton,
                   onPressed: () {
