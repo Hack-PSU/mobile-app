@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../widgets/default_text.dart';
 
-final hackathonDate = DateTime.utc(2022, 4, 8, 14)
-    .add(const Duration(hours: 5)); // Add 5 hours to account for EST off set
+final openingCeremony = DateTime.utc(2021, 4, 9, 12)
+    .add(const Duration(hours: 4)); // Add 4 hours to account for EDT off set
+final hackingEnd = DateTime.utc(2022, 4, 10, 13, 45)
+    .add(const Duration(hours: 4)); // Add 4 hours to account for EDT off set
 
 class StringDuration {
   String days;
@@ -21,12 +23,15 @@ class CountdownTimerCard extends StatefulWidget {
 }
 
 class _CountdownTimerCardState extends State<CountdownTimerCard> {
-  var currentDifference = hackathonDate.difference(DateTime.now());
+  var openingDifference = openingCeremony.difference(DateTime.now());
+  var endDifference = hackingEnd.difference(DateTime.now());
   // store widget state to prevent memory leak
   Timer _timer;
 
   StringDuration get currentDifferentString {
-    num totalSeconds = currentDifference.inSeconds;
+    num totalSeconds = !openingDifference.isNegative
+        ? openingDifference.inSeconds
+        : endDifference.inSeconds;
 
     final String days = (totalSeconds ~/ Duration.secondsPerDay).toString();
     totalSeconds = totalSeconds.remainder(Duration.secondsPerDay);
@@ -47,7 +52,8 @@ class _CountdownTimerCardState extends State<CountdownTimerCard> {
     // save timer instance to unsubscribe (prevents memory leaks)
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
-        currentDifference = hackathonDate.difference(DateTime.now());
+        openingDifference = openingCeremony.difference(DateTime.now());
+        endDifference = hackingEnd.difference(DateTime.now());
       });
     });
   }
@@ -70,10 +76,25 @@ class _CountdownTimerCardState extends State<CountdownTimerCard> {
 
   @override
   Widget build(BuildContext context) {
-    final StringDuration diff = currentDifferentString;
+    String outputStr;
+    if (endDifference.isNegative) {
+      outputStr = "Hacking is over!";
+    } else if (openingDifference.isNegative) {
+      final StringDuration diff = currentDifferentString;
+      outputStr =
+          "${diff.days} Days,\n${diff.hours} Hours,\n${diff.minutes} Minutes,\n${diff.seconds} Seconds Left!";
+    } else {
+      final StringDuration diff = currentDifferentString;
+      outputStr =
+          "${diff.days} Days,\n${diff.hours} Hours,\n${diff.minutes} Minutes,\n${diff.seconds} Seconds!";
+    }
+
     return DefaultText(
-        "${diff.days} Days,\n${diff.hours} Hours,\n${diff.minutes} Minutes,\n${diff.seconds} Seconds!",
-        textLevel: TextLevel.h4, color: Colors.white, fontSize: 32, weight: FontWeight.w700
+      outputStr,
+      textLevel: TextLevel.h4,
+      color: Colors.white,
+      fontSize: 32,
+      weight: FontWeight.w700,
     );
   }
 }
