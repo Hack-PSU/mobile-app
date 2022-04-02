@@ -7,6 +7,7 @@ import '../card_items/next_event_card.dart';
 import '../card_items/pin_card.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
+import '../cubit/workshop_cubit.dart';
 import '../data/authentication_repository.dart';
 import '../models/event.dart';
 import '../models/registration.dart';
@@ -130,7 +131,33 @@ class _Content extends StatelessWidget {
               children: [
                 const HomepageHeader(),
                 const UserPinCard(),
-                const NextEventCard(),
+                BlocBuilder<EventCubit, List<Event>>(
+                    builder: (context, events) {
+                  if (events == null) {
+                    return DefaultText(
+                      "No upcoming events",
+                      textLevel: TextLevel.h4,
+                    );
+                  }
+                  return NextEventCard(
+                    events: events,
+                    type: NextEventType.EVENT,
+                  );
+                }),
+                BlocBuilder<WorkshopCubit, List<Event>>(
+                  builder: (context, workshops) {
+                    if (workshops == null) {
+                      return DefaultText(
+                        "No upcoming workshops",
+                        textLevel: TextLevel.h4,
+                      );
+                    }
+                    return NextEventCard(
+                      events: workshops,
+                      type: NextEventType.WORKSHOP,
+                    );
+                  },
+                ),
                 Button(
                   variant: ButtonVariant.TextButton,
                   onPressed: () {
