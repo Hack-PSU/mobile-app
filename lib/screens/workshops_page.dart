@@ -62,7 +62,7 @@ class WorkshopsScreen extends StatelessWidget {
             final data = groupBy<Event, String>(events, _groupEvents);
 
             return AgendaView(
-              labels: const ["Friday", "Saturday", "Sunday"],
+              labels: const ["Saturday", "Sunday"],
               favorites: favorites.items,
               favoritesEnabled: favorites.status == FavoritesStatus.enabled,
               data: data,

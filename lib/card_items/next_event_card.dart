@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../bloc/favorites/favorites_bloc.dart';
 import '../bloc/favorites/favorites_event.dart';
-import '../cubit/event_cubit.dart';
 import '../cubit/next_event_cubit.dart';
 import '../models/event.dart';
 import '../models/next_event_state.dart';
@@ -25,47 +24,6 @@ class NextEventCard extends StatelessWidget {
 
   final NextEventType type;
   final List<Event> events;
-
-  Event getNextEvent(List<Event> events) {
-    for (final Event event in events) {
-      // Want to show next event up until 15 minutes after the start time
-      final DateTime eventStart = event.eventStartTime.add(
-        const Duration(
-          minutes: 15,
-        ),
-      );
-
-      if (DateTime.now().millisecondsSinceEpoch.isEven) {
-        return events.first;
-      } else {
-        return events.last;
-      }
-
-      print(eventStart);
-      print(DateTime.now());
-
-      // if now is either equal to the start of the event or is the "future"
-      if (eventStart.compareTo(DateTime.now()) >= 0) {
-        return event;
-      }
-
-      // final difference = events[i]
-      //     .eventStartTime
-      //     .add(const Duration(
-      //       minutes: 15,
-      //     ))
-      //     .compareTo(DateTime.now());
-      //
-      // final int timeDifference =
-      //     events[i].eventStartTime.millisecondsSinceEpoch +
-      //         const Duration(minutes: 15).inMilliseconds -
-      //         DateTime.now().millisecondsSinceEpoch;
-      // if (timeDifference >= 0) {
-      //   return events[i];
-      // }
-    }
-    return null;
-  }
 
   String _formatTime(int time) {
     final DateFormat formatter = DateFormat("h:mm a");

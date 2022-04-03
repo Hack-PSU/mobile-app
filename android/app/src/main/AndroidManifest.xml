@@ -26,7 +26,7 @@
                  Flutter's first frame. -->
             <meta-data
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
-              android:resource="@drawable/ic_hackpsu_logo"
+              android:resource="@drawable/launch_background"
               />
 
             <meta-data

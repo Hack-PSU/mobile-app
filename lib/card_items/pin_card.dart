@@ -4,6 +4,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../bloc/user/user_bloc.dart';
+import '../bloc/user/user_state.dart';
 import '../widgets/default_text.dart';
 
 class UserPinCard extends StatelessWidget {
@@ -13,66 +14,71 @@ class UserPinCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<UserBloc>(context);
-    if (bloc.state.pin.isNotEmpty) {
-      return InkWell(
-        onTap: () {
-          showGeneralDialog(
-            context: context,
-            barrierDismissible: true,
-            barrierLabel:
-                MaterialLocalizations.of(context).modalBarrierDismissLabel,
-            barrierColor: Colors.black45,
-            transitionDuration: const Duration(milliseconds: 200),
-            pageBuilder:
-                (BuildContext buildContext, animation, secondaryAnimation) {
-              return QRScreen();
-            },
-          );
-        },
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0), color: Colors.white),
-          margin: const EdgeInsets.only(top: 10),
-          padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0),
-          width: MediaQuery.of(context).size.width * 0.95,
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DefaultText(
-                    "My PIN",
-                    textLevel: TextLevel.h4,
-                  ),
-                  Container(height: 10.0),
-                  DefaultText(
-                    bloc.state.pin,
-                    textLevel: TextLevel.h1,
-                  ),
-                ],
-              ),
-              Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * .54)),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(width: 2),
-                    color: Colors.white),
-                child: QrImage(
-                  data: "HACKPSU_${bloc.state.pin}",
-                  version: 3,
-                  size: 60,
+    return BlocBuilder<UserBloc, UserState>(
+      buildWhen: (previous, current) => previous.pin != current.pin,
+      builder: (context, state) {
+        if (state.pin.isEmpty) {
+          return _RegisterCard();
+        }
+
+        return InkWell(
+          onTap: () {
+            showGeneralDialog(
+              context: context,
+              barrierDismissible: true,
+              barrierLabel:
+                  MaterialLocalizations.of(context).modalBarrierDismissLabel,
+              barrierColor: Colors.black45,
+              transitionDuration: const Duration(milliseconds: 200),
+              pageBuilder:
+                  (BuildContext buildContext, animation, secondaryAnimation) {
+                return QRScreen();
+              },
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+            margin: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0),
+            width: MediaQuery.of(context).size.width * 0.95,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DefaultText(
+                      "My PIN",
+                      textLevel: TextLevel.h4,
+                    ),
+                    Container(height: 10.0),
+                    DefaultText(
+                      state.pin,
+                      textLevel: TextLevel.h1,
+                    ),
+                  ],
                 ),
-              )
-            ],
+                Padding(
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * .54)),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      border: Border.all(width: 2),
+                      color: Colors.white),
+                  child: QrImage(
+                    data: "HACKPSU_${state.pin}",
+                    version: 3,
+                    size: 60,
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-      );
-    }
-    return _RegisterCard();
+        );
+      },
+    );
   }
 }
 

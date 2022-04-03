@@ -143,7 +143,8 @@ class SignInScreen extends StatelessWidget {
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              const Color(0x00FAFAFA)),
+                            const Color(0x00FAFAFA),
+                          ),
                         ),
                         child: DefaultText(
                           "Create account",

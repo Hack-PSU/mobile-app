@@ -19,11 +19,12 @@ class HomepageHeader extends StatelessWidget {
           aspectRatio: 487 / 560,
           child: Container(
             decoration: const BoxDecoration(
-                image: DecorationImage(
-              fit: BoxFit.fitWidth,
-              alignment: FractionalOffset.topCenter,
-              image: AssetImage('assets/images/background.jpg'),
-            )),
+              image: DecorationImage(
+                fit: BoxFit.fitWidth,
+                alignment: FractionalOffset.topCenter,
+                image: AssetImage('assets/images/background.jpg'),
+              ),
+            ),
           ),
         ),
         SvgPicture.asset(
@@ -45,12 +46,14 @@ class HomepageHeader extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           await launch(
-                              "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                            "http://devpost.hackpsu.org",
+                          );
                           // Respond to button press
                         },
                         style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white)),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                        ),
                         child: Row(
                           children: [
                             const Icon(
@@ -74,12 +77,14 @@ class HomepageHeader extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           await launch(
-                              "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                            "http://discord.hackpsu.org",
+                          );
                           // Respond to button press
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              const Color(0xFF6A85B9)),
+                            const Color(0xFF6A85B9),
+                          ),
                         ),
                         child: Row(
                           children: [

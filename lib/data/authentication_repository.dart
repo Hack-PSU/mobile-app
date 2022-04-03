@@ -158,9 +158,9 @@ class AuthenticationRepository {
         _githubSignIn = gitHubSignIn ??
             GitHubSignIn(
               // Input the staging info from the Teams app channel
-              clientId: Secrets.gitHubClientIdDev,
-              clientSecret: Secrets.gitHubClientSecretDev,
-              redirectUrl: Secrets.gitHubCallbackUrlDev,
+              clientId: Secrets.gitHubClientIdProd,
+              clientSecret: Secrets.gitHubClientSecretProd,
+              redirectUrl: Secrets.gitHubCallbackUrlProd,
             );
 
   final FirebaseAuth _firebaseAuth;
@@ -222,13 +222,23 @@ class AuthenticationRepository {
   Future<void> signInWithGitHub(BuildContext context) async {
     try {
       final githubAuth = await _githubSignIn.signIn(context);
-      final OAuthCredential githubAuthCredential =
-          GithubAuthProvider.credential(githubAuth.token);
+      switch (githubAuth.status) {
+        case GitHubSignInResultStatus.ok:
+          final OAuthCredential githubAuthCredential =
+              GithubAuthProvider.credential(githubAuth.token);
 
-      await _firebaseAuth.signInWithCredential(githubAuthCredential);
+          await _firebaseAuth.signInWithCredential(githubAuthCredential);
+          break;
+        case GitHubSignInResultStatus.cancelled:
+          throw const SignInWithGithubError("Status Cancelled");
+          break;
+        case GitHubSignInResultStatus.failed:
+          throw const SignInWithGithubError("Status failed");
+          break;
+      }
     } on FirebaseAuthException catch (e) {
       throw SignInWithGithubError.fromCode(e.code);
-    } catch (_) {
+    } catch (e) {
       throw const SignInWithGithubError();
     }
   }

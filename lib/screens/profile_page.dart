@@ -118,16 +118,28 @@ class _MainHeader extends StatelessWidget {
       builder: (context, profile) {
         return Column(
           children: [
-            CircleAvatar(
-              radius: 70,
-              backgroundColor: Colors.white,
-              child: SvgPicture.asset(
-                "assets/icons/person.svg",
-                color: ThemeColors.StadiumOrange,
-                width: 80,
-                height: 80,
+            if (profile.name != null)
+              CircleAvatar(
+                radius: 70,
+                backgroundColor: Colors.white,
+                child: DefaultText(
+                  profile.initials,
+                  textLevel: TextLevel.h2,
+                  color: ThemeColors.StadiumOrange,
+                  fontSize: 48,
+                ),
               ),
-            ),
+            if (profile.name == null)
+              CircleAvatar(
+                radius: 70,
+                backgroundColor: Colors.white,
+                child: SvgPicture.asset(
+                  "assets/icons/person.svg",
+                  color: ThemeColors.StadiumOrange,
+                  width: 80,
+                  height: 80,
+                ),
+              ),
             const SizedBox(height: 10.0),
             DefaultText(
               profile.name ?? "Hacker",
@@ -285,9 +297,12 @@ class _ChangePassword extends StatelessWidget {
               children: [
                 const SizedBox(height: 20.0),
                 TextFormField(
+                  obscureText: true,
+                  enableSuggestions: false,
                   autocorrect: false,
                   autovalidateMode: AutovalidateMode.always,
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(20.0),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
                         color: ThemeColors.HackyBlue,
@@ -318,9 +333,12 @@ class _ChangePassword extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 TextFormField(
+                  obscureText: true,
+                  enableSuggestions: false,
                   autocorrect: false,
                   autovalidateMode: AutovalidateMode.always,
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(20.0),
                     focusedBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
                         color: ThemeColors.HackyBlue,

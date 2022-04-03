@@ -24,6 +24,17 @@ class ProfileState extends BaseModel {
 
   String get name => _firebaseAuth.currentUser.displayName;
 
+  String get initials {
+    final user = _firebaseAuth.currentUser.displayName;
+    final names = user.split(" ");
+
+    if (names.length > 1) {
+      return "${names.first[0]}${names.last[0]}";
+    } else {
+      return names.first[0];
+    }
+  }
+
   @override
   List<Object> get props => [oldPassword, newPassword];
   //

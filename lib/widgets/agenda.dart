@@ -25,7 +25,24 @@ class Agenda<M> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (data == null) {
-      return Container();
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          DefaultText(
+            "No Events...",
+            textLevel: TextLevel.h1,
+            fontSize: 34,
+            textAlign: TextAlign.center,
+          ),
+          DefaultText(
+            "Check back later!",
+            maxLines: 2,
+            textLevel: TextLevel.h1,
+            fontSize: 34,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      );
     }
 
     final elements = groupBy<M, int>(data, groupElement);

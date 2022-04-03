@@ -63,7 +63,6 @@ class HomePageState extends State<HomePage> {
           contentBackgroundColor: Colors.white,
           header: ScreenHeader.only(
             withProfile: true,
-            // profileImage: Icons.verified_user,
           ),
           body: BlocBuilder<EventCubit, List<Event>>(
             builder: (context, events) {
@@ -162,15 +161,7 @@ class _Content extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 const SponsorCarousel(),
-                Button(
-                  variant: ButtonVariant.TextButton,
-                  onPressed: () {
-                    context.read<AuthenticationRepository>().signOut();
-                  },
-                  child: DefaultText(
-                    "Log out",
-                  ),
-                ),
+                const SizedBox(height: 20.0),
               ],
             ),
           ),
