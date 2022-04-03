@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../bloc/favorites/favorites_bloc.dart';
 import '../bloc/favorites/favorites_event.dart';
-import '../cubit/event_cubit.dart';
 import '../cubit/next_event_cubit.dart';
 import '../models/event.dart';
 import '../models/next_event_state.dart';

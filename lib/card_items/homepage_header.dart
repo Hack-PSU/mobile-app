@@ -45,7 +45,8 @@ class HomepageHeader extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           await launch(
-                              "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                            "http://devpost.hackpsu.org",
+                          );
                           // Respond to button press
                         },
                         style: ButtonStyle(
@@ -74,7 +75,8 @@ class HomepageHeader extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           await launch(
-                              "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                            "http://discord.hackpsu.org",
+                          );
                           // Respond to button press
                         },
                         style: ButtonStyle(
