@@ -56,21 +56,20 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
         emit(state.copyWith(status: FormzStatus.submissionSuccess));
       }
     } on SignUpWithEmailAndPasswordError catch (e) {
-      print(e.message);
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           status: FormzStatus.submissionFailure,
           error: e.message,
         ),
       );
-      _authBloc.add(AuthError());
     } catch (e) {
+      _authBloc.add(AuthError());
       emit(
         state.copyWith(
           status: FormzStatus.submissionFailure,
         ),
       );
-      _authBloc.add(AuthError());
     }
   }
 

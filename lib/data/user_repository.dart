@@ -38,7 +38,7 @@ class UserRepository {
 
   Future<String> getUserPin() async {
     final registrations = await getUserInfo();
-    registrations.sort((a, b) => (a.time).compareTo(b.time));
+    final hackathons = registrations.where((r) => r.active == true);
     // registrations.forEach((element) {
     //   print(element.uid);
     // });
@@ -47,8 +47,8 @@ class UserRepository {
     //   return r.active == true;
     // });
     // print(active);
-    if (registrations.isNotEmpty) {
-      final currentHackathon = registrations.last;
+    if (hackathons.isNotEmpty) {
+      final currentHackathon = hackathons.last;
       return (currentHackathon.pin - currentHackathon.basePin).toString();
     }
     return "";

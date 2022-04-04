@@ -11,6 +11,7 @@ import '../styles/theme_colors.dart';
 import '../widgets/button.dart';
 import '../widgets/default_text.dart';
 import '../widgets/input.dart';
+import '../widgets/keyboard_avoiding.dart';
 import '../widgets/screen.dart';
 
 class ProfileRouter extends StatelessWidget {
@@ -203,18 +204,20 @@ class _ProfileOptions extends StatelessWidget {
           const SizedBox(height: 10.0),
           Button(
             onPressed: () {
-              showGeneralDialog(
-                context: context,
-                barrierDismissible: true,
-                barrierLabel:
-                    MaterialLocalizations.of(context).modalBarrierDismissLabel,
-                barrierColor: Colors.black45,
-                transitionDuration: const Duration(milliseconds: 200),
-                pageBuilder:
-                    (BuildContext buildContext, animation, secondaryAnimation) {
-                  return QRScreen();
-                },
-              );
+              if (context.read<UserBloc>().state.pin != "") {
+                showGeneralDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  barrierLabel: MaterialLocalizations.of(context)
+                      .modalBarrierDismissLabel,
+                  barrierColor: Colors.black45,
+                  transitionDuration: const Duration(milliseconds: 200),
+                  pageBuilder: (BuildContext buildContext, animation,
+                      secondaryAnimation) {
+                    return QRScreen();
+                  },
+                );
+              }
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -288,117 +291,119 @@ class _ChangePassword extends StatelessWidget {
       ),
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 30.0,
-              horizontal: 20.0,
-            ),
-            child: Column(
-              children: [
-                const SizedBox(height: 20.0),
-                TextFormField(
-                  obscureText: true,
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  autovalidateMode: AutovalidateMode.always,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(20.0),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: ThemeColors.HackyBlue,
-                        width: 2.0,
+          return KeyboardAvoiding(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 30.0,
+                horizontal: 20.0,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20.0),
+                  TextFormField(
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    autovalidateMode: AutovalidateMode.always,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(20.0),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: ThemeColors.HackyBlue,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(80),
                       ),
-                      borderRadius: BorderRadius.circular(80),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: ThemeColors.HackyBlue,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(80),
+                      ),
+                      hintText: "Enter your old password",
+                      labelText: 'Old Password',
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: ThemeColors.StadiumOrange,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(80),
+                      ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: ThemeColors.HackyBlue,
-                        width: 2.0,
+                    onChanged: (newValue) {
+                      context.read<ProfileCubit>().oldPasswordChanged(newValue);
+                    },
+                  ),
+                  const SizedBox(height: 20.0),
+                  TextFormField(
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    autovalidateMode: AutovalidateMode.always,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(20.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: ThemeColors.HackyBlue,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(80),
                       ),
-                      borderRadius: BorderRadius.circular(80),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: ThemeColors.HackyBlue,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      hintText: "Enter your new password",
+                      labelText: 'New Password',
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: ThemeColors.StadiumOrange,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
                     ),
-                    hintText: "Enter your old password",
-                    labelText: 'Old Password',
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: ThemeColors.StadiumOrange,
-                        width: 2.0,
+                    onChanged: (newValue) {
+                      context.read<ProfileCubit>().newPasswordChanged(newValue);
+                    },
+                  ),
+                  const SizedBox(height: 20.0),
+                  Button(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        ThemeColors.HackyBlue,
                       ),
-                      borderRadius: BorderRadius.circular(80),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 20.0),
+                      ),
+                    ),
+                    variant: ButtonVariant.TextButton,
+                    onPressed: () async {
+                      await context.read<ProfileCubit>().changePassword();
+                      navigator.pop();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        DefaultText(
+                          "Submit",
+                          color: Colors.white,
+                        ),
+                      ],
                     ),
                   ),
-                  onChanged: (newValue) {
-                    context.read<ProfileCubit>().oldPasswordChanged(newValue);
-                  },
-                ),
-                const SizedBox(height: 20.0),
-                TextFormField(
-                  obscureText: true,
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  autovalidateMode: AutovalidateMode.always,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(20.0),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: ThemeColors.HackyBlue,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.circular(80),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: ThemeColors.HackyBlue,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    hintText: "Enter your new password",
-                    labelText: 'New Password',
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: ThemeColors.StadiumOrange,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                  onChanged: (newValue) {
-                    context.read<ProfileCubit>().newPasswordChanged(newValue);
-                  },
-                ),
-                const SizedBox(height: 20.0),
-                Button(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      ThemeColors.HackyBlue,
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                    ),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 20.0),
-                    ),
-                  ),
-                  variant: ButtonVariant.TextButton,
-                  onPressed: () async {
-                    await context.read<ProfileCubit>().changePassword();
-                    navigator.pop();
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      DefaultText(
-                        "Submit",
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
