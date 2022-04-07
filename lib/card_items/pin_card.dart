@@ -136,6 +136,7 @@ class _RegisterCard extends StatelessWidget {
           Flexible(
             child: DefaultText(
               "Please register to participate at the event.",
+              maxLines: 3,
             ),
           ),
           Container(width: 15.0),

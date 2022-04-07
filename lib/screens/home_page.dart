@@ -133,10 +133,24 @@ class _Content extends StatelessWidget {
                 const UserPinCard(),
                 BlocBuilder<EventCubit, List<Event>>(
                   builder: (context, events) {
-                    if (events == null) {
-                      return DefaultText(
-                        "No upcoming events",
-                        textLevel: TextLevel.h4,
+                    if (events == null || events.isEmpty) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.white,
+                        ),
+                        margin: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(
+                          top: 10.0,
+                          bottom: 10.0,
+                          left: 20.0,
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        alignment: Alignment.centerLeft,
+                        child: DefaultText(
+                          "No upcoming events",
+                          textLevel: TextLevel.h4,
+                        ),
                       );
                     }
                     return NextEventCard(
@@ -147,10 +161,24 @@ class _Content extends StatelessWidget {
                 ),
                 BlocBuilder<WorkshopCubit, List<Event>>(
                   builder: (context, workshops) {
-                    if (workshops == null) {
-                      return DefaultText(
-                        "No upcoming workshops",
-                        textLevel: TextLevel.h4,
+                    if (workshops == null || workshops.isEmpty) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.white,
+                        ),
+                        margin: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(
+                          top: 10.0,
+                          bottom: 10.0,
+                          left: 20.0,
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        alignment: Alignment.centerLeft,
+                        child: DefaultText(
+                          "No upcoming workshops",
+                          textLevel: TextLevel.h4,
+                        ),
                       );
                     }
                     return NextEventCard(
