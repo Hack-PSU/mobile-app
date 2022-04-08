@@ -66,15 +66,12 @@ class SponsorCarousel extends StatelessWidget {
             items: [
               [NITTANY_AI_SVG_URL, NITTANY_AI_URL],
               [MT_TECH_SVG_URL, MT_TECH_URL],
-              [BAKER_HUGHES_SVG_URL, BAKER_HUGHES_URL],
-              [MICROSOFT_SVG_URL, MICROSOFT_URL],
               [CELONIS_SVG_URL, CELONIS_URL],
               [PSU_EC_SVG_URL, PSU_EC_URL],
               [EECS_SVG_URL, EECS_URL],
               [ICDS_SVG_URL, ICDS_URL],
               [PWC_SVG_URL, PWC_URL],
               [ECHO_AR_SVG_URL, ECHO_AR_URL],
-              [PSU_GO_SVG_URL, PSU_GO_URL],
             ].map(
               (i) {
                 return Builder(
