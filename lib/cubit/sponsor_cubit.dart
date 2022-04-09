@@ -11,8 +11,6 @@ class SponsorshipCubit extends Cubit<List<Map<String, String>>> {
   final SponsorshipRepository _sponsorshipRepository;
 
   Future<void> getSponsors() async {
-    final sponsors = await _sponsorshipRepository.getSponsors();
-    print(sponsors);
-    emit(sponsors);
+    emit(await _sponsorshipRepository.getSponsors());
   }
 }
