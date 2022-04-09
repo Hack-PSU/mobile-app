@@ -8,6 +8,7 @@ import '../card_items/pin_card.dart';
 import '../card_items/sponsor_carousel.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
+import '../cubit/sponsor_cubit.dart';
 import '../cubit/workshop_cubit.dart';
 import '../data/authentication_repository.dart';
 import '../models/event.dart';
@@ -68,15 +69,21 @@ class HomePageState extends State<HomePage> {
             builder: (context, events) {
               return BlocBuilder<RegistrationCubit, List<Registration>>(
                 builder: (context, registrations) {
-                  if (events != null && registrations != null) {
-                    return _Content(
-                      controller: _controller,
-                      events: events,
-                      registrations: registrations,
-                    );
-                  }
-                  return const Loading(
-                    label: "Loading Content...",
+                  return BlocBuilder<SponsorshipCubit,
+                      List<Map<String, String>>>(
+                    builder: (context, sponsors) {
+                      if (events != null && registrations != null) {
+                        return _Content(
+                          controller: _controller,
+                          events: events,
+                          registrations: registrations,
+                          sponsors: sponsors,
+                        );
+                      }
+                      return const Loading(
+                        label: "Loading Content...",
+                      );
+                    },
                   );
                 },
               );
@@ -110,11 +117,13 @@ class _Content extends StatelessWidget {
     @required ScrollController controller,
     this.registrations,
     this.events,
+    this.sponsors,
   }) : _controller = controller;
 
   final ScrollController _controller;
   final List<Registration> registrations;
   final List<Event> events;
+  final List<Map<String, String>> sponsors;
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +197,7 @@ class _Content extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20.0),
-                const SponsorCarousel(),
+                SponsorCarousel(sponsors: sponsors),
                 const SizedBox(height: 20.0),
               ],
             ),

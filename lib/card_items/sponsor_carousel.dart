@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../cubit/sponsor_cubit.dart';
+import '../data/sponsorship_repository.dart';
 import '../widgets/default_text.dart';
 
 const ECHO_AR_SVG_URL =
@@ -41,7 +44,12 @@ const CELONIS_URL = "https://www.celonis.com/";
 const PSU_GO_URL = "https://mobile.psu.edu/";
 
 class SponsorCarousel extends StatelessWidget {
-  const SponsorCarousel({Key key}) : super(key: key);
+  const SponsorCarousel({
+    Key key,
+    this.sponsors,
+  }) : super(key: key);
+
+  final List<Map<String, String>> sponsors;
 
   @override
   Widget build(BuildContext context) {
@@ -63,23 +71,24 @@ class SponsorCarousel extends StatelessWidget {
               autoPlayInterval: const Duration(seconds: 3),
               enlargeCenterPage: true,
             ),
-            items: [
-              [NITTANY_AI_SVG_URL, NITTANY_AI_URL],
-              [MT_TECH_SVG_URL, MT_TECH_URL],
-              [CELONIS_SVG_URL, CELONIS_URL],
-              [PSU_EC_SVG_URL, PSU_EC_URL],
-              [EECS_SVG_URL, EECS_URL],
-              [ICDS_SVG_URL, ICDS_URL],
-              [PWC_SVG_URL, PWC_URL],
-              [ECHO_AR_SVG_URL, ECHO_AR_URL],
-            ].map(
+            // items: [
+            //   [NITTANY_AI_SVG_URL, NITTANY_AI_URL],
+            //   [MT_TECH_SVG_URL, MT_TECH_URL],
+            //   [CELONIS_SVG_URL, CELONIS_URL],
+            //   [PSU_EC_SVG_URL, PSU_EC_URL],
+            //   [EECS_SVG_URL, EECS_URL],
+            //   [ICDS_SVG_URL, ICDS_URL],
+            //   [PWC_SVG_URL, PWC_URL],
+            //   [ECHO_AR_SVG_URL, ECHO_AR_URL],
+            // ]
+            items: sponsors.map(
               (i) {
                 return Builder(
                   builder: (BuildContext context) {
                     return InkWell(
                       onTap: () async {
-                        if (!await launch(i[1])) {
-                          throw Exception("Could not launch $i[1]");
+                        if (!await launch(i["url"])) {
+                          throw Exception("Could not launch ${i["url"]}");
                         }
                       },
                       child: Container(
@@ -97,14 +106,14 @@ class SponsorCarousel extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            if (i[0].contains(".png"))
+                            if (i["image"].contains(".png"))
                               Image.network(
-                                i[0],
+                                i["image"],
                                 width: MediaQuery.of(context).size.width * 0.7,
                               ),
-                            if (i[0].contains(".svg"))
+                            if (i["image"].contains(".svg"))
                               SvgPicture.network(
-                                i[0],
+                                i["image"],
                                 width: MediaQuery.of(context).size.width * 0.7,
                               ),
                           ],

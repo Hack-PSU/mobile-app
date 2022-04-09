@@ -20,6 +20,13 @@ class Config {
     );
   }
 
+  static String get storageBucket {
+    return getConstantByFlavor(
+      prodConst: "gs://hackpsu18.appspot.com",
+      devConst: "gs://hackpsu18.appspot.com",
+    );
+  }
+
   static String get gitHubClientId {
     return getConstantByFlavor(
       prodConst: Secrets.gitHubClientIdProd,
