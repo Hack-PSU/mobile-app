@@ -5,8 +5,8 @@ import '../bloc/navigation/bottom_navigation_bloc.dart';
 import '../bloc/navigation/bottom_navigation_state.dart';
 import '../cubit/event_cubit.dart';
 import '../cubit/registration_cubit.dart';
+import '../cubit/sponsor_cubit.dart';
 import '../cubit/workshop_cubit.dart';
-import '../models/event.dart';
 import '../screens/events_page.dart';
 import '../screens/home_page.dart';
 import '../screens/workshops_page.dart';
@@ -32,14 +32,10 @@ class MainRouter extends StatelessWidget {
                 context.read<RegistrationCubit>().getUserInfo();
                 context.read<EventCubit>().getEvents();
                 context.read<WorkshopCubit>().getWorkshops();
+                context.read<SponsorshipCubit>().getSponsors();
                 break;
               case Routes.Events:
                 context.read<EventCubit>().getEvents();
-                // context.read<EventCubit>().executeNew(
-                //       () => context.read<EventCubit>().filter(
-                //             (item) => item.eventType != EventType.WORKSHOP,
-                //           ),
-                //     );
                 break;
               case Routes.Workshops:
                 context.read<WorkshopCubit>().getWorkshops();

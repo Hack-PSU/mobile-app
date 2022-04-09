@@ -10,10 +10,12 @@ import 'bloc/user/user_bloc.dart';
 import 'cubit/event_cubit.dart';
 import 'cubit/favorites_cubit.dart';
 import 'cubit/registration_cubit.dart';
+import 'cubit/sponsor_cubit.dart';
 import 'cubit/workshop_cubit.dart';
 import 'data/authentication_repository.dart';
 import 'data/event_repository.dart';
 import 'data/notification_repository.dart';
+import 'data/sponsorship_repository.dart';
 import 'data/user_repository.dart';
 import 'models/event.dart';
 import 'routers/root_router.dart';
@@ -39,6 +41,11 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (_) =>
               NotificationRepository('${Config.fcmUrl}/notifications'),
+        ),
+        RepositoryProvider(
+          create: (_) => SponsorshipRepository(
+            bucket: Config.storageBucket,
+          ),
         ),
       ],
       child: MultiBlocProvider(
@@ -69,6 +76,11 @@ class MyApp extends StatelessWidget {
           BlocProvider<FavoritesBloc>(
             create: (context) => FavoritesBloc(
               userBloc: BlocProvider.of<UserBloc>(context),
+            ),
+          ),
+          BlocProvider<SponsorshipCubit>(
+            create: (context) => SponsorshipCubit(
+              context.read<SponsorshipRepository>(),
             ),
           ),
         ],
