@@ -12,8 +12,8 @@ import 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc({
-    @required UserRepository userRepository,
-    @required NotificationRepository notificationRepository,
+    required UserRepository userRepository,
+    required NotificationRepository notificationRepository,
   })  : _notificationRepository = notificationRepository,
         _userRepository = userRepository,
         super(
@@ -31,7 +31,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   final UserRepository _userRepository;
   final NotificationRepository _notificationRepository;
-  StreamSubscription<String> _tokenSubscription;
+  late StreamSubscription<String> _tokenSubscription;
 
   Future<void> _onRegisterUser(
     RegisterUser event,

@@ -11,7 +11,7 @@ import '../services/api_client.dart';
 class NotificationRepository {
   NotificationRepository(
     String configUrl, {
-    FirebaseAuth firebaseAuth,
+    FirebaseAuth? firebaseAuth,
   })  : _url = configUrl,
         _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _fcm = FirebaseMessaging.instance;
@@ -23,11 +23,11 @@ class NotificationRepository {
   Stream<String> get onTokenRefresh => _fcm.onTokenRefresh;
 
   Future<String> _getUserIdToken() async {
-    final user = _firebaseAuth.currentUser;
+    final user = _firebaseAuth.currentUser!;
     return user.getIdToken();
   }
 
-  Future<void> register(String pin, [String fcmToken = ""]) async {
+  Future<void> register(String? pin, [String? fcmToken = ""]) async {
     final token = await _getUserIdToken();
     if (fcmToken == "") {
       fcmToken = await _fcm.getToken();
@@ -58,7 +58,7 @@ class NotificationRepository {
     }
   }
 
-  Future<void> subscribeAll(String pin) async {
+  Future<void> subscribeAll(String? pin) async {
     final token = await _getUserIdToken();
     final client = ApiClient.withToken(token);
 
@@ -98,7 +98,7 @@ class NotificationRepository {
     }
   }
 
-  Future<void> subscribeEvent(String pin, String uid) async {
+  Future<void> subscribeEvent(String? pin, String? uid) async {
     final token = await _getUserIdToken();
     final client = ApiClient.withToken(token);
 
@@ -117,7 +117,7 @@ class NotificationRepository {
     }
   }
 
-  Future<void> unsubscribeEvent(String pin, String uid) async {
+  Future<void> unsubscribeEvent(String? pin, String? uid) async {
     final token = await _getUserIdToken();
     final client = ApiClient.withToken(token);
 

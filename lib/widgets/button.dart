@@ -17,12 +17,12 @@ class ButtonConfig {
     this.onPressed,
   });
 
-  final ButtonStyle style;
-  final Widget icon;
-  final double iconSize;
-  final Color color;
-  final Widget child;
-  final Function() onPressed;
+  final ButtonStyle? style;
+  final Widget? icon;
+  final double? iconSize;
+  final Color? color;
+  final Widget? child;
+  final Function()? onPressed;
 }
 
 class _TextButton extends StatelessWidget {
@@ -30,22 +30,22 @@ class _TextButton extends StatelessWidget {
     this.config,
   });
 
-  final ButtonConfig config;
+  final ButtonConfig? config;
 
   @override
   Widget build(BuildContext context) {
-    if (config.icon != null) {
+    if (config!.icon != null) {
       return TextButton.icon(
-        style: config.style,
-        label: config.child,
-        onPressed: config.onPressed,
-        icon: config.icon,
+        style: config!.style,
+        label: config!.child!,
+        onPressed: config!.onPressed,
+        icon: config!.icon!,
       );
     }
     return TextButton(
-      style: config.style,
-      onPressed: config.onPressed,
-      child: config.child,
+      style: config!.style,
+      onPressed: config!.onPressed,
+      child: config!.child!,
     );
   }
 }
@@ -55,22 +55,22 @@ class _ElevatedButton extends StatelessWidget {
     this.config,
   });
 
-  final ButtonConfig config;
+  final ButtonConfig? config;
 
   @override
   Widget build(BuildContext context) {
-    if (config.icon != null) {
+    if (config!.icon != null) {
       return ElevatedButton.icon(
-        onPressed: config.onPressed,
-        icon: config.icon,
-        label: config.child,
-        style: config.style,
+        onPressed: config!.onPressed,
+        icon: config!.icon!,
+        label: config!.child!,
+        style: config!.style,
       );
     }
     return ElevatedButton(
-      style: config.style,
-      onPressed: config.onPressed,
-      child: config.child,
+      style: config!.style,
+      onPressed: config!.onPressed,
+      child: config!.child,
     );
   }
 }
@@ -80,15 +80,15 @@ class _IconButton extends StatelessWidget {
     this.config,
   });
 
-  final ButtonConfig config;
+  final ButtonConfig? config;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: config.onPressed,
-      icon: config.icon,
-      color: config.color,
-      iconSize: config.iconSize,
+      onPressed: config!.onPressed,
+      icon: config!.icon!,
+      color: config!.color,
+      iconSize: config!.iconSize,
     );
   }
 }
@@ -97,14 +97,14 @@ class _IconButton extends StatelessWidget {
 // ElevatedButton/ElevatedButton.icon, and IconButton
 class Button extends StatelessWidget {
   Button({
-    @required this.variant,
-    Function() onPressed,
-    Widget child,
-    ButtonStyle style,
-    Widget icon,
-    double iconSize,
-    Color color,
-    Key key,
+    required this.variant,
+    Function()? onPressed,
+    Widget? child,
+    ButtonStyle? style,
+    Widget? icon,
+    double? iconSize,
+    Color? color,
+    Key? key,
   })  : config = ButtonConfig(
           onPressed: onPressed,
           child: child,

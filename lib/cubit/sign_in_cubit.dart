@@ -50,8 +50,8 @@ class SignInCubit extends Cubit<SignInState> {
     try {
       _authBloc.add(AuthVerifying());
       await _authenticationRepository.signInWithEmailAndPassword(
-        email: state.email.value,
-        password: state.password.value,
+        email: state.email!.value,
+        password: state.password!.value,
       );
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on SignInWithEmailAndPasswordError catch (e) {

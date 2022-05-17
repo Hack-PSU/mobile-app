@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class KeyboardAvoiding extends StatelessWidget {
   const KeyboardAvoiding({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   final Widget child;

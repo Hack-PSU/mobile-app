@@ -9,9 +9,9 @@ import '../models/event.dart';
 
 class EventCardList extends StatelessWidget {
   const EventCardList({
-    Key key,
-    @required this.bloc,
-    @required this.events,
+    Key? key,
+    required this.bloc,
+    required this.events,
   }) : super(key: key);
 
   final FavoritesBloc bloc;

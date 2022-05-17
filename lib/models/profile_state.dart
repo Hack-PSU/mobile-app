@@ -17,15 +17,15 @@ class ProfileState extends BaseModel {
         );
 
   final FirebaseAuth _firebaseAuth;
-  final Password oldPassword;
-  final Password newPassword;
+  final Password? oldPassword;
+  final Password? newPassword;
 
-  String get email => _firebaseAuth.currentUser.email;
+  String? get email => _firebaseAuth.currentUser!.email;
 
-  String get name => _firebaseAuth.currentUser.displayName;
+  String? get name => _firebaseAuth.currentUser!.displayName;
 
   String get initials {
-    final user = _firebaseAuth.currentUser.displayName;
+    final user = _firebaseAuth.currentUser!.displayName!;
     final names = user.split(" ");
 
     if (names.length > 1) {
@@ -36,7 +36,7 @@ class ProfileState extends BaseModel {
   }
 
   @override
-  List<Object> get props => [oldPassword, newPassword];
+  List<Object?> get props => [oldPassword, newPassword];
   //
   // String getEmail() {
   //   _firebaseAuth.currentUser.email
@@ -53,8 +53,8 @@ class ProfileState extends BaseModel {
   }
 
   ProfileState copyWith({
-    Password oldPassword,
-    Password newPassword,
+    Password? oldPassword,
+    Password? newPassword,
   }) {
     return ProfileState._(
       oldPassword: oldPassword ?? this.oldPassword,

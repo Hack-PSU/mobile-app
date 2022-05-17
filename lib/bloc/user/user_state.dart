@@ -12,8 +12,8 @@ class UserState extends Equatable {
           pin: "",
         );
 
-  final String token;
-  final String pin;
+  final String? token;
+  final String? pin;
 
   UserState updateToken(String token) {
     return copyWith(
@@ -28,8 +28,8 @@ class UserState extends Equatable {
   }
 
   UserState copyWith({
-    String token,
-    String pin,
+    String? token,
+    String? pin,
   }) {
     return UserState._(
       token: token ?? this.token,
@@ -38,5 +38,5 @@ class UserState extends Equatable {
   }
 
   @override
-  List<Object> get props => [token, pin];
+  List<Object?> get props => [token, pin];
 }

@@ -4,7 +4,7 @@ class UserEvent extends Equatable {
   const UserEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class RegisterUser extends UserEvent {
@@ -23,10 +23,10 @@ class SubscribeTopic extends UserEvent {
     this.topic,
   });
 
-  final String topic;
+  final String? topic;
 
   @override
-  List<Object> get props => [topic];
+  List<Object?> get props => [topic];
 }
 
 class UnsubscribeTopic extends UserEvent {
@@ -34,8 +34,8 @@ class UnsubscribeTopic extends UserEvent {
     this.topic,
   });
 
-  final String topic;
+  final String? topic;
 
   @override
-  List<Object> get props => [topic];
+  List<Object?> get props => [topic];
 }

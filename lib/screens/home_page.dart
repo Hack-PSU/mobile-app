@@ -20,19 +20,19 @@ import '../widgets/loading.dart';
 import '../widgets/screen.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   HomePageState createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> {
-  ScrollController _controller;
-  double _logoWidth;
-  double _logoHeight;
+  ScrollController? _controller;
+  double? _logoWidth;
+  double? _logoHeight;
 
   void _scrollListener() {
-    if (_controller.position.pixels <= 50) {
+    if (_controller!.position.pixels <= 50) {
       setState(() {
         _logoWidth = 135;
         _logoHeight = 135;
@@ -50,7 +50,7 @@ class HomePageState extends State<HomePage> {
     _controller = ScrollController();
     _logoWidth = 135;
     _logoHeight = 135;
-    _controller.addListener(_scrollListener);
+    _controller!.addListener(_scrollListener);
     super.initState();
   }
 
@@ -114,16 +114,16 @@ class HomePageState extends State<HomePage> {
 
 class _Content extends StatelessWidget {
   const _Content({
-    @required ScrollController controller,
+    required ScrollController? controller,
     this.registrations,
     this.events,
     this.sponsors,
   }) : _controller = controller;
 
-  final ScrollController _controller;
-  final List<Registration> registrations;
-  final List<Event> events;
-  final List<Map<String, String>> sponsors;
+  final ScrollController? _controller;
+  final List<Registration>? registrations;
+  final List<Event>? events;
+  final List<Map<String, String>>? sponsors;
 
   @override
   Widget build(BuildContext context) {
@@ -190,6 +190,7 @@ class _Content extends StatelessWidget {
                         ),
                       );
                     }
+                    // return Container();
                     return NextEventCard(
                       events: workshops,
                       type: NextEventType.WORKSHOP,

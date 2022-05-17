@@ -6,7 +6,7 @@ class BottomNavigationBloc
     extends Bloc<BottomNavigationEvent, BottomNavigationState> {
   BottomNavigationBloc(
     Routes initialRoute, {
-    Function(Routes) onNavigationRouteChange,
+    required Function(Routes) onNavigationRouteChange,
   }) : super(
           BottomNavigationState.init(
             initialRoute,

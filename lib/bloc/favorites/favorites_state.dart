@@ -11,8 +11,8 @@ class FavoritesState extends Equatable {
   });
 
   FavoritesState.initialize({
-    FavoritesStatus status,
-    Set<String> items,
+    FavoritesStatus? status,
+    Set<String>? items,
   }) : this._(
           status: status ?? FavoritesStatus.disabled,
           items: items ?? <String>{},
@@ -27,20 +27,20 @@ class FavoritesState extends Equatable {
   }
 
   FavoritesState addItem(Event event) {
-    final newItems = Set.of(items);
+    final newItems = Set.of(items!);
     newItems.add(event.uid);
     return copyWith(items: newItems);
   }
 
   FavoritesState removeItem(Event event) {
-    final newItems = Set.of(items);
+    final newItems = Set.of(items!);
     newItems.remove(event.uid);
     return copyWith(items: newItems);
   }
 
   FavoritesState copyWith({
-    FavoritesStatus status,
-    Set<String> items,
+    FavoritesStatus? status,
+    Set<String?>? items,
   }) {
     return FavoritesState._(
       status: status ?? this.status,
@@ -48,18 +48,18 @@ class FavoritesState extends Equatable {
     );
   }
 
-  final FavoritesStatus status;
-  final Set<String> items;
+  final FavoritesStatus? status;
+  final Set<String?>? items;
 
   Map<String, dynamic> toJson() {
     return {
       "show": status == FavoritesStatus.enabled,
-      "favorites": items.toList(),
+      "favorites": items!.toList(),
     };
   }
 
   static FavoritesState fromJson(Map<String, dynamic> json) {
-    final status = json["show"] as bool;
+    final status = json["show"] as bool?;
     final favorites = json["favorites"] as List<String>;
 
     return FavoritesState.initialize(
@@ -70,7 +70,7 @@ class FavoritesState extends Equatable {
   }
 
   bool isFavorite(Event event) {
-    return items.contains(event.uid);
+    return items!.contains(event.uid);
     // if (status == FavoritesStatus.disabled) {
     //   return false;
     // } else {
@@ -79,5 +79,5 @@ class FavoritesState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, items];
+  List<Object?> get props => [status, items];
 }

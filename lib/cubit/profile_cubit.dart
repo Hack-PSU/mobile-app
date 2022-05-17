@@ -38,11 +38,11 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> changePassword() async {
-    final user = _firebaseAuth.currentUser;
+    final user = _firebaseAuth.currentUser!;
 
     final AuthCredential credential = EmailAuthProvider.credential(
-      email: state.email,
-      password: state.oldPassword.value,
+      email: state.email!,
+      password: state.oldPassword!.value,
     );
 
     try {
@@ -55,7 +55,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
 
     try {
-      await user.updatePassword(state.newPassword.value);
+      await user.updatePassword(state.newPassword!.value);
     } catch (e) {
       if (kDebugMode) {
         print(e);

@@ -8,20 +8,20 @@ import 'default_text.dart';
 
 class AgendaView extends StatefulWidget {
   const AgendaView({
-    Key key,
-    @required this.data,
-    @required this.labels,
-    @required this.groupElement,
-    @required this.renderItems,
-    @required this.favorites,
-    @required this.favoritesEnabled,
+    Key? key,
+    required this.data,
+    required this.labels,
+    required this.groupElement,
+    required this.renderItems,
+    required this.favorites,
+    required this.favoritesEnabled,
   }) : super(key: key);
 
   final Map<String, List<Event>> data;
   final int Function(Event) groupElement;
   final Widget Function(List<Event>) renderItems;
   final List<String> labels;
-  final Set<String> favorites;
+  final Set<String?>? favorites;
   final bool favoritesEnabled;
 
   @override
@@ -29,7 +29,7 @@ class AgendaView extends StatefulWidget {
 }
 
 class AgendaViewState extends State<AgendaView> with TickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class AgendaViewState extends State<AgendaView> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _tabController!.dispose();
     super.dispose();
   }
 
@@ -57,7 +57,7 @@ class AgendaViewState extends State<AgendaView> with TickerProviderStateMixin {
             padding: const EdgeInsets.symmetric(horizontal: 2).copyWith(top: 8),
             child: Agenda<Event>(
               orientation: Axis.horizontal,
-              data: data[key],
+              data: data[key]!,
               groupElement: widget.groupElement,
               renderItems: widget.renderItems,
             ),
@@ -71,17 +71,17 @@ class AgendaViewState extends State<AgendaView> with TickerProviderStateMixin {
     final Map<String, List<Event>> data = <String, List<Event>>{};
 
     for (final String label in widget.labels) {
-      List<Event> eventList = <Event>[];
+      List<Event>? eventList = <Event>[];
       if (widget.favoritesEnabled == true) {
         if (widget.data[label] != null) {
-          eventList = widget.data[label]
-              .where((e) => widget.favorites.contains(e.uid))
+          eventList = widget.data[label]!
+              .where((e) => widget.favorites!.contains(e.uid))
               .toList();
         }
       } else {
         eventList = widget.data[label];
       }
-      data[label] = eventList;
+      data[label] = eventList!;
     }
 
     return Column(
@@ -103,14 +103,14 @@ class AgendaViewState extends State<AgendaView> with TickerProviderStateMixin {
 
 class _Navigation extends StatelessWidget {
   const _Navigation({
-    Key key,
-    @required TabController controller,
-    @required this.labels,
+    Key? key,
+    required TabController? controller,
+    required this.labels,
   })  : _controller = controller,
         super(key: key);
 
   final List<String> labels;
-  final TabController _controller;
+  final TabController? _controller;
 
   List<Tab> _generateTabs() {
     return labels

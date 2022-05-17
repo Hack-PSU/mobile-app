@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:equatable/equatable.dart';
 
 import 'event.dart';
@@ -13,12 +14,12 @@ class NextEventState extends Equatable {
           events: events,
         );
 
-  final List<Event> nextEvents;
-  final Map<int, List<Event>> events;
+  final List<Event>? nextEvents;
+  final Map<int, List<Event>>? events;
 
   NextEventState copyWith({
-    Map<int, List<Event>> events,
-    List<Event> nextEvents,
+    Map<int, List<Event>>? events,
+    List<Event>? nextEvents,
   }) {
     return NextEventState._(
       events: events ?? this.events,
@@ -28,14 +29,17 @@ class NextEventState extends Equatable {
 
   NextEventState next() {
     if (events != null) {
-      final nextGroup = events.keys.firstWhere((event) {
-        final DateTime start = DateTime.fromMillisecondsSinceEpoch(event);
-        final DateTime eventStart = start.add(const Duration(minutes: 15));
+      final nextGroup = events!.keys.firstWhereOrNull(
+        (event) {
+          final DateTime start = DateTime.fromMillisecondsSinceEpoch(event);
+          final DateTime eventStart = start.add(const Duration(minutes: 15));
 
-        return eventStart.compareTo(DateTime.now()) >= 0;
-      });
-
-      return copyWith(nextEvents: events[nextGroup]);
+          return eventStart.compareTo(DateTime.now()) >= 0;
+        },
+      ); // define orElse so error is not thrown when all false
+      if (nextGroup != null) {
+        return copyWith(nextEvents: events![nextGroup]);
+      }
     }
     return copyWith();
     // if (events != null) {
@@ -66,5 +70,5 @@ class NextEventState extends Equatable {
   }
 
   @override
-  List<Object> get props => [events, nextEvents];
+  List<Object?> get props => [events, nextEvents];
 }

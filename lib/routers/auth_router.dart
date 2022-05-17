@@ -10,7 +10,7 @@ import '../screens/sign_in_page.dart';
 import '../widgets/loading.dart';
 
 class AuthRouter extends StatelessWidget {
-  const AuthRouter({Key key}) : super(key: key);
+  const AuthRouter({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

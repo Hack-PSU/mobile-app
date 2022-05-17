@@ -10,11 +10,11 @@ import 'default_text.dart';
 
 class Agenda<M> extends StatelessWidget {
   const Agenda({
-    Key key,
-    @required this.orientation,
-    @required this.data,
-    @required this.groupElement,
-    @required this.renderItems,
+    Key? key,
+    required this.orientation,
+    required this.data,
+    required this.groupElement,
+    required this.renderItems,
   }) : super(key: key);
 
   final Axis orientation;
@@ -46,7 +46,7 @@ class Agenda<M> extends StatelessWidget {
     }
 
     final elements = groupBy<M, int>(data, groupElement);
-    final sortedKeys =
+    final List<int> sortedKeys =
         elements.keys.toSet().toList().sorted((a, b) => a.compareTo(b));
 
     return ListView.separated(
@@ -57,7 +57,7 @@ class Agenda<M> extends StatelessWidget {
         final int key = sortedKeys[index];
         return _Block(
           separator: key,
-          items: elements[key],
+          items: elements[key]!,
           orientation: orientation,
           renderItems: renderItems,
         );
@@ -71,10 +71,10 @@ class Agenda<M> extends StatelessWidget {
 
 class _Block<M> extends StatelessWidget {
   const _Block({
-    @required this.separator,
-    @required this.items,
-    @required this.orientation,
-    @required this.renderItems,
+    required this.separator,
+    required this.items,
+    required this.orientation,
+    required this.renderItems,
   });
 
   final List<M> items;

@@ -28,7 +28,7 @@ class NextEventCubit extends Cubit<NextEventState> {
     );
   }
 
-  Timer _timer;
+  late Timer _timer;
 
   @override
   Future<void> close() {

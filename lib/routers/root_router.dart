@@ -8,7 +8,7 @@ import 'auth_router.dart';
 import 'main_router.dart';
 
 class RootRouter extends StatelessWidget {
-  const RootRouter({Key key}) : super(key: key);
+  const RootRouter({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

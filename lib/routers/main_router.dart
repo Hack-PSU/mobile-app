@@ -12,7 +12,7 @@ import '../screens/home_page.dart';
 import '../screens/workshops_page.dart';
 
 class MainRouter extends StatelessWidget {
-  const MainRouter({Key key}) : super(key: key);
+  const MainRouter({Key? key}) : super(key: key);
 
   static const List<Widget> _pages = [
     HomePage(),

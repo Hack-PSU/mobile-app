@@ -5,7 +5,7 @@ import '../../models/event.dart';
 class EventCubit extends Cubit<List<Event>> {
   EventCubit(EventRepository eventRepository)
       : _eventRepository = eventRepository,
-        super(null);
+        super([]);
 
   final EventRepository _eventRepository;
 
@@ -18,7 +18,7 @@ class EventCubit extends Cubit<List<Event>> {
   // wrapper function to execute a callback
   // the function ensures current state is flushed before executing
   Future<void> executeNew(Function() exec) async {
-    emit(null);
+    emit([]);
     exec();
   }
 }

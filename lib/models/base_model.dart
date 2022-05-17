@@ -4,7 +4,7 @@ abstract class BaseModel extends Equatable {
   const BaseModel();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 
   bool isReady();
 }

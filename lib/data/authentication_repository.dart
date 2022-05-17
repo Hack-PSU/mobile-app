@@ -150,9 +150,9 @@ class SignOutError implements Exception {}
 
 class AuthenticationRepository {
   AuthenticationRepository({
-    FirebaseAuth firebaseAuth,
-    GoogleSignIn googleSignIn,
-    GitHubSignIn gitHubSignIn,
+    FirebaseAuth? firebaseAuth,
+    GoogleSignIn? googleSignIn,
+    GitHubSignIn? gitHubSignIn,
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
         _githubSignIn = gitHubSignIn ??
@@ -167,12 +167,12 @@ class AuthenticationRepository {
   final GoogleSignIn _googleSignIn;
   final GitHubSignIn _githubSignIn;
 
-  Stream<User> get user => _firebaseAuth.authStateChanges();
-  User get currentUser => _firebaseAuth.currentUser;
+  Stream<User?> get user => _firebaseAuth.authStateChanges();
+  User? get currentUser => _firebaseAuth.currentUser;
 
   Future<void> signInWithEmailAndPassword({
-    @required String email,
-    @required String password,
+    required String email,
+    required String password,
   }) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
@@ -187,8 +187,8 @@ class AuthenticationRepository {
   }
 
   Future<void> signUp({
-    @required String email,
-    @required String password,
+    required String email,
+    required String password,
   }) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
@@ -205,10 +205,10 @@ class AuthenticationRepository {
   Future<void> signInWithGoogle() async {
     try {
       final googleUser = await _googleSignIn.signIn();
-      final googleAuth = await googleUser.authentication;
+      final googleAuth = await googleUser?.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
       );
 
       await _firebaseAuth.signInWithCredential(credential);
@@ -225,7 +225,7 @@ class AuthenticationRepository {
       switch (githubAuth.status) {
         case GitHubSignInResultStatus.ok:
           final OAuthCredential githubAuthCredential =
-              GithubAuthProvider.credential(githubAuth.token);
+              GithubAuthProvider.credential(githubAuth.token!);
 
           await _firebaseAuth.signInWithCredential(githubAuthCredential);
           break;
@@ -254,12 +254,12 @@ class AuthenticationRepository {
 
     switch (result.status) {
       case AuthorizationStatus.authorized:
-        final AppleIdCredential appleIdCredential = result.credential;
+        final AppleIdCredential appleIdCredential = result.credential!;
         final OAuthProvider oAuthProvider = OAuthProvider('apple.com');
         final OAuthCredential credential = oAuthProvider.credential(
-          idToken: String.fromCharCodes(appleIdCredential.identityToken),
+          idToken: String.fromCharCodes(appleIdCredential.identityToken!),
           accessToken:
-              String.fromCharCodes(appleIdCredential.authorizationCode),
+              String.fromCharCodes(appleIdCredential.authorizationCode!),
         );
 
         try {
@@ -273,7 +273,7 @@ class AuthenticationRepository {
               fullName.givenName != null &&
               fullName.familyName != null) {
             final displayName = '${fullName.givenName} ${fullName.familyName}';
-            await user.updateDisplayName(displayName);
+            await user!.updateDisplayName(displayName);
           }
         } on FirebaseAuthException catch (e) {
           throw SignInWithAppleError.fromCode(e.code);

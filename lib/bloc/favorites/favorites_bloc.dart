@@ -8,7 +8,7 @@ import 'favorites_state.dart';
 
 class FavoritesBloc extends HydratedBloc<FavoritesEvent, FavoritesState> {
   FavoritesBloc({
-    @required UserBloc userBloc,
+    required UserBloc userBloc,
   })  : _userBloc = userBloc,
         super(
           FavoritesState.initialize(),

@@ -13,8 +13,8 @@ import '../models/password.dart';
 
 class CreateAccountCubit extends Cubit<CreateAccountState> {
   CreateAccountCubit({
-    @required AuthenticationRepository authenticationRepository,
-    @required AuthBloc authBloc,
+    required AuthenticationRepository authenticationRepository,
+    required AuthBloc authBloc,
   })  : _authenticationRepository = authenticationRepository,
         _authBloc = authBloc,
         super(
@@ -49,8 +49,8 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
     try {
       _authBloc.add(AuthVerifying());
       await _authenticationRepository.signUp(
-        email: state.email.value,
-        password: state.password.value,
+        email: state.email!.value,
+        password: state.password!.value,
       );
       if (_authBloc.state.status == AuthStatus.unauthenticated) {
         emit(state.copyWith(status: FormzStatus.submissionSuccess));

@@ -9,7 +9,7 @@ import '../models/registration.dart';
 import '../utils/flavor_constants.dart';
 
 class Api {
-  static Future<List<Event>> getEvents() async {
+  static Future<List<Event>?> getEvents() async {
     final Uri url = Uri.parse('${Config.baseUrl}/live/events');
     final http.Response response = await http.get(url);
 
@@ -17,15 +17,15 @@ class Api {
       final parsed =
           jsonDecode(response.body)['body']['data'].cast<Map<String, Event>>();
       return parsed.map<Event>(
-          (Map<String, dynamic> json) => Event.fromJson(json)) as List<Event>;
+          (Map<String, dynamic> json) => Event.fromJson(json)) as List<Event>?;
     } else {
       throw Exception('Failed to get events from API');
     }
   }
 
-  static Future<List<Registration>> getUserInfo() async {
+  static Future<List<Registration>?> getUserInfo() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
-    final User user = auth.currentUser;
+    final User user = auth.currentUser!;
     final Future<String> userToken = user.getIdToken(); // Type: Future<String>
     String idToken = await userToken; // Type: String
 
@@ -44,7 +44,7 @@ class Api {
       return parsed
           .map<Registration>(
               (Map<String, dynamic> json) => Registration.fromJson(json))
-          .toList() as List<Registration>;
+          .toList() as List<Registration>?;
     } else {
       throw Exception('Failed to get user info from API');
     }
