@@ -40,10 +40,10 @@
               "client_type": 3
             },
             {
-              "client_id": "1002677206617-pkc83vufu9v3nu9mivb5kareb89q06ff.apps.googleusercontent.com",
+              "client_id": "1002677206617-68ijsgu5tuedo5d544phau52jn1j20b5.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "org.hackpsu"
+                "bundle_id": "org.hackpsu.prod"
               }
             }
           ]
@@ -84,10 +84,10 @@
               "client_type": 3
             },
             {
-              "client_id": "1002677206617-pkc83vufu9v3nu9mivb5kareb89q06ff.apps.googleusercontent.com",
+              "client_id": "1002677206617-68ijsgu5tuedo5d544phau52jn1j20b5.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "org.hackpsu"
+                "bundle_id": "org.hackpsu.prod"
               }
             }
           ]
