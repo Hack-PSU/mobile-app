@@ -59,11 +59,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1002677206617-44mtsk2g4si65a331dppc9sk48hbqmbe.apps.googleusercontent.com",
+          "client_id": "1002677206617-7cte2ir7kd8ge319thq3elcckpal272p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "org.hackpsu.prod",
-            "certificate_hash": "d36b230d509d23e13d3d5d73d7cc95e4f09dcba6"
+            "certificate_hash": "ad3b508f4ab23ea5ec0c23ae99312e9a036025f7"
           }
         },
         {
