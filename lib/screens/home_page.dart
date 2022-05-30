@@ -156,9 +156,14 @@ class _Content extends StatelessWidget {
                         ),
                         width: MediaQuery.of(context).size.width * 0.95,
                         alignment: Alignment.centerLeft,
-                        child: DefaultText(
-                          "No upcoming events",
-                          textLevel: TextLevel.h4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            DefaultText(
+                              "No upcoming events",
+                              textLevel: TextLevel.h4,
+                            ),
+                          ],
                         ),
                       );
                     }
