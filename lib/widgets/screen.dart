@@ -13,18 +13,18 @@ import 'default_text.dart';
 
 class Screen extends Scaffold {
   Screen({
-    Key key,
-    AppBar appBar,
-    Color backgroundColor,
-    ScreenHeader header,
+    Key? key,
+    AppBar? appBar,
+    Color? backgroundColor,
+    ScreenHeader? header,
     bool withBottomNavigation = false,
     bool withDismissKeyboard = false,
-    @required Widget body,
-    Color contentBackgroundColor,
-    bool safeAreaTop,
-    bool safeAreaBottom,
-    bool safeAreaLeft,
-    bool safeAreaRight,
+    required Widget body,
+    Color? contentBackgroundColor,
+    bool? safeAreaTop,
+    bool? safeAreaBottom,
+    bool? safeAreaLeft,
+    bool? safeAreaRight,
   }) : super(
           key: key,
           resizeToAvoidBottomInset: false,
@@ -61,7 +61,7 @@ class _Page extends StatelessWidget {
     if (withDismissKeyboard == true) {
       return GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus != null
-            ? FocusManager.instance.primaryFocus.unfocus()
+            ? FocusManager.instance.primaryFocus!.unfocus()
             : null,
         child: body,
       );
@@ -72,7 +72,7 @@ class _Page extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   const _Body({
-    Key key,
+    Key? key,
     this.body,
     this.header,
     this.contentBackgroundColor,
@@ -83,14 +83,14 @@ class _Body extends StatelessWidget {
     this.withKeyboardAvoiding,
   }) : super(key: key);
 
-  final ScreenHeader header;
-  final Widget body;
-  final Color contentBackgroundColor;
-  final bool safeAreaTop;
-  final bool safeAreaBottom;
-  final bool safeAreaLeft;
-  final bool safeAreaRight;
-  final bool withKeyboardAvoiding;
+  final ScreenHeader? header;
+  final Widget? body;
+  final Color? contentBackgroundColor;
+  final bool? safeAreaTop;
+  final bool? safeAreaBottom;
+  final bool? safeAreaLeft;
+  final bool? safeAreaRight;
+  final bool? withKeyboardAvoiding;
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +106,9 @@ class _Body extends StatelessWidget {
         bottom: safeAreaBottom ?? true,
         child: Column(
           children: [
-            if (header != null) header,
+            if (header != null) header!,
             Expanded(
-              child: body,
+              child: body!,
             ),
           ],
         ),
@@ -119,20 +119,20 @@ class _Body extends StatelessWidget {
 
 class ScreenHeader extends StatelessWidget {
   const ScreenHeader({
-    Key key,
-    @required Widget body,
+    Key? key,
+    required Widget body,
   })  : _body = body,
         super(key: key);
 
   ScreenHeader.only({
-    Key key,
-    bool withText,
-    bool withSwitch,
-    bool withBackgroundImage,
-    bool withProfile,
-    String text,
-    DecorationImage backgroundImage,
-    ImageProvider profileImage,
+    Key? key,
+    bool? withText,
+    bool? withSwitch,
+    bool? withBackgroundImage,
+    bool? withProfile,
+    String? text,
+    DecorationImage? backgroundImage,
+    ImageProvider? profileImage,
   })  : _body = _ScreenHeader(
           text: text ?? "",
           backgroundImage: backgroundImage,
@@ -146,9 +146,9 @@ class ScreenHeader extends StatelessWidget {
 
   factory ScreenHeader.text(
     String text, {
-    Key key,
-    DecorationImage backgroundImage,
-    ImageProvider profileImage,
+    Key? key,
+    DecorationImage? backgroundImage,
+    ImageProvider? profileImage,
   }) {
     return ScreenHeader.only(
       key: key,
@@ -172,7 +172,7 @@ class ScreenHeader extends StatelessWidget {
 
 class _ScreenHeader extends StatelessWidget {
   const _ScreenHeader({
-    String text,
+    String? text,
     this.backgroundImage,
     this.profileImage,
     this.withText,
@@ -182,12 +182,12 @@ class _ScreenHeader extends StatelessWidget {
   }) : _text = text ?? "";
 
   final String _text;
-  final DecorationImage backgroundImage;
-  final ImageProvider profileImage;
-  final bool withText;
-  final bool withBackgroundImage;
-  final bool withSwitch;
-  final bool withProfile;
+  final DecorationImage? backgroundImage;
+  final ImageProvider? profileImage;
+  final bool? withText;
+  final bool? withBackgroundImage;
+  final bool? withSwitch;
+  final bool? withProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -235,15 +235,15 @@ class _ScreenHeader extends StatelessWidget {
 
 class _ProfileSwitch extends StatelessWidget {
   const _ProfileSwitch({
-    Key key,
+    Key? key,
     this.withSwitch,
     this.withProfile,
     this.profileImage,
   }) : super(key: key);
 
-  final bool withSwitch;
-  final bool withProfile;
-  final ImageProvider profileImage;
+  final bool? withSwitch;
+  final bool? withProfile;
+  final ImageProvider? profileImage;
 
   @override
   Widget build(BuildContext context) {

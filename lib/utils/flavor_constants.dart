@@ -8,7 +8,7 @@ enum Flavor {
 }
 
 class Config {
-  static Flavor appFlavor;
+  static Flavor? appFlavor;
 
   static String get fcmUrl =>
       'https://us-central1-hackpsu18.cloudfunctions.net';
@@ -49,7 +49,7 @@ class Config {
   }
 
   static String getConstantByFlavor(
-      {@required String prodConst, @required String devConst}) {
+      {required String prodConst, required String devConst}) {
     switch (appFlavor) {
       case Flavor.DEV:
         return devConst;

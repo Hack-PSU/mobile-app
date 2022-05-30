@@ -11,10 +11,10 @@ import '../widgets/default_text.dart';
 
 class EventWorkshopCard extends StatelessWidget {
   const EventWorkshopCard({
-    Key key,
-    @required this.event,
-    @required this.onAddFavorite,
-    @required this.onRemoveFavorite,
+    Key? key,
+    required this.event,
+    required this.onAddFavorite,
+    required this.onRemoveFavorite,
   }) : super(key: key);
 
   final Event event;
@@ -70,12 +70,12 @@ class EventWorkshopCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         DefaultText(
-                          parseLocation(event.locationName),
+                          parseLocation(event.locationName!),
                           color: const Color(0x99000000),
                           textLevel: TextLevel.overline,
                         ),
                         DefaultText(
-                          event.eventTitle,
+                          event.eventTitle!,
                           textLevel: TextLevel.sub1,
                         ),
                         if (event.wsPresenterNames == null)
@@ -122,7 +122,7 @@ class EventWorkshopCard extends StatelessWidget {
 
 class _FavoritesIcon extends StatelessWidget {
   const _FavoritesIcon({
-    @required this.isFavorite,
+    required this.isFavorite,
   });
 
   final bool isFavorite;
@@ -148,7 +148,7 @@ class _BottomSheet {
         borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
       ),
       builder: (BuildContext context) {
-        Icon getEventIcon(EventType eventType) {
+        Icon getEventIcon(EventType? eventType) {
           if (eventType == EventType.ACTIVITY) {
             return const Icon(
               Icons.event_available,
@@ -190,7 +190,7 @@ class _BottomSheet {
                         child: event.eventIcon != null
                             ? CircleAvatar(
                                 radius: 25,
-                                backgroundImage: NetworkImage(event.eventIcon))
+                                backgroundImage: NetworkImage(event.eventIcon!))
                             : getEventIcon(event.eventType),
                       ),
                       Expanded(
@@ -198,7 +198,7 @@ class _BottomSheet {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             DefaultText(
-                              event.eventTitle,
+                              event.eventTitle!,
                               textLevel: TextLevel.sub1,
                             ),
                             if (event.wsPresenterNames != null)
@@ -243,7 +243,7 @@ class _BottomSheet {
                   ),
                   Chip(
                     avatar: const Icon(Icons.location_on_rounded),
-                    label: DefaultText(event.locationName),
+                    label: DefaultText(event.locationName!),
                   ),
                   if (event.eventDescription != null)
                     Container(
@@ -271,7 +271,7 @@ class _BottomSheet {
                             textLevel: TextLevel.body1,
                           ),
                           DefaultText(
-                            event.eventDescription,
+                            event.eventDescription!,
                             textLevel: TextLevel.body2,
                             maxLines: 10,
                           ),

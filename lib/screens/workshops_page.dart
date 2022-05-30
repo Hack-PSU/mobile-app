@@ -14,7 +14,7 @@ import '../widgets/event_card_list.dart';
 import '../widgets/screen.dart';
 
 class WorkshopsPage extends StatelessWidget {
-  const WorkshopsPage({Key key}) : super(key: key);
+  const WorkshopsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class WorkshopsPage extends StatelessWidget {
 }
 
 class WorkshopsScreen extends StatelessWidget {
-  const WorkshopsScreen({Key key}) : super(key: key);
+  const WorkshopsScreen({Key? key}) : super(key: key);
 
   String _groupEvents(Event item) {
     final DateFormat formatter = DateFormat("EEEE");

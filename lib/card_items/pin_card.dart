@@ -9,7 +9,7 @@ import '../widgets/default_text.dart';
 
 class UserPinCard extends StatelessWidget {
   const UserPinCard({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -17,7 +17,7 @@ class UserPinCard extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       buildWhen: (previous, current) => previous.pin != current.pin,
       builder: (context, state) {
-        if (state.pin.isEmpty) {
+        if (state.pin!.isEmpty) {
           return _RegisterCard();
         }
 
@@ -54,7 +54,7 @@ class UserPinCard extends StatelessWidget {
                     ),
                     Container(height: 10.0),
                     DefaultText(
-                      state.pin,
+                      state.pin!,
                       textLevel: TextLevel.h1,
                     ),
                   ],

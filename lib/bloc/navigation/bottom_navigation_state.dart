@@ -5,26 +5,26 @@ enum Routes { Home, Events, Workshops }
 
 class BottomNavigationState extends Equatable {
   const BottomNavigationState._({
-    @required this.route,
+    required this.route,
     this.onNavigationRouteChange,
   });
 
   const BottomNavigationState.init(
     Routes initialRoute, {
-    Function(Routes) onNavigationRouteChange,
+    Function(Routes)? onNavigationRouteChange,
   }) : this._(
           route: initialRoute,
           onNavigationRouteChange: onNavigationRouteChange,
         );
 
   BottomNavigationState switchRoute(Routes route) {
-    onNavigationRouteChange(route);
+    onNavigationRouteChange!(route);
     return copyWith(route: route);
   }
 
   BottomNavigationState copyWith({
-    Routes route,
-    Function(Routes) onNavigationChange,
+    Routes? route,
+    Function(Routes)? onNavigationChange,
   }) {
     return BottomNavigationState._(
       route: route ?? this.route,
@@ -36,7 +36,7 @@ class BottomNavigationState extends Equatable {
   int get routeIndex => Routes.values.indexOf(route);
 
   final Routes route;
-  final Function(Routes) onNavigationRouteChange;
+  final Function(Routes)? onNavigationRouteChange;
 
   @override
   List<Object> get props => [route];

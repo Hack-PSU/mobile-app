@@ -24,7 +24,7 @@ class ProfileRouter extends StatelessWidget {
       child: Navigator(
         initialRoute: "profile/main",
         onGenerateRoute: (RouteSettings settings) {
-          WidgetBuilder builder;
+          late WidgetBuilder builder;
           switch (settings.name) {
             case "profile/main":
               builder = (_) => const ProfilePage();
@@ -47,7 +47,7 @@ class ProfileRouter extends StatelessWidget {
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -60,7 +60,7 @@ class ProfilePage extends StatelessWidget {
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -110,7 +110,7 @@ class _Toolbar extends StatelessWidget {
 
 class _MainHeader extends StatelessWidget {
   const _MainHeader({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -150,7 +150,7 @@ class _MainHeader extends StatelessWidget {
               textLevel: TextLevel.h1,
             ),
             DefaultText(
-              profile.email,
+              profile.email!,
               textLevel: TextLevel.caption,
               fontSize: 16,
             ),

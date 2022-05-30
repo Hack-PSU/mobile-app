@@ -6,7 +6,7 @@ import 'screen.dart';
 
 class Loading extends StatefulWidget {
   const Loading({
-    Key key,
+    Key? key,
     this.repeat,
     this.width,
     this.height,
@@ -14,18 +14,18 @@ class Loading extends StatefulWidget {
     this.label,
   }) : super(key: key);
 
-  final bool repeat;
-  final double width;
-  final double height;
-  final BoxFit fit;
-  final String label;
+  final bool? repeat;
+  final double? width;
+  final double? height;
+  final BoxFit? fit;
+  final String? label;
 
   @override
   State<StatefulWidget> createState() => LoadingState();
 }
 
 class LoadingState extends State<Loading> with TickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class LoadingState extends State<Loading> with TickerProviderStateMixin {
                   height: 20,
                 ),
               DefaultText(
-                widget.label,
+                widget.label!,
                 textLevel: TextLevel.h2,
                 color: Colors.black,
               ),

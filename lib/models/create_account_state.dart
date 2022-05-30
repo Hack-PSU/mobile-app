@@ -20,16 +20,16 @@ class CreateAccountState extends BaseModel {
           error: "",
         );
 
-  final Email email;
-  final Password password;
-  final FormzStatus status;
-  final String error;
+  final Email? email;
+  final Password? password;
+  final FormzStatus? status;
+  final String? error;
 
   CreateAccountState copyWith({
-    Email email,
-    Password password,
-    FormzStatus status,
-    String error,
+    Email? email,
+    Password? password,
+    FormzStatus? status,
+    String? error,
   }) {
     return CreateAccountState._(
       email: email ?? this.email,
@@ -40,7 +40,7 @@ class CreateAccountState extends BaseModel {
   }
 
   @override
-  List<Object> get props => [email, password, status, error];
+  List<Object?> get props => [email, password, status, error];
 
   @override
   bool isReady() {

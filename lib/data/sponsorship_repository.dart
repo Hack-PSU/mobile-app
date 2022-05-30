@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class SponsorshipRepository {
   SponsorshipRepository({
-    @required String bucket,
+    required String bucket,
   }) : _firebaseStorage = FirebaseStorage.instanceFor(
           bucket: bucket,
         );
@@ -22,11 +22,11 @@ class SponsorshipRepository {
     // final Map<String, Map<String, String>> sponsorData = {};
 
     for (final Reference logo in logos) {
-      final order = orderRegex.allMatches(logo.fullPath).elementAt(0).group(1);
+      final order = orderRegex.allMatches(logo.fullPath).elementAt(0).group(1)!;
       final metadata = await logo.getMetadata();
       sponsorData[int.parse(order) - 1] = {
         "image": await logo.getDownloadURL(),
-        "url": metadata.customMetadata["url"]
+        "url": metadata.customMetadata!["url"] ?? ""
       };
     }
 

@@ -26,7 +26,7 @@ class _CountdownTimerCardState extends State<CountdownTimerCard> {
   var openingDifference = openingCeremony.difference(DateTime.now());
   var endDifference = hackingEnd.difference(DateTime.now());
   // store widget state to prevent memory leak
-  Timer _timer;
+  Timer? _timer;
 
   StringDuration get currentDifferentString {
     num totalSeconds = !openingDifference.isNegative
@@ -69,7 +69,7 @@ class _CountdownTimerCardState extends State<CountdownTimerCard> {
   @override
   void dispose() {
     if (_timer != null) {
-      _timer.cancel();
+      _timer!.cancel();
     }
     super.dispose();
   }

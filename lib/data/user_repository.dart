@@ -8,7 +8,7 @@ import '../models/registration.dart';
 class UserRepository {
   UserRepository(
     String configUrl, {
-    FirebaseAuth firebaseAuth,
+    FirebaseAuth? firebaseAuth,
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _endpoint = Uri.parse(configUrl);
 
@@ -16,7 +16,7 @@ class UserRepository {
   final Uri _endpoint;
 
   Future<List<Registration>> getUserInfo() async {
-    final user = _firebaseAuth.currentUser;
+    final user = _firebaseAuth.currentUser!;
     final String idToken = await user.getIdToken();
 
     final resp = await http.get(
@@ -47,9 +47,9 @@ class UserRepository {
     //   return r.active == true;
     // });
     // print(active);
-    if (hackathons.isNotEmpty) {
+    if (hackathons != null && hackathons.isNotEmpty) {
       final currentHackathon = hackathons.last;
-      return (currentHackathon.pin - currentHackathon.basePin).toString();
+      return (currentHackathon.pin! - currentHackathon.basePin!).toString();
     }
     return "";
   }

@@ -15,7 +15,7 @@ import '../widgets/keyboard_avoiding.dart';
 import '../widgets/screen.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({Key key}) : super(key: key);
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class SignInPage extends StatelessWidget {
 }
 
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({Key key}) : super(key: key);
+  const SignInScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

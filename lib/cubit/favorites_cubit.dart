@@ -4,7 +4,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../models/event.dart';
 
-class FavoritesCubit extends HydratedCubit<Set<String>> {
+class FavoritesCubit extends HydratedCubit<Set<String?>> {
   FavoritesCubit() : super(<String>{});
 
   void addFavorite(Event event) {
@@ -24,7 +24,7 @@ class FavoritesCubit extends HydratedCubit<Set<String>> {
   }
 
   @override
-  Map<String, dynamic> toJson(Set<String> state) {
-    return <String, List<String>>{"favorites": state.toList()};
+  Map<String, dynamic> toJson(Set<String?> state) {
+    return <String, List<String?>>{"favorites": state.toList()};
   }
 }

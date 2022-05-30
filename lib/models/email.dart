@@ -9,19 +9,19 @@ class EmailValidation {
     this.message,
   ]);
 
-  final EmailStatus status;
-  final String message;
+  final EmailStatus? status;
+  final String? message;
 }
 
 class Email extends FormzInput<String, String> {
   Email.pure() : super.pure("");
   Email.dirty(String value) : super.dirty(value);
 
-  static final emailValidator =
+  static final String? Function(String) emailValidator =
       ValidationBuilder().email("Invalid email").build();
 
   @override
-  String validator(String value) {
+  String? validator(String value) {
     return null;
   }
 }

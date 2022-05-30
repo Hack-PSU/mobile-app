@@ -16,7 +16,7 @@ class PushNotificationService {
     RemoteMessage message,
     AndroidNotificationChannel channel,
   ) async {
-    final RemoteNotification notification = message.notification;
+    final RemoteNotification notification = message.notification!;
 
     await flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -39,7 +39,7 @@ class PushNotificationService {
     RemoteMessage message,
     AndroidNotificationChannel channel,
   ) async {
-    final RemoteNotification notification = message.notification;
+    final RemoteNotification notification = message.notification!;
     final Map<String, dynamic> data = message.data;
 
     final tz.TZDateTime scheduleTime = tz.TZDateTime.fromMillisecondsSinceEpoch(
@@ -68,8 +68,8 @@ class PushNotificationService {
     );
   }
 
-  Future<void> _onSelectNotification(String payload) async {
-    final data = jsonDecode(payload);
+  Future<void> _onSelectNotification(String? payload) async {
+    final data = jsonDecode(payload!);
     if (data != null && data["link"] != null) {
       final String link = data["link"] as String;
       if (kDebugMode) {
@@ -121,7 +121,7 @@ class PushNotificationService {
           null) {
         await flutterLocalNotificationsPlugin
             .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin>()
+                AndroidFlutterLocalNotificationsPlugin>()!
             .createNotificationChannel(channel);
       }
 
@@ -136,8 +136,8 @@ class PushNotificationService {
 
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
-        final RemoteNotification notification = message.notification;
-        final AndroidNotification android = message.notification.android;
+        final RemoteNotification? notification = message.notification;
+        final AndroidNotification? android = message.notification!.android;
         final Map<String, dynamic> data = message.data;
 
         if (notification != null && !kIsWeb) {
@@ -159,7 +159,7 @@ class PushNotificationService {
         }
         if (kDebugMode) {
           print(
-              "Message: ${message.notification.title}, ${message.notification.body}");
+              "Message: ${message.notification!.title}, ${message.notification!.body}");
         }
       },
     );

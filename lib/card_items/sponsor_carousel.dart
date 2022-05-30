@@ -45,11 +45,11 @@ const PSU_GO_URL = "https://mobile.psu.edu/";
 
 class SponsorCarousel extends StatelessWidget {
   const SponsorCarousel({
-    Key key,
+    Key? key,
     this.sponsors,
   }) : super(key: key);
 
-  final List<Map<String, String>> sponsors;
+  final List<Map<String, String>>? sponsors;
 
   @override
   Widget build(BuildContext context) {
@@ -81,13 +81,13 @@ class SponsorCarousel extends StatelessWidget {
             //   [PWC_SVG_URL, PWC_URL],
             //   [ECHO_AR_SVG_URL, ECHO_AR_URL],
             // ]
-            items: sponsors.map(
+            items: sponsors!.map(
               (i) {
                 return Builder(
                   builder: (BuildContext context) {
                     return InkWell(
                       onTap: () async {
-                        if (!await launch(i["url"])) {
+                        if (!await launch(i["url"]!)) {
                           throw Exception("Could not launch ${i["url"]}");
                         }
                       },
@@ -106,14 +106,14 @@ class SponsorCarousel extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            if (i["image"].contains(".png"))
+                            if (i["image"]!.contains(".png"))
                               Image.network(
-                                i["image"],
+                                i["image"]!,
                                 width: MediaQuery.of(context).size.width * 0.7,
                               ),
-                            if (i["image"].contains(".svg"))
+                            if (i["image"]!.contains(".svg"))
                               SvgPicture.network(
-                                i["image"],
+                                i["image"]!,
                                 width: MediaQuery.of(context).size.width * 0.7,
                               ),
                           ],

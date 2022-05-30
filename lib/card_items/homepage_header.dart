@@ -8,7 +8,7 @@ import '../widgets/default_text.dart';
 import 'countdown_timer_card.dart';
 
 class HomepageHeader extends StatelessWidget {
-  const HomepageHeader({Key key}) : super(key: key);
+  const HomepageHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

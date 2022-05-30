@@ -12,8 +12,8 @@ import 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
-    @required AuthenticationRepository authenticationRepository,
-    @required UserBloc userBloc,
+    required AuthenticationRepository authenticationRepository,
+    required UserBloc userBloc,
   })  : _authenticationRepository = authenticationRepository,
         _userBloc = userBloc,
         super(
@@ -33,7 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthenticationRepository _authenticationRepository;
   final UserBloc _userBloc;
 
-  StreamSubscription<User> _userSubscription;
+  late StreamSubscription<User?> _userSubscription;
 
   Future<void> _onAuthUserChanged(
     AuthUserChanged event,

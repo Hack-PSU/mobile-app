@@ -5,23 +5,23 @@ import '../models/base_model.dart';
 
 class Input extends StatelessWidget {
   const Input({
-    @required this.label,
+    required this.label,
     this.inputType,
     this.fillColor,
     this.decoration,
     this.password,
-    @required this.onChanged,
+    required this.onChanged,
     this.autocorrect,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
-  final String label;
-  final TextInputType inputType;
-  final Color fillColor;
-  final InputDecoration decoration;
-  final bool password;
-  final Function(String) onChanged;
-  final bool autocorrect;
+  final String? label;
+  final TextInputType? inputType;
+  final Color? fillColor;
+  final InputDecoration? decoration;
+  final bool? password;
+  final Function(String)? onChanged;
+  final bool? autocorrect;
 
   static InputDecoration getDefaultStyles() => const InputDecoration(
         labelText: "",
@@ -37,7 +37,7 @@ class Input extends StatelessWidget {
       onChanged: onChanged,
       autocorrect: autocorrect ?? true,
       decoration: decoration != null
-          ? decoration.copyWith(
+          ? decoration!.copyWith(
               labelText: label,
               fillColor: fillColor ?? Colors.black12,
             )
@@ -51,8 +51,8 @@ class Input extends StatelessWidget {
 
 class PasswordInput extends Input {
   const PasswordInput({
-    String label,
-    Function(String) onChanged,
+    String? label,
+    Function(String)? onChanged,
   }) : super(
           label: label,
           password: true,
@@ -67,9 +67,9 @@ class PasswordInput extends Input {
 class ControlledInput<B extends StateStreamable<M>, M extends BaseModel>
     extends StatelessWidget {
   const ControlledInput({
-    Key key,
-    @required this.buildWhen,
-    @required this.builder,
+    Key? key,
+    required this.buildWhen,
+    required this.builder,
   }) : super(key: key);
 
   final bool Function(M, M) buildWhen;

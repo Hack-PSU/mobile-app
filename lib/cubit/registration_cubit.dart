@@ -7,7 +7,7 @@ class RegistrationCubit extends Cubit<List<Registration>> {
   RegistrationCubit(
     UserRepository userRepository,
   )   : _userRepository = userRepository,
-        super(null);
+        super([]);
 
   final UserRepository _userRepository;
 

@@ -22,7 +22,7 @@ import 'routers/root_router.dart';
 import 'utils/flavor_constants.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -100,9 +100,9 @@ class MyApp extends StatelessWidget {
 
 class ImageCache extends StatelessWidget {
   const ImageCache({
-    Key key,
-    @required this.images,
-    @required this.child,
+    Key? key,
+    required this.images,
+    required this.child,
   }) : super(key: key);
 
   final List<ImageProvider> images;
@@ -120,7 +120,7 @@ class ImageCache extends StatelessWidget {
 
 class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext context) {
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;

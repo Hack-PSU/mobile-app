@@ -24,7 +24,7 @@ import '../widgets/screen.dart';
 
 class CreateAccountPage extends StatelessWidget {
   const CreateAccountPage({
-    Key key,
+    Key? key,
   }) : super(
           key: key,
         );
@@ -46,7 +46,7 @@ class CreateAccountPage extends StatelessWidget {
 }
 
 class CreateAccountScreen extends StatelessWidget {
-  const CreateAccountScreen({Key key}) : super(key: key);
+  const CreateAccountScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -11,19 +11,19 @@ class SignInState extends BaseModel {
     this.error,
   });
 
-  final Email email;
-  final Password password;
-  final FormzStatus status;
-  final String error;
+  final Email? email;
+  final Password? password;
+  final FormzStatus? status;
+  final String? error;
 
   @override
-  List<Object> get props => [email, password, status, error];
+  List<Object?> get props => [email, password, status, error];
 
   SignInState copyWith({
-    Email email,
-    Password password,
-    FormzStatus status,
-    String error,
+    Email? email,
+    Password? password,
+    FormzStatus? status,
+    String? error,
   }) {
     return SignInState(
       email: email ?? this.email,

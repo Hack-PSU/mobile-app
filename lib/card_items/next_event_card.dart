@@ -17,9 +17,9 @@ enum NextEventType { EVENT, WORKSHOP }
 
 class NextEventCard extends StatelessWidget {
   const NextEventCard({
-    Key key,
-    @required this.type,
-    @required this.events,
+    Key? key,
+    required this.type,
+    required this.events,
   }) : super(key: key);
 
   final NextEventType type;
@@ -44,7 +44,7 @@ class NextEventCard extends StatelessWidget {
         builder: (context, state) {
           if (state.nextEvents == null) {
             return DefaultText(
-              "No upcoming events",
+              "No upcoming ${type == NextEventType.EVENT ? "events" : "workshops"}",
               textLevel: TextLevel.h4,
             );
           }
@@ -68,7 +68,7 @@ class NextEventCard extends StatelessWidget {
                     ),
                     DefaultText(
                       _formatTime(
-                        state.nextEvents.first.eventStartTime
+                        state.nextEvents!.first.eventStartTime
                             .millisecondsSinceEpoch,
                       ),
                       textLevel: TextLevel.h4,
@@ -81,10 +81,10 @@ class NextEventCard extends StatelessWidget {
                 ),
                 DefaultText(
                   DateFormat('EEEE')
-                      .format(state.nextEvents.first.eventStartTime),
+                      .format(state.nextEvents!.first.eventStartTime),
                   textLevel: TextLevel.sub1,
                 ),
-                ...state.nextEvents
+                ...state.nextEvents!
                     .map(
                       (event) => EventWorkshopCard(
                         event: event,

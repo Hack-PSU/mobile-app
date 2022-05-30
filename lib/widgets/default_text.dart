@@ -19,15 +19,15 @@ enum FontVariant { header, sub, p }
 class DefaultText extends Text {
   DefaultText(
     String text, {
-    TextLevel textLevel,
-    FontWeight weight,
-    double fontSize,
-    FontStyle fontStyle,
-    int maxLines,
-    TextAlign textAlign,
-    double letterSpacing,
-    Color color,
-    Key key,
+    TextLevel? textLevel,
+    FontWeight? weight,
+    double? fontSize,
+    FontStyle? fontStyle,
+    int? maxLines,
+    TextAlign? textAlign,
+    double? letterSpacing,
+    Color? color,
+    Key? key,
   }) : super(
           text,
           textAlign: textAlign,

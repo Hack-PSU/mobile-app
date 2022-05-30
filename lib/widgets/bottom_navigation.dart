@@ -9,7 +9,7 @@ import '../cubit/bottom_navigation_cubit.dart';
 
 class BottomNavigation extends StatelessWidget {
   const BottomNavigation({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class BottomNavigation extends StatelessWidget {
               .read<BottomNavigationBloc>()
               .add(RouteChanged(Routes.values[index]));
           if (state.onNavigationRouteChange != null) {
-            state.onNavigationRouteChange(Routes.values[index]);
+            state.onNavigationRouteChange!(Routes.values[index]);
           }
         },
         selectedFontSize: 14.0,
