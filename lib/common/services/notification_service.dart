@@ -153,7 +153,8 @@ class NotificationService {
         }
         if (kDebugMode) {
           print(
-              "Message: ${message.notification!.title}, ${message.notification!.body}");
+            "Message: ${message.notification!.title}, ${message.notification!.body}",
+          );
         }
       },
     );
