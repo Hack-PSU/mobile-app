@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/favorites/favorites_bloc.dart';
-import '../bloc/favorites/favorites_event.dart';
-import '../bloc/favorites/favorites_state.dart';
-import '../card_items/event_workshop_card.dart';
-import '../models/event.dart';
+import '../common/api/event.dart';
+import 'event/event_workshop_card.dart';
 
 class EventCardList extends StatelessWidget {
   const EventCardList({
     Key? key,
-    required this.bloc,
+    required this.onAddFavorite,
+    required this.onRemoveFavorite,
     required this.events,
   }) : super(key: key);
 
-  final FavoritesBloc bloc;
   final List<Event> events;
+  final Function(Event) onAddFavorite;
+  final Function(Event) onRemoveFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +26,8 @@ class EventCardList extends StatelessWidget {
             .map(
               (event) => EventWorkshopCard(
                 event: event,
-                onAddFavorite: (Event event) {
-                  bloc.add(AddFavoritesItem(event));
-                },
-                onRemoveFavorite: (Event event) {
-                  bloc.add(RemoveFavoritesItem(event));
-                },
+                onAddFavorite: onAddFavorite,
+                onRemoveFavorite: onRemoveFavorite,
               ),
             )
             .toList(),

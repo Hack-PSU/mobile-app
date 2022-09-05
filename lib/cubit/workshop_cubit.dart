@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import '../../data/event_repository.dart';
-import '../../models/event.dart';
+
+import '../common/api/event.dart';
 
 class WorkshopCubit extends Cubit<List<Event>> {
   WorkshopCubit(EventRepository eventRepository)
@@ -10,8 +10,8 @@ class WorkshopCubit extends Cubit<List<Event>> {
   final EventRepository _eventRepository;
 
   Future<void> getWorkshops() async {
-    final event = await _eventRepository.getEventsByType(EventType.WORKSHOP);
-    emit(event);
+    final event = await _eventRepository.getEvents();
+    emit(event.where((item) => item.eventType == EventType.WORKSHOP).toList());
   }
 
   Future<void> getEventsByType(EventType type) async {

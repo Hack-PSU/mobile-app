@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../card_items/homepage_header.dart';
-import '../../card_items/next_event_card.dart';
 import '../../card_items/pin_card.dart';
 import '../../card_items/sponsor_carousel.dart';
 import '../../common/api/event.dart';
 import '../../common/api/user.dart';
 import '../../styles/theme_colors.dart';
-import '../../widgets/default_text.dart';
 import '../../widgets/loading.dart';
 import '../../widgets/screen.dart';
-import 'home_cubit.dart';
+import 'home_page_cubit.dart';
+import 'upcoming_event_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -59,19 +58,19 @@ class HomePageState extends State<HomePage> {
           header: ScreenHeader.only(
             withProfile: true,
           ),
-          body: BlocConsumer<HomeCubit, HomeCubitState>(
-            listener: (context, state) {
-              if (state.status == PageStatus.idle) {
-                context.read<HomeCubit>().init();
-              }
-            },
+          body: BlocBuilder<HomePageCubit, HomePageCubitState>(
             builder: (context, state) {
+              if (state.status == PageStatus.idle) {
+                context.read<HomePageCubit>().init();
+              }
               if (state.status == PageStatus.ready) {
                 return _Content(
-                    controller: _controller,
-                    users: state.users ?? [],
-                    events: state.events ?? [],
-                    sponsors: state.sponsors ?? []);
+                  controller: _controller,
+                  users: state.users ?? [],
+                  events: state.events ?? [],
+                  sponsors: state.sponsors ?? [],
+                  workshops: state.workshops ?? [],
+                );
               }
               return const Loading(
                 label: "Loading Content...",
@@ -91,7 +90,7 @@ class HomePageState extends State<HomePage> {
                 color: Color(0xffF5F5F5),
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/logo.png",
+                    "assets/images/Logo.png",
                   ),
                 ),
               ),
@@ -109,28 +108,26 @@ class _Content extends StatelessWidget {
     required this.users,
     required this.events,
     required this.sponsors,
+    required this.workshops,
   }) : _controller = controller;
 
   final ScrollController? _controller;
   final List<User> users;
   final List<Event> events;
+  final List<Event> workshops;
   final List<Map<String, String>> sponsors;
 
-  Widget _renderEventCard(BuildContext context, NextEventType type) {
-    if (events == null || events.isEmpty) {
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: Colors.white,
-        ),
-        margin: const EdgeInsets.only(top: 10),
-        padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20),
-        width: MediaQuery.of(context).size.width * 0.95,
-        alignment: Alignment.centerLeft,
-        child: DefaultText("No upcoming events", textLevel: TextLevel.h4),
+  Widget _renderEventCard(BuildContext context, EventType type) {
+    if (type == EventType.WORKSHOP) {
+      return UpcomingEventCard(
+        type: type,
+        events: workshops,
       );
     } else {
-      return NextEventCard(type: type, events: events);
+      return UpcomingEventCard(
+        type: type,
+        events: events,
+      );
     }
   }
 
@@ -149,8 +146,8 @@ class _Content extends StatelessWidget {
               children: [
                 const HomepageHeader(),
                 const UserPinCard(),
-                _renderEventCard(context, NextEventType.EVENT),
-                _renderEventCard(context, NextEventType.WORKSHOP),
+                _renderEventCard(context, EventType.ACTIVITY),
+                // _renderEventCard(context, EventType.WORKSHOP),
                 const SizedBox(height: 20.0),
                 SponsorCarousel(sponsors: sponsors),
                 const SizedBox(height: 20.0),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../bloc/user/user_bloc.dart';
 import '../bloc/user/user_state.dart';
@@ -18,7 +19,7 @@ class UserPinCard extends StatelessWidget {
       buildWhen: (previous, current) => previous.pin != current.pin,
       builder: (context, state) {
         if (state.pin!.isEmpty) {
-          return _RegisterCard();
+          return const _RegisterCard();
         }
 
         return InkWell(
@@ -32,7 +33,7 @@ class UserPinCard extends StatelessWidget {
               transitionDuration: const Duration(milliseconds: 200),
               pageBuilder:
                   (BuildContext buildContext, animation, secondaryAnimation) {
-                return QRScreen();
+                return const QRScreen();
               },
             );
           },
@@ -83,6 +84,8 @@ class UserPinCard extends StatelessWidget {
 }
 
 class _RegisterCard extends StatelessWidget {
+  const _RegisterCard({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -106,12 +109,10 @@ class _RegisterCard extends StatelessWidget {
                     onPressed: () async {
                       const url = 'https://app.hackpsu.org/register';
 
-                      if (await canLaunch(url)) {
-                        await launch(
+                      if (await canLaunchUrlString(url)) {
+                        await launchUrlString(
                           url,
-                          forceWebView: true,
-                          enableJavaScript: true,
-                          enableDomStorage: true,
+                          mode: LaunchMode.inAppWebView,
                         );
                       } else {
                         throw Exception('Could not launch $url');
@@ -147,6 +148,8 @@ class _RegisterCard extends StatelessWidget {
 }
 
 class QRScreen extends StatelessWidget {
+  const QRScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<UserBloc>();

@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import 'api_response.dart';
+
 class Client<T> extends http.BaseClient {
   Client({Map<String, String>? headers}) : _headers = headers;
 
@@ -12,11 +14,14 @@ class Client<T> extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    request.headers.addAll(_headers!);
+    if (_headers != null) {
+      request.headers.addAll(_headers!);
+    }
     return _client.send(request);
   }
 
-  T extractData(http.Response response) {
-    return jsonDecode(response.body)["body"]["data"] as T;
+  T? extractData(http.Response response) {
+    final apiResp = ApiResponse.fromJson(jsonDecode(response.body));
+    return apiResp.body["data"] as T;
   }
 }

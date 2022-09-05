@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import '../api_response.dart';
 import '../client.dart';
 import 'event_model.dart';
 
@@ -12,9 +15,11 @@ class EventRepository {
     final resp = await client.get(_endpoint);
 
     if (resp.statusCode == 200) {
-      final body = client.extractData(resp);
+      final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
 
-      return body.map((event) => Event.fromJson(event)).toList();
+      return (apiResponse.body["data"] as List)
+          .map((event) => Event.fromJson(event as Map<String, dynamic>))
+          .toList();
     } else {
       throw Exception("Failed to get events from API");
     }

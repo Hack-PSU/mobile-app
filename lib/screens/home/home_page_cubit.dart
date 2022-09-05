@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../common/api/event.dart';
 import '../../common/api/user.dart';
@@ -7,36 +7,40 @@ import '../../data/sponsorship_repository.dart';
 
 enum PageStatus { idle, loading, ready }
 
-class HomeCubitState {
-  HomeCubitState({
+class HomePageCubitState {
+  HomePageCubitState({
     this.events,
     this.users,
     this.sponsors,
     this.status = PageStatus.idle,
+    this.workshops,
   });
 
   final List<Event>? events;
+  final List<Event>? workshops;
   final List<User>? users;
   final List<Map<String, String>>? sponsors;
   final PageStatus status;
 
-  HomeCubitState copyWith({
+  HomePageCubitState copyWith({
     List<Event>? events,
+    List<Event>? workshops,
     List<User>? users,
     List<Map<String, String>>? sponsors,
     PageStatus? status,
   }) {
-    return HomeCubitState(
+    return HomePageCubitState(
       events: events ?? this.events,
       users: users ?? this.users,
       sponsors: sponsors ?? this.sponsors,
       status: status ?? this.status,
+      workshops: workshops ?? this.workshops,
     );
   }
 }
 
-class HomeCubit extends Cubit<HomeCubitState> {
-  HomeCubit(
+class HomePageCubit extends Cubit<HomePageCubitState> {
+  HomePageCubit(
     EventRepository eventRepository,
     UserRepository userRepository,
     SponsorshipRepository sponsorshipRepository,
@@ -44,10 +48,11 @@ class HomeCubit extends Cubit<HomeCubitState> {
         _userRepository = userRepository,
         _sponsorshipRepository = sponsorshipRepository,
         super(
-          HomeCubitState(
+          HomePageCubitState(
             events: [],
             sponsors: [],
             users: [],
+            workshops: [],
           ),
         );
 
@@ -59,8 +64,9 @@ class HomeCubit extends Cubit<HomeCubitState> {
     final event = await _eventRepository.getEvents();
     emit(
       state.copyWith(
-        events: event
-            .where((item) => item.eventType != EventType.WORKSHOP)
+        events: event,
+        workshops: event
+            .where((item) => item.eventType == EventType.WORKSHOP)
             .toList(),
       ),
     );

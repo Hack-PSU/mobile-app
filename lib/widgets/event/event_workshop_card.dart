@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../bloc/favorites/favorites_bloc.dart';
-import '../bloc/favorites/favorites_event.dart';
-import '../bloc/favorites/favorites_state.dart';
-import '../models/event.dart';
-import '../styles/theme_colors.dart';
-import '../widgets/default_text.dart';
+
+import '../../bloc/favorites/favorites_bloc.dart';
+import '../../bloc/favorites/favorites_event.dart';
+import '../../bloc/favorites/favorites_state.dart';
+import '../../common/api/event.dart';
+import '../../styles/theme_colors.dart';
+import '../default_text.dart';
 
 class EventWorkshopCard extends StatelessWidget {
   const EventWorkshopCard({

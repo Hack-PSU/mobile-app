@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../user/user_bloc.dart';
-import '../user/user_event.dart';
 import 'favorites_event.dart';
 import 'favorites_state.dart';
 
@@ -36,7 +34,7 @@ class FavoritesBloc extends HydratedBloc<FavoritesEvent, FavoritesState> {
     AddFavoritesItem event,
     Emitter<FavoritesState> emit,
   ) {
-    _userBloc.add(SubscribeTopic(topic: event.event.uid));
+    // _userBloc.add(SubscribeTopic(topic: event.event.uid));
     emit(state.addItem(event.event));
   }
 
@@ -44,7 +42,7 @@ class FavoritesBloc extends HydratedBloc<FavoritesEvent, FavoritesState> {
     RemoveFavoritesItem event,
     Emitter<FavoritesState> emit,
   ) {
-    _userBloc.add(UnsubscribeTopic(topic: event.event.uid));
+    // _userBloc.add(UnsubscribeTopic(topic: event.event.uid));
     emit(state.removeItem(event.event));
   }
 

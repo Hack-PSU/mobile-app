@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../styles/theme_colors.dart';
-import '../widgets/button.dart';
 import '../widgets/default_text.dart';
 import 'countdown_timer_card.dart';
 
@@ -45,7 +44,7 @@ class HomepageHeader extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () async {
-                          await launch(
+                          await launchUrlString(
                             "http://devpost.hackpsu.org",
                           );
                           // Respond to button press
@@ -76,7 +75,7 @@ class HomepageHeader extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          await launch(
+                          await launchUrlString(
                             "http://discord.hackpsu.org",
                           );
                           // Respond to button press

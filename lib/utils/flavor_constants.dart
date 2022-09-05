@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 import '../secrets.dart';
 
 enum Flavor {
@@ -8,7 +6,7 @@ enum Flavor {
 }
 
 class Config {
-  static Flavor? appFlavor;
+  static Flavor appFlavor = Flavor.DEV;
 
   static String get fcmUrl =>
       'https://us-central1-hackpsu18.cloudfunctions.net';
@@ -48,13 +46,14 @@ class Config {
     );
   }
 
-  static String getConstantByFlavor(
-      {required String prodConst, required String devConst}) {
+  static String getConstantByFlavor({
+    required String prodConst,
+    required String devConst,
+  }) {
     switch (appFlavor) {
       case Flavor.DEV:
         return devConst;
       case Flavor.PROD:
-      default:
         return prodConst;
     }
   }

@@ -1,11 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-import '../cubit/sponsor_cubit.dart';
-import '../data/sponsorship_repository.dart';
 import '../widgets/default_text.dart';
 
 const ECHO_AR_SVG_URL =
@@ -87,7 +84,7 @@ class SponsorCarousel extends StatelessWidget {
                   builder: (BuildContext context) {
                     return InkWell(
                       onTap: () async {
-                        if (!await launch(i["url"]!)) {
+                        if (!await launchUrlString(i["url"]!)) {
                           throw Exception("Could not launch ${i["url"]}");
                         }
                       },

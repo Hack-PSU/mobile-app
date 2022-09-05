@@ -1,7 +1,6 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../models/event.dart';
+import '../common/api/event.dart';
 import '../styles/theme_colors.dart';
 import 'agenda.dart';
 import 'default_text.dart';
@@ -57,7 +56,7 @@ class AgendaViewState extends State<AgendaView> with TickerProviderStateMixin {
             padding: const EdgeInsets.symmetric(horizontal: 2).copyWith(top: 8),
             child: Agenda<Event>(
               orientation: Axis.horizontal,
-              data: data[key]!,
+              data: data[key] ?? [],
               groupElement: widget.groupElement,
               renderItems: widget.renderItems,
             ),
@@ -81,7 +80,7 @@ class AgendaViewState extends State<AgendaView> with TickerProviderStateMixin {
       } else {
         eventList = widget.data[label];
       }
-      data[label] = eventList!;
+      data[label] = eventList ?? [];
     }
 
     return Column(

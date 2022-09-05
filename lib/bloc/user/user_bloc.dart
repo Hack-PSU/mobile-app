@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
-import '../../data/notification_repository.dart';
-import '../../data/user_repository.dart';
+import '../../common/api/notification.dart';
+import '../../common/api/user.dart';
 import 'user_event.dart';
 import 'user_state.dart';
 
@@ -45,7 +43,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       if (kDebugMode) {
         print(e);
       }
-      throw Exception("Unable to fetch user pin");
+      // throw Exception("Unable to fetch user pin");
     }
 
     // register user into FCM
