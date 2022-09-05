@@ -10,7 +10,6 @@ import '../models/profile_state.dart';
 import '../styles/theme_colors.dart';
 import '../widgets/button.dart';
 import '../widgets/default_text.dart';
-import '../widgets/input.dart';
 import '../widgets/keyboard_avoiding.dart';
 import '../widgets/screen.dart';
 
@@ -275,6 +274,10 @@ class _ProfileOptions extends StatelessWidget {
               ],
             ),
           ),
+          // TODO (anyone): REMOVE when not using example (input from admin-web-app)
+          // RenderHtml(
+          //   '<p>Hello<b> </b><i><b>there </b></i><b>I am a <a href="https://google.com" rel="noreferrer noopener" target="_blank">link</a></b></p>',
+          // )
         ],
       ),
     );
