@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../bloc/user/user_bloc.dart';
 import '../card_items/pin_card.dart';
+import '../common/bloc/user/user_bloc.dart';
 import '../cubit/profile_cubit.dart';
 import '../data/authentication_repository.dart';
 import '../models/profile_state.dart';

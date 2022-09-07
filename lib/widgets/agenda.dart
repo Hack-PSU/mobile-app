@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../bloc/favorites/favorites_bloc.dart';
-import '../bloc/favorites/favorites_state.dart';
+import '../common/bloc/favorites/favorites_bloc.dart';
+import '../common/bloc/favorites/favorites_state.dart';
 import '../styles/theme_colors.dart';
 import 'default_text.dart';
 

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../bloc/favorites/favorites_bloc.dart';
-import '../../bloc/favorites/favorites_event.dart';
 import '../../common/api/event.dart';
+import '../../common/bloc/favorites/favorites_bloc.dart';
+import '../../common/bloc/favorites/favorites_event.dart';
 import '../../styles/theme_colors.dart';
 import '../../widgets/default_text.dart';
 import '../../widgets/event/event_workshop_card.dart';

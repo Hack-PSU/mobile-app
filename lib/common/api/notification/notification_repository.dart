@@ -37,30 +37,33 @@ class NotificationRepository {
       print(fcmToken);
     }
 
-    final client = Client(headers: {"idToken": token});
+    final client = Client.withToken(token);
 
     try {
       final uri = Uri.https(_endpoint, "/user/register");
       final resp = await client.post(
         uri,
-        body: {"userPin": pin, "fcmToken": fcmToken},
+        body: {
+          "userPin": pin,
+          "fcmToken": fcmToken,
+        },
       );
 
       final data = client.extractData(resp);
       if (data["status"] == "ERROR") {
-        throw Exception("Unauthorized");
+        // throw Exception("Unauthorized");
       }
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      throw Exception("Unable to register device");
+      // throw Exception("Unable to register device");
     }
   }
 
   Future<void> subscribeAll(String? pin) async {
     final token = await _getUserIdToken();
-    final client = Client(headers: {"idToken": token});
+    final client = Client.withToken(token);
 
     try {
       await client.post(
@@ -71,7 +74,7 @@ class NotificationRepository {
       if (kDebugMode) {
         print(e);
       }
-      throw Exception("Unable to subscribe to broadcast");
+      // throw Exception("Unable to subscribe to broadcast");
     } finally {
       client.close();
     }
@@ -82,13 +85,17 @@ class NotificationRepository {
     final client = Client.withToken(token);
 
     try {
-      await client.post(Uri.https(_endpoint, "/user/unsubscribe/all"),
-          body: {"userPin": pin});
+      await client.post(
+        Uri.https(_endpoint, "/user/unsubscribe/all"),
+        body: {
+          "userPin": pin,
+        },
+      );
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      throw Exception("Unable to unsubscribe to broadcast");
+      // throw Exception("Unable to unsubscribe to broadcast");
     } finally {
       client.close();
     }
@@ -99,13 +106,17 @@ class NotificationRepository {
     final client = Client.withToken(token);
 
     try {
-      await client.post(Uri.https(_endpoint, "/user/subscribe/event/$uid"),
-          body: {"userPin": pin});
+      await client.post(
+        Uri.https(_endpoint, "/user/subscribe/event/$uid"),
+        body: {
+          "userPin": pin,
+        },
+      );
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      throw Exception("Unable to subscribe to event: $uid");
+      // throw Exception("Unable to subscribe to event: $uid");
     } finally {
       client.close();
     }
@@ -116,13 +127,17 @@ class NotificationRepository {
     final client = Client.withToken(token);
 
     try {
-      await client.post(Uri.https(_endpoint, "/user/unsubscribe/event/$uid"),
-          body: {"userPin": pin});
+      await client.post(
+        Uri.https(_endpoint, "/user/unsubscribe/event/$uid"),
+        body: {
+          "userPin": pin,
+        },
+      );
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      throw Exception("Unable to unsubscribe to event: $uid");
+      // throw Exception("Unable to unsubscribe to event: $uid");
     } finally {
       client.close();
     }

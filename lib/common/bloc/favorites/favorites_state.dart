@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../common/api/event.dart';
+import '../../api/event.dart';
 
 enum FavoritesStatus { enabled, disabled }
 

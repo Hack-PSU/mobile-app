@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../common/api/notification.dart';
-import '../../common/api/user.dart';
+import '../../api/notification.dart';
+import '../../api/user.dart';
 import 'user_event.dart';
 import 'user_state.dart';
 

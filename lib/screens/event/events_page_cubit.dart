@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../bloc/favorites/favorites_bloc.dart';
-import '../../bloc/favorites/favorites_event.dart';
-import '../../bloc/favorites/favorites_state.dart';
 import '../../common/api/event.dart';
+import '../../common/bloc/favorites/favorites_bloc.dart';
+import '../../common/bloc/favorites/favorites_event.dart';
+import '../../common/bloc/favorites/favorites_state.dart';
 
 enum PageStatus { idle, loading, ready }
 

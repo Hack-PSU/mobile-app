@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/auth/auth_bloc.dart';
-import 'bloc/favorites/favorites_bloc.dart';
-import 'bloc/user/user_bloc.dart';
 import 'common/api/event.dart';
 import 'common/api/notification.dart';
 import 'common/api/user.dart';
+import 'common/bloc/auth/auth_bloc.dart';
+import 'common/bloc/favorites/favorites_bloc.dart';
+import 'common/bloc/user/user_bloc.dart';
+import 'common/services/authentication_repository.dart';
 import 'cubit/sponsor_cubit.dart';
-import 'data/authentication_repository.dart';
 import 'data/sponsorship_repository.dart';
 import 'routers/root_router.dart';
 import 'screens/event/events_page_cubit.dart';

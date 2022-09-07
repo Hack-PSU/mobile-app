@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
-import '../../data/authentication_repository.dart';
+import '../../services/authentication_repository.dart';
 import '../user/user_bloc.dart';
 import '../user/user_event.dart';
 import 'auth_event.dart';

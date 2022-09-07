@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,7 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../bloc/auth/auth_bloc.dart';
+import '../common/bloc/auth/auth_bloc.dart';
 import '../cubit/create_account_cubit.dart';
 import '../data/authentication_repository.dart';
 import '../models/create_account_state.dart';

@@ -4,8 +4,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../bloc/user/user_bloc.dart';
-import '../bloc/user/user_state.dart';
+import '../common/bloc/user/user_bloc.dart';
+import '../common/bloc/user/user_state.dart';
 import '../widgets/default_text.dart';
 
 class UserPinCard extends StatelessWidget {

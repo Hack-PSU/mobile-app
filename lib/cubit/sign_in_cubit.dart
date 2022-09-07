@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 
-import '../bloc/auth/auth_bloc.dart';
-import '../bloc/auth/auth_event.dart';
-import '../bloc/auth/auth_state.dart';
+import '../common/bloc/auth/auth_bloc.dart';
+import '../common/bloc/auth/auth_event.dart';
+import '../common/bloc/auth/auth_state.dart';
 import '../data/authentication_repository.dart';
 import '../models/email.dart';
 import '../models/password.dart';

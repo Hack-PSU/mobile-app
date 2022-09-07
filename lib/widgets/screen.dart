@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../bloc/favorites/favorites_bloc.dart';
-import '../bloc/favorites/favorites_event.dart';
-import '../bloc/favorites/favorites_state.dart';
-import '../bloc/navigation/bottom_navigation_state.dart';
+import '../common/bloc/favorites/favorites_bloc.dart';
+import '../common/bloc/favorites/favorites_event.dart';
+import '../common/bloc/favorites/favorites_state.dart';
 import '../cubit/header_cubit.dart';
 import '../styles/theme_colors.dart';
 import 'bottom_navigation.dart';

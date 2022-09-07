@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../common/api/event.dart';
+import '../../api/event.dart';
 
 class FavoritesEvent extends Equatable {
   const FavoritesEvent();

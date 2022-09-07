@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/navigation/bottom_navigation_bloc.dart';
-import '../bloc/navigation/bottom_navigation_state.dart';
+import '../common/bloc/navigation/bottom_navigation_bloc.dart';
+import '../common/bloc/navigation/bottom_navigation_state.dart';
 import '../screens/event/events_page.dart';
 import '../screens/home/home_page.dart';
 import '../screens/workshop/workshops_page.dart';
