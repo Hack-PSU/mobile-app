@@ -5,7 +5,7 @@ import 'package:formz/formz.dart';
 import '../common/bloc/auth/auth_bloc.dart';
 import '../common/bloc/auth/auth_event.dart';
 import '../common/bloc/auth/auth_state.dart';
-import '../data/authentication_repository.dart';
+import '../common/services/authentication_repository.dart';
 import '../models/create_account_state.dart';
 import '../models/email.dart';
 import '../models/password.dart';

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../common/bloc/auth/auth_bloc.dart';
 import '../common/bloc/auth/auth_state.dart';
+import '../common/services/authentication_repository.dart';
 import '../cubit/sign_in_cubit.dart';
-import '../data/authentication_repository.dart';
 import '../screens/create_account_page.dart';
 import '../screens/sign_in_page.dart';
 import '../widgets/loading.dart';

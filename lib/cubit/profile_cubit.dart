@@ -1,10 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
-import '../data/authentication_repository.dart';
-import '../models/email.dart';
+import '../common/services/authentication_repository.dart';
 import '../models/password.dart';
 import '../models/profile_state.dart';
 

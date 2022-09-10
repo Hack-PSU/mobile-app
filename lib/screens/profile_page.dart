@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../card_items/pin_card.dart';
 import '../common/bloc/user/user_bloc.dart';
+import '../common/services/authentication_repository.dart';
 import '../cubit/profile_cubit.dart';
-import '../data/authentication_repository.dart';
 import '../models/profile_state.dart';
 import '../styles/theme_colors.dart';
 import '../widgets/button.dart';

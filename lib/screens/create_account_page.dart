@@ -11,8 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../common/bloc/auth/auth_bloc.dart';
+import '../common/services/authentication_repository.dart';
 import '../cubit/create_account_cubit.dart';
-import '../data/authentication_repository.dart';
 import '../models/create_account_state.dart';
 import '../styles/theme_colors.dart';
 import '../utils/custom_icons.dart';
