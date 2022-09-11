@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/api/event.dart';
+import '../../common/api/sponsorship/sponsorship_repository.dart';
 import '../../common/api/user.dart';
-import '../../data/sponsorship_repository.dart';
 
 enum PageStatus { idle, loading, ready }
 

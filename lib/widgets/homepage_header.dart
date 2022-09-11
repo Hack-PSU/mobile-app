@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../styles/theme_colors.dart';
+import '../widgets/countdown_timer_card.dart';
 import '../widgets/default_text.dart';
-import 'countdown_timer_card.dart';
 
 class HomepageHeader extends StatelessWidget {
   const HomepageHeader({Key? key}) : super(key: key);

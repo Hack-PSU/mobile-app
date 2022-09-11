@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../card_items/homepage_header.dart';
-import '../../card_items/pin_card.dart';
-import '../../card_items/sponsor_carousel.dart';
 import '../../common/api/event.dart';
 import '../../common/api/user.dart';
 import '../../styles/theme_colors.dart';
+import '../../widgets/homepage_header.dart';
 import '../../widgets/loading.dart';
-import '../../widgets/screen.dart';
+import '../../widgets/pin_card.dart';
+import '../../widgets/screen/screen.dart';
+import '../../widgets/sponsor_carousel.dart';
 import 'home_page_cubit.dart';
 import 'upcoming_event_card.dart';
 

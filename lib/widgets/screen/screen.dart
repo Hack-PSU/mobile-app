@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../common/bloc/favorites/favorites_bloc.dart';
-import '../common/bloc/favorites/favorites_event.dart';
-import '../common/bloc/favorites/favorites_state.dart';
-import '../cubit/header_cubit.dart';
-import '../styles/theme_colors.dart';
-import 'bottom_navigation.dart';
-import 'default_text.dart';
+import '../../../common/bloc/favorites/favorites_bloc.dart';
+import '../../../common/bloc/favorites/favorites_event.dart';
+import '../../../common/bloc/favorites/favorites_state.dart';
+import '../../../styles/theme_colors.dart';
+import '../bottom_navigation/bottom_navigation.dart';
+import '../default_text.dart';
+import 'screen_header_cubit.dart';
 
 class Screen extends Scaffold {
   Screen({
@@ -29,17 +29,22 @@ class Screen extends Scaffold {
           resizeToAvoidBottomInset: false,
           backgroundColor: backgroundColor ?? Colors.white,
           appBar: appBar,
-          body: _Page(
-            _Body(
-              body: body,
-              header: header,
-              contentBackgroundColor: contentBackgroundColor,
-              safeAreaTop: safeAreaTop,
-              safeAreaLeft: safeAreaLeft,
-              safeAreaRight: safeAreaRight,
-              safeAreaBottom: safeAreaBottom,
+          body: BlocProvider<ScreenHeaderCubit>(
+            create: (context) => ScreenHeaderCubit(
+              context.read<FavoritesBloc>(),
             ),
-            withDismissKeyboard: withDismissKeyboard,
+            child: _Page(
+              _Body(
+                body: body,
+                header: header,
+                contentBackgroundColor: contentBackgroundColor,
+                safeAreaTop: safeAreaTop,
+                safeAreaLeft: safeAreaLeft,
+                safeAreaRight: safeAreaRight,
+                safeAreaBottom: safeAreaBottom,
+              ),
+              withDismissKeyboard: withDismissKeyboard,
+            ),
           ),
           bottomNavigationBar:
               withBottomNavigation ? const BottomNavigation() : null,
@@ -216,14 +221,11 @@ class _ScreenHeader extends StatelessWidget {
               color: Colors.white,
             ),
           if (withProfile == true || withSwitch == true)
-            BlocProvider(
-              create: (_) => HeaderCubit(),
-              child: Expanded(
-                child: _ProfileSwitch(
-                  withProfile: withProfile,
-                  withSwitch: withSwitch,
-                  profileImage: profileImage,
-                ),
+            Expanded(
+              child: _ProfileSwitch(
+                withProfile: withProfile,
+                withSwitch: withSwitch,
+                profileImage: profileImage,
               ),
             ),
         ],

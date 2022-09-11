@@ -1,8 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/default_text.dart';
+import 'default_text.dart';
 
 final openingCeremony = DateTime.utc(2021, 4, 9, 12)
     .add(const Duration(hours: 4)); // Add 4 hours to account for EDT off set

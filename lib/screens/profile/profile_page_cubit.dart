@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../models/password.dart';
+import '../../common/models/password.dart';
 
 class ProfilePageCubitState extends Equatable {
   ProfilePageCubitState._({

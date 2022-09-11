@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../common/api/event.dart';
-import '../styles/theme_colors.dart';
+import '../../common/api/event.dart';
+import '../../styles/theme_colors.dart';
+import '../default_text.dart';
 import 'agenda.dart';
-import 'default_text.dart';
 
 class AgendaView extends StatefulWidget {
   const AgendaView({

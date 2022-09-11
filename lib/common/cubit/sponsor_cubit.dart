@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 
-import '../data/sponsorship_repository.dart';
+import '../api/sponsorship/sponsorship_repository.dart';
 
 class SponsorshipCubit extends Cubit<List<Map<String, String>>> {
   SponsorshipCubit(

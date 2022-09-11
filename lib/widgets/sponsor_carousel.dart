@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../widgets/default_text.dart';
+import 'default_text.dart';
 
 const ECHO_AR_SVG_URL =
     "https://firebasestorage.googleapis.com/v0/b/hackpsu18.appspot.com/o/sponsorship-logos%2FEchoAR-day.svg?alt=media";

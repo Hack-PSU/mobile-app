@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../common/bloc/user/user_bloc.dart';
 import '../common/bloc/user/user_state.dart';
-import '../widgets/default_text.dart';
+import 'default_text.dart';
 
 class UserPinCard extends StatelessWidget {
   const UserPinCard({

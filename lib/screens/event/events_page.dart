@@ -6,9 +6,9 @@ import 'package:intl/intl.dart';
 import '../../common/api/event.dart';
 import '../../common/bloc/favorites/favorites_bloc.dart';
 import '../../common/bloc/favorites/favorites_state.dart';
-import '../../widgets/agenda_view.dart';
 import '../../widgets/event_card_list.dart';
-import '../../widgets/screen.dart';
+import '../../widgets/screen/screen.dart';
+import '../../widgets/view/agenda_view.dart';
 import 'events_page_cubit.dart';
 
 class EventsPage extends StatelessWidget {
@@ -41,13 +41,13 @@ class EventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventsPageCubit, EventsPageCubitState>(
-      buildWhen: (previous, current) {
-        if (previous.favorites != null && current.favorites != null) {
-          return previous.favorites != current.favorites ||
-              previous.isFavoritesEnabled != current.isFavoritesEnabled;
-        }
-        return false;
-      },
+      // buildWhen: (previous, current) {
+      //   if (previous.favorites != null && current.favorites != null) {
+      //     return previous.favorites != current.favorites ||
+      //         previous.isFavoritesEnabled != current.isFavoritesEnabled;
+      //   }
+      //   return false;
+      // },
       builder: (context, state) {
         if (state.status == PageStatus.idle) {
           context.read<EventsPageCubit>().init();

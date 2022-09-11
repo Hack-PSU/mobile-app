@@ -8,14 +8,14 @@ import 'package:path_provider/path_provider.dart';
 
 import './app_entry.dart';
 import './utils/flavor_constants.dart';
-import 'services/push_notification_service.dart';
+import 'common/services/notification_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FirebaseAppCheck.instance.activate();
 
-  final PushNotificationService notificationService = PushNotificationService();
+  final NotificationService notificationService = NotificationService();
   notificationService.init();
 
   Config.appFlavor = Flavor.PROD;

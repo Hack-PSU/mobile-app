@@ -5,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'common/api/event.dart';
 import 'common/api/notification.dart';
+import 'common/api/sponsorship/sponsorship_repository.dart';
 import 'common/api/user.dart';
 import 'common/bloc/auth/auth_bloc.dart';
 import 'common/bloc/favorites/favorites_bloc.dart';
 import 'common/bloc/user/user_bloc.dart';
+import 'common/cubit/sponsor_cubit.dart';
 import 'common/services/authentication_repository.dart';
-import 'cubit/sponsor_cubit.dart';
-import 'data/sponsorship_repository.dart';
 import 'routers/root_router.dart';
 import 'screens/event/events_page_cubit.dart';
 import 'screens/home/home_page_cubit.dart';

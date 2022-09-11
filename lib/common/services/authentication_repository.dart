@@ -4,6 +4,7 @@ import 'package:github_sign_in/github_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../secrets.dart';
 
@@ -304,12 +305,10 @@ class AuthenticationRepository {
   Future<void> launchURLApp() async {
     const url = 'https://app.hackpsu.org/forgot';
 
-    if (await canLaunch(url)) {
-      await launch(
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(
         url,
-        forceWebView: true,
-        enableJavaScript: true,
-        enableDomStorage: true,
+        mode: LaunchMode.inAppWebView,
       );
     } else {
       throw Exception('Could not launch $url');

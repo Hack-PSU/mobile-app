@@ -6,9 +6,9 @@ import 'package:intl/intl.dart';
 import '../../common/api/event.dart';
 import '../../common/bloc/favorites/favorites_bloc.dart';
 import '../../common/bloc/favorites/favorites_state.dart';
-import '../../widgets/agenda_view.dart';
 import '../../widgets/event_card_list.dart';
-import '../../widgets/screen.dart';
+import '../../widgets/screen/screen.dart';
+import '../../widgets/view/agenda_view.dart';
 import 'workshops_page_cubit.dart';
 
 class WorkshopsPage extends StatelessWidget {
@@ -40,14 +40,19 @@ class WorkshopsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WorkshopsPageCubit, WorkshopsPageCubitState>(
       builder: (context, state) {
+        if (state.isFavoritesEnabled != null) {}
+
         if (state.status == PageStatus.idle) {
           context.read<WorkshopsPageCubit>().init();
         }
         if (state.workshops != null) {
-          final data =
-              groupBy<Event, String>(state.workshops ?? [], _groupEvents);
+          final data = groupBy<Event, String>(
+            state.workshops ?? [],
+            _groupEvents,
+          );
           return BlocListener<FavoritesBloc, FavoritesState>(
             listener: (listenerContext, listenerState) {
+              print(listenerState.status);
               if (listenerState.status == FavoritesStatus.enabled) {
                 context.read<WorkshopsPageCubit>().toggleFavorites(true);
               } else {

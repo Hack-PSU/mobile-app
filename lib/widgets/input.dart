@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../models/base_model.dart';
 
 class Input extends StatelessWidget {
   const Input({
@@ -62,10 +61,7 @@ class PasswordInput extends Input {
         );
 }
 
-
-
-class ControlledInput<B extends StateStreamable<M>, M extends BaseModel>
-    extends StatelessWidget {
+class ControlledInput<B extends StateStreamable<M>, M> extends StatelessWidget {
   const ControlledInput({
     Key? key,
     required this.buildWhen,
@@ -86,5 +82,3 @@ class ControlledInput<B extends StateStreamable<M>, M extends BaseModel>
     );
   }
 }
-
-

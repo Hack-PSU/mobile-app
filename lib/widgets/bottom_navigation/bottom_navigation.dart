@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../common/bloc/navigation/bottom_navigation_bloc.dart';
-import '../common/bloc/navigation/bottom_navigation_event.dart';
-import '../common/bloc/navigation/bottom_navigation_state.dart';
+import '../../common/bloc/navigation/bottom_navigation_bloc.dart';
+import '../../common/bloc/navigation/bottom_navigation_event.dart';
+import '../../common/bloc/navigation/bottom_navigation_state.dart';
 
 class BottomNavigation extends StatelessWidget {
   const BottomNavigation({
