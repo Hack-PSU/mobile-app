@@ -40,8 +40,6 @@ class WorkshopsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WorkshopsPageCubit, WorkshopsPageCubitState>(
       builder: (context, state) {
-        if (state.isFavoritesEnabled != null) {}
-
         if (state.status == PageStatus.idle) {
           context.read<WorkshopsPageCubit>().init();
         }
