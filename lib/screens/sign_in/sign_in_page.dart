@@ -7,8 +7,8 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../common/bloc/auth/auth_bloc.dart';
 import '../../common/services/authentication_repository.dart';
-import '../../utils/custom_icons.dart';
 import '../../widgets/button.dart';
+import '../../widgets/custom_icons.dart';
 import '../../widgets/default_text.dart';
 import '../../widgets/input.dart';
 import '../../widgets/screen/screen.dart';

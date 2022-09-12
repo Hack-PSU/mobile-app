@@ -107,10 +107,23 @@ class EventsPageCubit extends Cubit<EventsPageCubitState> {
     emit(state.copyWith(status: PageStatus.loading));
     await getEvents();
     getFavorites();
-    emit(state.copyWith(status: PageStatus.ready));
+    emit(
+      state.copyWith(
+        status: PageStatus.ready,
+      ),
+    );
   }
 
-  Future<void> refetch() async {
+  void refetch() {
     emit(state.copyWith(status: PageStatus.idle));
+  }
+
+  void refreshFavoritesStatus() {
+    emit(
+      state.copyWith(
+        isFavoritesEnabled:
+            _favoritesBloc.state.status == FavoritesStatus.enabled,
+      ),
+    );
   }
 }

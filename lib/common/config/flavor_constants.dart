@@ -1,4 +1,4 @@
-import '../secrets.dart';
+import '../../secrets.dart';
 
 enum Flavor {
   DEV,

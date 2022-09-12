@@ -48,9 +48,9 @@ class WorkshopsScreen extends StatelessWidget {
             state.workshops ?? [],
             _groupEvents,
           );
+
           return BlocListener<FavoritesBloc, FavoritesState>(
             listener: (listenerContext, listenerState) {
-              print(listenerState.status);
               if (listenerState.status == FavoritesStatus.enabled) {
                 context.read<WorkshopsPageCubit>().toggleFavorites(true);
               } else {

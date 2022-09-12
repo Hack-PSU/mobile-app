@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../common/bloc/navigation/bottom_navigation_bloc.dart';
 import '../common/bloc/navigation/bottom_navigation_state.dart';
 import '../screens/event/events_page.dart';
+import '../screens/event/events_page_cubit.dart';
 import '../screens/home/home_page.dart';
 import '../screens/workshop/workshops_page.dart';
+import '../screens/workshop/workshops_page_cubit.dart';
 
 class MainRouter extends StatelessWidget {
   const MainRouter({Key? key}) : super(key: key);
@@ -25,13 +27,12 @@ class MainRouter extends StatelessWidget {
           onNavigationRouteChange: (route) {
             switch (route) {
               case Routes.Home:
-                // context.read<HomeCubit>().init();
                 break;
               case Routes.Events:
-                // context.read<EventCubit>().getEvents();
+                context.read<EventsPageCubit>().refreshFavoritesStatus();
                 break;
               case Routes.Workshops:
-                // context.read<WorkshopCubit>().getWorkshops();
+                context.read<WorkshopsPageCubit>().refreshFavoritesStatus();
                 break;
             }
           },

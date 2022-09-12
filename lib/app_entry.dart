@@ -10,13 +10,13 @@ import 'common/api/user.dart';
 import 'common/bloc/auth/auth_bloc.dart';
 import 'common/bloc/favorites/favorites_bloc.dart';
 import 'common/bloc/user/user_bloc.dart';
+import 'common/config/flavor_constants.dart';
 import 'common/cubit/sponsor_cubit.dart';
 import 'common/services/authentication_repository.dart';
 import 'routers/root_router.dart';
 import 'screens/event/events_page_cubit.dart';
 import 'screens/home/home_page_cubit.dart';
 import 'screens/workshop/workshops_page_cubit.dart';
-import 'utils/flavor_constants.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

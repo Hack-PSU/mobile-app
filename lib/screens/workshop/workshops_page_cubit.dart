@@ -109,7 +109,16 @@ class WorkshopsPageCubit extends Cubit<WorkshopsPageCubitState> {
     emit(state.copyWith(status: PageStatus.ready));
   }
 
-  Future<void> refetch() async {
+  void refetch() {
     emit(state.copyWith(status: PageStatus.idle));
+  }
+
+  void refreshFavoritesStatus() {
+    emit(
+      state.copyWith(
+        isFavoritesEnabled:
+            _favoritesBloc.state.status == FavoritesStatus.enabled,
+      ),
+    );
   }
 }

@@ -7,7 +7,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 import './app_entry.dart';
-import './utils/flavor_constants.dart';
+import 'common/config/flavor_constants.dart';
 import 'common/services/notification_service.dart';
 
 Future<void> main() async {

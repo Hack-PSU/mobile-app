@@ -13,7 +13,8 @@ class ScreenHeaderCubit extends Cubit<bool> {
 
   void toggleSwitch(bool newValue) {
     emit(newValue);
-    _favoritesBloc
-        .add(newValue == true ? EnableFavorites() : DisableFavorites());
+    _favoritesBloc.add(
+      newValue == true ? EnableFavorites() : DisableFavorites(),
+    );
   }
 }
