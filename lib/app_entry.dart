@@ -2,24 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
-import 'bloc/auth/auth_bloc.dart';
-import 'bloc/favorites/favorites_bloc.dart';
-import 'bloc/user/user_bloc.dart';
-import 'cubit/event_cubit.dart';
-import 'cubit/favorites_cubit.dart';
-import 'cubit/registration_cubit.dart';
-import 'cubit/sponsor_cubit.dart';
-import 'cubit/workshop_cubit.dart';
-import 'data/authentication_repository.dart';
-import 'data/event_repository.dart';
-import 'data/notification_repository.dart';
-import 'data/sponsorship_repository.dart';
-import 'data/user_repository.dart';
-import 'models/event.dart';
+import 'common/api/event.dart';
+import 'common/api/notification.dart';
+import 'common/api/sponsorship/sponsorship_repository.dart';
+import 'common/api/user.dart';
+import 'common/bloc/auth/auth_bloc.dart';
+import 'common/bloc/favorites/favorites_bloc.dart';
+import 'common/bloc/user/user_bloc.dart';
+import 'common/config/flavor_constants.dart';
+import 'common/cubit/sponsor_cubit.dart';
+import 'common/services/authentication_repository.dart';
 import 'routers/root_router.dart';
-import 'utils/flavor_constants.dart';
+import 'screens/event/events_page_cubit.dart';
+import 'screens/home/home_page_cubit.dart';
+import 'screens/workshop/workshops_page_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -50,16 +47,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<EventCubit>(
-            create: (context) => EventCubit(context.read<EventRepository>()),
-          ),
-          BlocProvider<WorkshopCubit>(
-            create: (context) => WorkshopCubit(context.read<EventRepository>()),
-          ),
-          BlocProvider<RegistrationCubit>(
-            create: (context) =>
-                RegistrationCubit(context.read<UserRepository>()),
-          ),
           BlocProvider<UserBloc>(
             create: (context) => UserBloc(
               userRepository: context.read<UserRepository>(),
@@ -73,6 +60,13 @@ class MyApp extends StatelessWidget {
               userBloc: BlocProvider.of<UserBloc>(context),
             ),
           ),
+          BlocProvider<HomePageCubit>(
+            create: (context) => HomePageCubit(
+              context.read<EventRepository>(),
+              context.read<UserRepository>(),
+              context.read<SponsorshipRepository>(),
+            ),
+          ),
           BlocProvider<FavoritesBloc>(
             create: (context) => FavoritesBloc(
               userBloc: BlocProvider.of<UserBloc>(context),
@@ -81,6 +75,18 @@ class MyApp extends StatelessWidget {
           BlocProvider<SponsorshipCubit>(
             create: (context) => SponsorshipCubit(
               context.read<SponsorshipRepository>(),
+            ),
+          ),
+          BlocProvider<EventsPageCubit>(
+            create: (context) => EventsPageCubit(
+              context.read<EventRepository>(),
+              BlocProvider.of<FavoritesBloc>(context),
+            ),
+          ),
+          BlocProvider<WorkshopsPageCubit>(
+            create: (context) => WorkshopsPageCubit(
+              context.read<EventRepository>(),
+              BlocProvider.of<FavoritesBloc>(context),
             ),
           ),
         ],

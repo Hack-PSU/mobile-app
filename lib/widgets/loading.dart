@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import 'default_text.dart';
-import 'screen.dart';
+import 'screen/screen.dart';
 
 class Loading extends StatefulWidget {
   const Loading({

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/auth/auth_bloc.dart';
-import '../bloc/auth/auth_state.dart';
-import '../screens/profile_page.dart';
+import '../common/bloc/auth/auth_bloc.dart';
+import '../common/bloc/auth/auth_state.dart';
+import '../screens/profile/profile_page.dart';
 import 'auth_router.dart';
 import 'main_router.dart';
 
