@@ -22,8 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ) {
     on<AuthUserChanged>(_onAuthUserChanged);
     on<AuthLogout>(_onAuthLogout);
-    on<AuthVerifying>(_onAuthVerifying);
-    on<AuthError>(_onAuthError);
+    on<AuthAuthenticated>(_onAuthAuthenticated);
     _userSubscription = _authenticationRepository.user.listen(
       (user) => add(AuthUserChanged(user)),
     );
@@ -48,15 +47,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  void _onAuthVerifying(AuthVerifying event, Emitter<AuthState> emit) {
-    emit(const AuthState.verifying());
+  Future<void> _onAuthAuthenticated(
+    AuthAuthenticated event,
+    Emitter<AuthState> emit,
+  ) async {
+    if (_authenticationRepository.currentUser != null) {
+      _userBloc.add(const RegisterUser());
+    }
+    emit(
+      _authenticationRepository.currentUser != null
+          ? AuthState.authenticated(_authenticationRepository.currentUser)
+          : const AuthState.unauthenticated(),
+    );
   }
 
   void _onAuthLogout(AuthLogout event, Emitter<AuthState> emit) {
     _authenticationRepository.signOut();
-  }
-
-  void _onAuthError(AuthError event, Emitter<AuthState> emit) {
     emit(const AuthState.unauthenticated());
   }
 

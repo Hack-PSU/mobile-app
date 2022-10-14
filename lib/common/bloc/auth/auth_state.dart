@@ -1,13 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
-enum AuthStatus { authenticated, unauthenticated, loading }
+enum AuthStatus { authenticated, unauthenticated }
 
 class AuthState extends Equatable {
   const AuthState._({required this.status, this.user});
-
-  const AuthState.verifying() : this._(status: AuthStatus.loading);
 
   const AuthState.authenticated(User? user)
       : this._(status: AuthStatus.authenticated, user: user);

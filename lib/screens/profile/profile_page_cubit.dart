@@ -19,7 +19,7 @@ class ProfilePageCubitState extends Equatable {
 
   String? get email => _firebaseAuth.currentUser?.email;
 
-  String? get name => _firebaseAuth.currentUser!.displayName;
+  String? get name => _firebaseAuth.currentUser?.displayName;
 
   String? get initials {
     if (name != null) {
