@@ -5,7 +5,6 @@ import '../common/bloc/auth/auth_bloc.dart';
 import '../common/bloc/auth/auth_state.dart';
 import '../screens/create_account/create_account_page.dart';
 import '../screens/sign_in/sign_in_page.dart';
-import '../widgets/loading.dart';
 
 class AuthRouter extends StatelessWidget {
   const AuthRouter({Key? key}) : super(key: key);
@@ -15,10 +14,6 @@ class AuthRouter extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        if (state.status == AuthStatus.loading) {
-          return const Loading(label: "Signing In...", repeat: true);
-        }
-
         return Navigator(
           initialRoute: "signIn",
           onGenerateRoute: (RouteSettings settings) {

@@ -21,4 +21,6 @@ class AuthError extends AuthEvent {}
 
 class AuthVerifying extends AuthEvent {}
 
+class AuthAuthenticated extends AuthEvent {}
+
 class AuthLogout extends AuthEvent {}

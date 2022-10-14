@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:formz/formz.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../common/bloc/auth/auth_bloc.dart';
@@ -11,6 +12,7 @@ import '../../widgets/button.dart';
 import '../../widgets/custom_icons.dart';
 import '../../widgets/default_text.dart';
 import '../../widgets/input.dart';
+import '../../widgets/loading.dart';
 import '../../widgets/screen/screen.dart';
 import '../../widgets/view/keyboard_avoiding.dart';
 import 'sign_in_page_cubit.dart';
@@ -22,11 +24,24 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Screen(
-      withDismissKeyboard: true,
-      safeAreaBottom: false,
-      safeAreaTop: false,
-      body: const SignInScreen(),
+    return BlocProvider<SignInPageCubit>(
+      create: (context) => SignInPageCubit(
+        context.read<AuthenticationRepository>(),
+        context.read<AuthBloc>(),
+      ),
+      child: BlocBuilder<SignInPageCubit, SignInPageCubitState>(
+        builder: (context, state) {
+          if (state.status == FormzStatus.submissionInProgress) {
+            return const Loading(label: "Signing In...", repeat: true);
+          }
+          return Screen(
+            withDismissKeyboard: true,
+            safeAreaBottom: false,
+            safeAreaTop: false,
+            body: const SignInScreen(),
+          );
+        },
+      ),
     );
   }
 }
@@ -38,164 +53,160 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SignInPageCubit>(
-      create: (context) => SignInPageCubit(
-        context.read<AuthenticationRepository>(),
-        context.read<AuthBloc>(),
-      ),
-      child: Stack(
-        children: [
-          Container(height: MediaQuery.of(context).size.height),
-          // refer to this code to resolve bottom positioning
-          // https://stackoverflow.com/questions/51230076/background-image-at-bottom-of-screen-in-flutter-app
-          Positioned.fill(
-            child: SvgPicture.asset(
-              'assets/images/mountain.svg',
-              alignment: Alignment.bottomCenter,
-            ),
+    return Stack(
+      children: [
+        Container(height: MediaQuery.of(context).size.height),
+        // refer to this code to resolve bottom positioning
+        // https://stackoverflow.com/questions/51230076/background-image-at-bottom-of-screen-in-flutter-app
+        Positioned.fill(
+          child: SvgPicture.asset(
+            'assets/images/mountain.svg',
+            alignment: Alignment.bottomCenter,
           ),
-          Positioned.fill(
-            // refer to this code to fix single child scroll view for text field
-            // http://www.engincode.com/flutter-stack-positioned-column-scroll-doesnt-work
-            child: KeyboardAvoiding(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50.0),
-                    child: Container(
-                      height: 150,
-                      width: 150,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                        color: Colors.black12,
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/Logo.png"),
-                        ),
+        ),
+        Positioned.fill(
+          // refer to this code to fix single child scroll view for text field
+          // http://www.engincode.com/flutter-stack-positioned-column-scroll-doesnt-work
+          child: KeyboardAvoiding(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 50.0),
+                  child: Container(
+                    height: 150,
+                    width: 150,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                      color: Colors.black12,
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/Logo.png"),
                       ),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 50.0, left: 20.0),
-                    alignment: Alignment.topLeft,
-                    child: DefaultText(
-                      "LOGIN",
-                      textLevel: TextLevel.h2,
-                      color: const Color(0xFF113654),
-                    ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(top: 50.0, left: 20.0),
+                  alignment: Alignment.topLeft,
+                  child: DefaultText(
+                    "LOGIN",
+                    textLevel: TextLevel.h2,
+                    color: const Color(0xFF113654),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 5.0, left: 20.0, right: 20.0),
-                    child: _EmailInput(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 15.0, left: 20.0, right: 20.0),
-                    child: _PasswordInput(),
-                  ),
-                  BlocBuilder<SignInPageCubit, SignInPageCubitState>(
-                    buildWhen: (previous, current) =>
-                        previous != null &&
-                        current != null &&
-                        previous.error != current.error,
-                    builder: (context, state) {
-                      return Row(
-                        children: [
-                          if (state.error != null)
-                            const Padding(
-                              padding: EdgeInsets.only(
-                                  top: 14.0, left: 20.0, right: 5.0),
-                              child: Icon(
-                                Icons.error,
-                                size: 23.0,
-                                color: Colors.red,
-                              ),
-                            ),
-                          if (state.error != null)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 10.0, right: 5.0),
-                              child: DefaultText(
-                                state.error ?? "",
-                                color: Colors.red,
-                                weight: FontWeight.w600,
-                              ),
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
+                  child: _EmailInput(),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
+                  child: _PasswordInput(),
+                ),
+                BlocBuilder<SignInPageCubit, SignInPageCubitState>(
+                  buildWhen: (previous, current) =>
+                      previous != null &&
+                      current != null &&
+                      previous.error != current.error,
+                  builder: (context, state) {
+                    return Row(
                       children: [
-                        Button(
-                          variant: ButtonVariant.TextButton,
-                          onPressed:
-                              context.read<SignInPageCubit>().forgotPassword,
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              const Color(0x00FAFAFA),
+                        if (state.error != null)
+                          const Padding(
+                            padding: EdgeInsets.only(
+                                top: 14.0, left: 20.0, right: 5.0),
+                            child: Icon(
+                              Icons.error,
+                              size: 23.0,
+                              color: Colors.red,
                             ),
                           ),
-                          child: DefaultText(
-                            "Forgot password?",
-                            textLevel: TextLevel.button,
+                        if (state.error != null)
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 10.0, right: 5.0),
+                            child: DefaultText(
+                              state.error ?? "",
+                              color: Colors.red,
+                              weight: FontWeight.w600,
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Button(
+                        variant: ButtonVariant.TextButton,
+                        onPressed:
+                            context.read<SignInPageCubit>().forgotPassword,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            const Color(0x00FAFAFA),
                           ),
                         ),
-                        Button(
-                          variant: ButtonVariant.TextButton,
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("signUp");
-                            // _navigateCreatAccount(context)
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              const Color(0x00FAFAFA),
-                            ),
+                        child: DefaultText(
+                          "Forgot password?",
+                          textLevel: TextLevel.button,
+                        ),
+                      ),
+                      Button(
+                        variant: ButtonVariant.TextButton,
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("signUp");
+                          // _navigateCreatAccount(context)
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            const Color(0x00FAFAFA),
                           ),
-                          child: DefaultText(
-                            "Create account",
-                            textLevel: TextLevel.button,
-                          ),
+                        ),
+                        child: DefaultText(
+                          "Create account",
+                          textLevel: TextLevel.button,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 300),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: const Color(0xFFF4603D),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(.5),
+                          spreadRadius: 2,
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 300),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color(0xFFF4603D),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(.5),
-                            spreadRadius: 2,
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Button(
-                        variant: ButtonVariant.IconButton,
-                        icon: const Icon(Icons.send),
-                        iconSize: 20,
-                        color: Colors.white,
-                        onPressed: context
+                    child: Button(
+                      variant: ButtonVariant.IconButton,
+                      icon: const Icon(Icons.send),
+                      iconSize: 20,
+                      color: Colors.white,
+                      onPressed: () async {
+                        await context
                             .read<SignInPageCubit>()
-                            .signInWithEmailAndPassword,
-                      ),
+                            .signInWithEmailAndPassword();
+                      },
                     ),
                   ),
-                  _SignInButtons(),
-                ],
-              ),
+                ),
+                _SignInButtons(),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
