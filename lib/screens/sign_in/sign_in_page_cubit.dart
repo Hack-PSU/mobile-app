@@ -117,6 +117,42 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
     }
   }
 
+  Future<void> sendPasswordResetEmail() async {
+    emit(
+      state.copyWith(status: FormzStatus.submissionInProgress),
+    );
+    if (state.email != null && state.email?.value != null) {
+      try {
+        await _authenticationRepository.sendPasswordResetEmail(
+            email: state.email?.value ?? "");
+        emit(
+          state.copyWith(
+            status: FormzStatus.submissionSuccess,
+          ),
+        );
+      } on SendPasswordResetEmailError catch (e) {
+        emit(
+          state.copyWith(
+            error: e.message,
+            status: FormzStatus.submissionFailure,
+          ),
+        );
+        if (kDebugMode) {
+          print(e.message);
+        }
+      } catch (e) {
+        emit(
+          state.copyWith(
+            status: FormzStatus.submissionFailure,
+          ),
+        );
+        if (kDebugMode) {
+          print(e);
+        }
+      }
+    }
+  }
+
   Future<void> signInWithGoogle() async {
     emit(
       state.copyWith(

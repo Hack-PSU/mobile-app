@@ -108,6 +108,28 @@ class SignInWithCredentialError implements Exception {
   }
 }
 
+class SendPasswordResetEmailError implements Exception {
+  const SendPasswordResetEmailError(
+      [this.message = "An unknown error has occurred."]);
+
+  factory SendPasswordResetEmailError.fromCode(String code) {
+    switch (code) {
+      case 'invalid-email':
+        return const SendPasswordResetEmailError(
+          "Email is not valid or badly formatted.",
+        );
+      case 'user-not-found':
+        return const SendPasswordResetEmailError(
+          "Email is not found, create an account.",
+        );
+      default:
+        return const SendPasswordResetEmailError();
+    }
+  }
+
+  final String message;
+}
+
 class SignInWithGoogleError extends SignInWithCredentialError {
   const SignInWithGoogleError([
     String message = "An unknown error has occurred.",
@@ -200,6 +222,16 @@ class AuthenticationRepository {
       throw SignUpWithEmailAndPasswordError.fromCode(e.code);
     } catch (_) {
       throw const SignUpWithEmailAndPasswordError();
+    }
+  }
+
+  Future<void> sendPasswordResetEmail({required String email}) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw SendPasswordResetEmailError.fromCode(e.code);
+    } catch (_) {
+      throw const SendPasswordResetEmailError();
     }
   }
 
