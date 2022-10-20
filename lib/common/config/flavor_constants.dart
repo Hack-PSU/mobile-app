@@ -18,7 +18,7 @@ class Config {
     );
   }
 
-  static String get wsUrl => 'http://localhost:4000';
+  static String get wsUrl => 'http://localhost:3000';
 
   static String get storageBucket {
     return getConstantByFlavor(
