@@ -41,6 +41,7 @@ class User {
     required this.endTime,
     required this.basePin,
     required this.active,
+    required this.word_pin,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -89,4 +90,5 @@ class User {
   final DateTime endTime;
   final int? basePin;
   final bool? active;
+  final String? word_pin;
 }

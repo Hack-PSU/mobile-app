@@ -16,12 +16,11 @@ class UserPinCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
-      buildWhen: (previous, current) => previous.pin != current.pin,
+      buildWhen: (previous, current) => previous.word_pin != current.word_pin,
       builder: (context, state) {
-        if (state.pin!.isEmpty) {
+        if (state.word_pin!.isEmpty) {
           return const _RegisterCard();
         }
-
         return InkWell(
           onTap: () {
             showGeneralDialog(
@@ -55,7 +54,7 @@ class UserPinCard extends StatelessWidget {
                     ),
                     Container(height: 10.0),
                     DefaultText(
-                      state.pin!,
+                      state.word_pin!,
                       textLevel: TextLevel.h1,
                     ),
                   ],
@@ -69,7 +68,7 @@ class UserPinCard extends StatelessWidget {
                       border: Border.all(width: 2),
                       color: Colors.white),
                   child: QrImage(
-                    data: "HACKPSU_${state.pin}",
+                    data: "HACKPSU_${state.word_pin}",
                     version: 3,
                     size: 60,
                   ),
@@ -169,7 +168,7 @@ class QRScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             QrImage(
-              data: "HACKPSU_${bloc.state.pin}",
+              data: "HACKPSU_${bloc.state.word_pin}",
               version: 3,
             ),
           ],

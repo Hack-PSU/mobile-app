@@ -24,6 +24,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       if (state.pin != "") {
         add(RegisterUser(token));
       }
+      if (state.word_pin != "") {
+        add(RegisterUser(token));
+      }
     });
   }
 
@@ -37,8 +40,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     // get user pin
     try {
-      final userPin = await _userRepository.getUserPin();
-      emit(state.updatePin(userPin));
+      final userPins = await _userRepository.getUserPin();
+      final pin = userPins.split("!")[0];
+      final word_pin = userPins.split("!")[1];
+      emit(state.updatePin(pin,word_pin));
     } catch (e) {
       if (kDebugMode) {
         print(e);
