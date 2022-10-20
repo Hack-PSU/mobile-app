@@ -22,9 +22,9 @@ class SocketManager {
   io.Socket? _socket;
   bool isConnected = false;
 
-  void Function(SocketData) get streamAdd => _socketResponse.sink.add;
+  void Function(SocketData) get _streamAdd => _socketResponse.sink.add;
 
-  Stream<Object> get socket => _socketResponse.stream;
+  Stream<SocketData> get socket => _socketResponse.stream;
 
   static SocketManager get instance => _instance;
 
@@ -64,7 +64,7 @@ class SocketManager {
 
       _socket?.on(
         "update:event",
-        (data) => streamAdd(
+        (data) => _streamAdd(
           SocketData(
             event: "update:event",
             data: data,
@@ -74,7 +74,7 @@ class SocketManager {
 
       _socket?.on(
         "update:hackathon",
-        (data) => streamAdd(
+        (data) => _streamAdd(
           SocketData(
             event: "update:hackathon",
             data: data,

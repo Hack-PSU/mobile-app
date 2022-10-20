@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/api/event.dart';
 import '../../common/api/sponsorship/sponsorship_repository.dart';
 import '../../common/api/user.dart';
+import '../../common/api/websocket.dart';
 
 enum PageStatus { idle, loading, ready }
 
@@ -54,11 +57,27 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
             users: [],
             workshops: [],
           ),
-        );
+        ) {
+    // Listen to specific events emitted from SocketManager
+    // SocketManager.instance ensures singleton is used
+    _socketSubscription = SocketManager.instance.socket.listen(
+      (data) {
+        switch (data.event) {
+          case "update:event":
+            print(data.data);
+            break;
+          default:
+            print("DEFAULT");
+            break;
+        }
+      },
+    );
+  }
 
   final EventRepository _eventRepository;
   final UserRepository _userRepository;
   final SponsorshipRepository _sponsorshipRepository;
+  late StreamSubscription<SocketData> _socketSubscription;
 
   Future<void> getEvents() async {
     final event = await _eventRepository.getEvents();
@@ -103,5 +122,11 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
 
   Future<void> refetch() async {
     emit(state.copyWith(status: PageStatus.idle));
+  }
+
+  @override
+  Future<void> close() async {
+    await _socketSubscription.cancel();
+    return super.close();
   }
 }
