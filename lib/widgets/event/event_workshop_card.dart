@@ -180,106 +180,110 @@ class _BottomSheet {
             return Container(
               padding: const EdgeInsets.all(15.0),
               // height: 300,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0, right: 10.0),
-                        child: event.eventIcon != null
-                            ? CircleAvatar(
-                                radius: 25,
-                                backgroundImage: NetworkImage(event.eventIcon!))
-                            : getEventIcon(event.eventType),
-                      ),
-                      Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0, right: 10.0),
+                          child: event.eventIcon != null
+                              ? CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage:
+                                      NetworkImage(event.eventIcon!))
+                              : getEventIcon(event.eventType),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              DefaultText(
+                                event.eventTitle!,
+                                textLevel: TextLevel.sub1,
+                                maxLines: 10,
+                              ),
+                              if (event.wsPresenterNames != null)
+                                DefaultText(
+                                  event.wsPresenterNames ?? '',
+                                  color: ThemeColors.HackyBlue,
+                                  textLevel: TextLevel.body2,
+                                ),
+                              DefaultText(
+                                '$formatStartTime - $formatEndTime',
+                                textLevel: TextLevel.sub1,
+                                weight: FontWeight.w500,
+                                color: ThemeColors.HackyBlue,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              onPressed: () {
+                                if (state.isFavorite(event)) {
+                                  context
+                                      .read<FavoritesBloc>()
+                                      .add(RemoveFavoritesItem(event));
+                                } else {
+                                  context
+                                      .read<FavoritesBloc>()
+                                      .add(AddFavoritesItem(event));
+                                }
+                              },
+                              icon: _FavoritesIcon(
+                                isFavorite: state.isFavorite(event),
+                              ),
+                              iconSize: 30,
+                              splashRadius: 20.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Chip(
+                      avatar: const Icon(Icons.location_on_rounded),
+                      label: DefaultText(event.locationName!),
+                    ),
+                    if (event.eventDescription != null)
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.only(top: 10.0),
+                        padding: const EdgeInsets.only(
+                          left: 10.0,
+                          right: 10.0,
+                          top: 5.0,
+                          bottom: 10.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 4,
+                            color: Colors.black12,
+                          ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             DefaultText(
-                              event.eventTitle!,
-                              textLevel: TextLevel.sub1,
+                              'Description',
+                              textLevel: TextLevel.body1,
                             ),
-                            if (event.wsPresenterNames != null)
-                              DefaultText(
-                                event.wsPresenterNames ?? '',
-                                color: ThemeColors.HackyBlue,
-                                textLevel: TextLevel.body2,
-                              ),
                             DefaultText(
-                              '$formatStartTime - $formatEndTime',
-                              textLevel: TextLevel.sub1,
-                              weight: FontWeight.w500,
-                              color: ThemeColors.HackyBlue,
+                              event.eventDescription!,
+                              textLevel: TextLevel.body2,
+                              maxLines: 300,
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            onPressed: () {
-                              if (state.isFavorite(event)) {
-                                context
-                                    .read<FavoritesBloc>()
-                                    .add(RemoveFavoritesItem(event));
-                              } else {
-                                context
-                                    .read<FavoritesBloc>()
-                                    .add(AddFavoritesItem(event));
-                              }
-                            },
-                            icon: _FavoritesIcon(
-                              isFavorite: state.isFavorite(event),
-                            ),
-                            iconSize: 30,
-                            splashRadius: 20.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Chip(
-                    avatar: const Icon(Icons.location_on_rounded),
-                    label: DefaultText(event.locationName!),
-                  ),
-                  if (event.eventDescription != null)
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.only(top: 10.0),
-                      padding: const EdgeInsets.only(
-                        left: 10.0,
-                        right: 10.0,
-                        top: 5.0,
-                        bottom: 10.0,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 4,
-                          color: Colors.black12,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          DefaultText(
-                            'Description',
-                            textLevel: TextLevel.body1,
-                          ),
-                          DefaultText(
-                            event.eventDescription!,
-                            textLevel: TextLevel.body2,
-                            maxLines: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             );
           },
