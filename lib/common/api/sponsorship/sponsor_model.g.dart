@@ -12,7 +12,7 @@ Sponsor _$SponsorFromJson(Map<String, dynamic> json) => Sponsor(
       level: json['level'] as String,
       logo: json['logo'] as String,
       hackathon: json['hackathon'] as String?,
-      websiteLink: json['websiteLink'] as String?,
+      websiteLink: json['website_link'] as String?,
       order: json['order'] as int,
     );
 
@@ -22,6 +22,6 @@ Map<String, dynamic> _$SponsorToJson(Sponsor instance) => <String, dynamic>{
       'level': instance.level,
       'logo': instance.logo,
       'hackathon': instance.hackathon,
-      'websiteLink': instance.websiteLink,
+      'website_link': instance.websiteLink,
       'order': instance.order,
     };

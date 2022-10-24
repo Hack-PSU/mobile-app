@@ -2,7 +2,11 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'sponsor_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(
+  createFactory: true,
+  createToJson: true,
+  fieldRename: FieldRename.snake,
+)
 class Sponsor {
   Sponsor({
     required this.uid,
@@ -24,6 +28,7 @@ class Sponsor {
   final String level;
   final String logo;
   final String? hackathon;
+
   final String? websiteLink;
   final int order;
 }

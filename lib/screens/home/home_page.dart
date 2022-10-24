@@ -148,7 +148,7 @@ class _Content extends StatelessWidget {
                 const HomepageHeader(),
                 const UserPinCard(),
                 _renderEventCard(context, EventType.ACTIVITY),
-                // _renderEventCard(context, EventType.WORKSHOP),
+                _renderEventCard(context, EventType.WORKSHOP),
                 const SizedBox(height: 20.0),
                 SponsorCarousel(sponsors: sponsors),
                 const SizedBox(height: 20.0),
