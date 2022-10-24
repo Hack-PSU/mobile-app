@@ -79,43 +79,45 @@ class _MainHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfilePageCubit, ProfilePageCubitState>(
       builder: (context, state) {
-        return Column(children: [
-          if (state.name != null)
-            CircleAvatar(
-              radius: 70,
-              backgroundColor: Colors.white,
-              child: DefaultText(
-                state.initials ?? "",
-                textLevel: TextLevel.h2,
-                color: ThemeColors.StadiumOrange,
-                fontSize: 48,
+        return Column(
+          children: [
+            if (state.name != null)
+              CircleAvatar(
+                radius: 70,
+                backgroundColor: Colors.white,
+                child: DefaultText(
+                  state.initials ?? "",
+                  textLevel: TextLevel.h2,
+                  color: ThemeColors.StadiumOrange,
+                  fontSize: 48,
+                ),
               ),
-            ),
-          if (state.name == null)
-            CircleAvatar(
-              radius: 70,
-              backgroundColor: Colors.white,
-              child: SvgPicture.asset(
-                "assets/icons/person.svg",
-                color: ThemeColors.StadiumOrange,
-                width: 80,
-                height: 80,
+            if (state.name == null)
+              CircleAvatar(
+                radius: 70,
+                backgroundColor: Colors.white,
+                child: SvgPicture.asset(
+                  "assets/icons/person.svg",
+                  color: ThemeColors.StadiumOrange,
+                  width: 80,
+                  height: 80,
+                ),
               ),
+            const SizedBox(height: 10.0),
+            DefaultText(
+              state.name ?? "Hacker",
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              fontSize: 32,
+              textLevel: TextLevel.h1,
             ),
-          const SizedBox(height: 10.0),
-          DefaultText(
-            state.name ?? "Hacker",
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            fontSize: 32,
-            textLevel: TextLevel.h1,
-          ),
-          DefaultText(
-            state.email ?? "",
-            textLevel: TextLevel.caption,
-            fontSize: 16,
-          ),
-        ]);
+            DefaultText(
+              state.email ?? "",
+              textLevel: TextLevel.caption,
+              fontSize: 16,
+            ),
+          ],
+        );
       },
     );
   }
