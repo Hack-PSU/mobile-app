@@ -11,7 +11,6 @@ import 'common/bloc/auth/auth_bloc.dart';
 import 'common/bloc/favorites/favorites_bloc.dart';
 import 'common/bloc/user/user_bloc.dart';
 import 'common/config/flavor_constants.dart';
-import 'common/cubit/sponsor_cubit.dart';
 import 'common/services/authentication_repository.dart';
 import 'routers/root_router.dart';
 import 'screens/event/events_page_cubit.dart';
@@ -41,7 +40,7 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (_) => SponsorshipRepository(
-            bucket: Config.storageBucket,
+            '${Config.baseUrl}/sponsorship',
           ),
         ),
       ],
@@ -72,11 +71,11 @@ class MyApp extends StatelessWidget {
               userBloc: BlocProvider.of<UserBloc>(context),
             ),
           ),
-          BlocProvider<SponsorshipCubit>(
-            create: (context) => SponsorshipCubit(
-              context.read<SponsorshipRepository>(),
-            ),
-          ),
+          // BlocProvider<SponsorshipCubit>(
+          //   create: (context) => SponsorshipCubit(
+          //     context.read<SponsorshipRepository>(),
+          //   ),
+          // ),
           BlocProvider<EventsPageCubit>(
             create: (context) => EventsPageCubit(
               context.read<EventRepository>(),

@@ -12,7 +12,10 @@ enum EventType {
 }
 
 @JsonSerializable(
-    createFactory: true, createToJson: true, fieldRename: FieldRename.snake)
+  createFactory: true,
+  createToJson: true,
+  fieldRename: FieldRename.snake,
+)
 class Event {
   Event({
     required this.uid,
