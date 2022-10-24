@@ -5,7 +5,8 @@ import '../client.dart';
 import 'event_model.dart';
 
 class EventRepository {
-  EventRepository(String configUrl) : _endpoint = Uri.parse(configUrl);
+  EventRepository(String configUrl)
+      : _endpoint = Uri.parse("$configUrl?ignoreCache=true");
 
   final Uri _endpoint;
 

@@ -11,7 +11,7 @@ class UserRepository {
     String configUrl, {
     FirebaseAuth? firebaseAuth,
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _endpoint = Uri.parse(configUrl);
+        _endpoint = Uri.parse("$configUrl?ignoreCache=true");
 
   final Uri _endpoint;
   final FirebaseAuth _firebaseAuth;
