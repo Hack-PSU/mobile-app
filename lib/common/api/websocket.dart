@@ -81,6 +81,26 @@ class SocketManager {
           ),
         ),
       );
+
+      _socket?.on(
+        "update:sponsorship",
+        (data) => _streamAdd(
+          SocketData(
+            event: "update:sponsorship",
+            data: data,
+          ),
+        ),
+      );
+
+      _socket?.on(
+        "update:extraCredit",
+        (data) => _streamAdd(
+          SocketData(
+            event: "update:extraCredit",
+            data: data,
+          ),
+        ),
+      );
     }
   }
 

@@ -14,7 +14,6 @@ class SponsorshipRepository {
 
   final String _endpoint;
   final FirebaseAuth _firebaseAuth;
-  final orderRegex = RegExp(".*ORDER-([0-9]+)");
 
   Future<List<Sponsor>> getAllSponsors() async {
     final user = _firebaseAuth.currentUser;
@@ -40,26 +39,4 @@ class SponsorshipRepository {
 
     return [];
   }
-
-  // Future<List<Map<String, String>>> getSponsors() async {
-  //   final storageRef = _firebaseStorage.ref().child("sponsorship-logos");
-  //   final allLogos = await storageRef.listAll();
-  //   final Map<String, String> refMap = <String, String>{};
-  //   final logos =
-  //       allLogos.items.where((ref) => ref.fullPath.contains("ENABLED"));
-  //
-  //   final List<Map<String, String>> sponsorData = List.filled(logos.length, {});
-  //   // final Map<String, Map<String, String>> sponsorData = {};
-  //
-  //   for (final Reference logo in logos) {
-  //     final order = orderRegex.allMatches(logo.fullPath).elementAt(0).group(1)!;
-  //     final metadata = await logo.getMetadata();
-  //     sponsorData[int.parse(order) - 1] = {
-  //       "image": await logo.getDownloadURL(),
-  //       "url": metadata.customMetadata!["url"] ?? ""
-  //     };
-  //   }
-  //
-  //   return sponsorData;
-  // }
 }
