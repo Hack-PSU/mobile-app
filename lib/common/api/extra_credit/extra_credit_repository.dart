@@ -9,9 +9,9 @@ import 'extra_credit_class_model.dart';
 class ExtraCreditRepository {
   ExtraCreditRepository(
     String configUrl,
-  ) : _endpoint = Uri.parse(configUrl);
+  ) : _endpoint = configUrl;
 
-  final Uri _endpoint;
+  final String _endpoint;
 
   Future<List<ExtraCreditClass>> getClasses() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -20,7 +20,7 @@ class ExtraCreditRepository {
       final token = await user.getIdToken();
       final client = Client.withToken(token);
 
-      final resp = await client.get(_endpoint);
+      final resp = await client.get(Uri.parse(_endpoint));
 
       if (resp.statusCode == 200) {
         final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
@@ -28,8 +28,6 @@ class ExtraCreditRepository {
             .map((data) =>
                 ExtraCreditClass.fromJson(data as Map<String, dynamic>))
             .toList();
-      } else {
-        throw Exception("Failed to get events from API");
       }
     }
     return [];
