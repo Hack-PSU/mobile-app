@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'common/api/event.dart';
-import 'common/api/extra_credit/extraCredit_repository.dart';
+import 'common/api/extra_credit/extra_credit_repository.dart';
 import 'common/api/notification.dart';
 import 'common/api/sponsorship/sponsorship_repository.dart';
 import 'common/api/user.dart';

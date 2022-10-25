@@ -1,30 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../widgets/screen/screen.dart';
-import '../extraCredit/extraCredit_page_cubit.dart';
+import '../../common/api/extra_credit/extra_credit_repository.dart';
+import '../../widgets/loading.dart';
+import 'extra_credit_page_cubit.dart';
 
-class extraCreditPage extends StatelessWidget {
-  const extraCreditPage({
+class ExtraCreditPage extends StatelessWidget {
+  const ExtraCreditPage({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ExtraCreditCubitState(),
+    return BlocProvider<ExtraCreditPageCubit>(
+      create: (context) => ExtraCreditPageCubit(
+        context.read<ExtraCreditRepository>(),
+      ),
       child: Screen(
-        body: const extraCreditScreen(),
+        body: BlocBuilder<ExtraCreditPageCubit, ExtraCreditPageCubitState>(
+          builder: (context, state) {
+            if (state.status == PageStatus.idle) {
+              context.read<ExtraCreditPageCubit>().init();
+            }
+            if (state.status == PageStatus.ready) {
+              return const ExtraCreditPage();
+            }
+            return const Loading(
+              label: "Loading classes",
+            );
+          },
+        ),
       ),
     );
   }
 }
 
-
-class extraCreditScreen extends StatelessWidget {
-  const extraCreditScreen({Key? key}) : super(key: key);
+class ExtraCreditScreen extends StatelessWidget {
+  const ExtraCreditScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

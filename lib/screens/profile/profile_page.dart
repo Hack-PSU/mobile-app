@@ -12,7 +12,7 @@ import '../../widgets/default_text.dart';
 import '../../widgets/pin_card.dart';
 import '../../widgets/screen/screen.dart';
 import '../../widgets/view/keyboard_avoiding.dart';
-import 'extraCredit/extraCredit_page.dart';
+import '../extra_credit/extra_credit_page.dart';
 import 'profile_page_cubit.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -228,9 +228,11 @@ class _ProfileOptions extends StatelessWidget {
             ),
             variant: ButtonVariant.TextButton,
             onPressed: () {
-                Navigator.push(
+              Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const extraCreditPage()),
+                MaterialPageRoute(
+                  builder: (context) => const ExtraCreditPage(),
+                ),
               );
             },
             child: Row(
