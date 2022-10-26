@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../widgets/screen/screen.dart';
 import '../../common/api/extra_credit/extra_credit_repository.dart';
 import '../../widgets/loading.dart';
+import '../../widgets/view/agenda_view.dart';
 import 'extra_credit_page_cubit.dart';
+
 
 class ExtraCreditPage extends StatelessWidget {
   const ExtraCreditPage({
@@ -74,3 +76,4 @@ class _Toolbar extends StatelessWidget {
     );
   }
 }
+

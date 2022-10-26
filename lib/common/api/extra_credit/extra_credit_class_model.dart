@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'extra_credit_class_model.g.dart';
@@ -12,8 +14,8 @@ class ExtraCreditClass {
     required this.className,
   });
 
-  String? uid;
-  String? className;
+  final int? uid;
+  final String? className;
 
   Map<String, dynamic> toJson() => _$ExtraCreditClassToJson(this);
 
