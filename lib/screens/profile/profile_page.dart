@@ -37,12 +37,14 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(children: const [
-        _Toolbar(),
-        _MainHeader(),
-        SizedBox(height: 20.0),
-        _ProfileOptions(),
-      ]),
+      child: Column(
+        children: const [
+          _Toolbar(),
+          _MainHeader(),
+          SizedBox(height: 20.0),
+          _ProfileOptions(),
+        ],
+      ),
     );
   }
 }
@@ -151,7 +153,12 @@ class _ProfileOptions extends StatelessWidget {
             onPressed: () {
               showModalBottomSheet(
                 context: context,
-                builder: (BuildContext context) => _ChangePassword(),
+                builder: (BuildContext modalContext) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<ProfilePageCubit>(context),
+                    child: const _ChangePassword(),
+                  );
+                },
               );
             },
             child: Row(

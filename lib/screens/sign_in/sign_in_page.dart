@@ -8,6 +8,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../common/bloc/auth/auth_bloc.dart';
 import '../../common/services/authentication_repository.dart';
+import '../../styles/theme_colors.dart';
 import '../../widgets/button.dart';
 import '../../widgets/custom_icons.dart';
 import '../../widgets/default_text.dart';
@@ -114,7 +115,10 @@ class SignInScreen extends StatelessWidget {
                         if (state.error != null)
                           const Padding(
                             padding: EdgeInsets.only(
-                                top: 14.0, left: 20.0, right: 5.0),
+                              top: 14.0,
+                              left: 20.0,
+                              right: 5.0,
+                            ),
                             child: Icon(
                               Icons.error,
                               size: 23.0,
@@ -142,8 +146,22 @@ class SignInScreen extends StatelessWidget {
                     children: [
                       Button(
                         variant: ButtonVariant.TextButton,
-                        onPressed:
-                            context.read<SignInPageCubit>().forgotPassword,
+                        // onPressed: context
+                        //     .read<SignInPageCubit>()
+                        //     .sendPasswordResetEmail,
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext modalContext) {
+                              return BlocProvider.value(
+                                value: BlocProvider.of<SignInPageCubit>(
+                                  context,
+                                ),
+                                child: const _ForgotPassword(),
+                              );
+                            },
+                          );
+                        },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                             const Color(0x00FAFAFA),
@@ -282,6 +300,98 @@ class _PasswordInput extends StatelessWidget {
         return PasswordInput(
           label: "Password",
           onChanged: dispatch.onPasswordChanged,
+        );
+      },
+    );
+  }
+}
+
+class _ForgotPassword extends StatelessWidget {
+  const _ForgotPassword({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final navigator = Navigator.of(context);
+    return BlocBuilder<SignInPageCubit, SignInPageCubitState>(
+      builder: (context, state) {
+        return KeyboardAvoiding(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 30.0,
+              horizontal: 20.0,
+            ),
+            child: Column(
+              children: [
+                const SizedBox(height: 20.0),
+                TextFormField(
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  autovalidateMode: AutovalidateMode.always,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(20.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: ThemeColors.HackyBlue,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(80),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: ThemeColors.HackyBlue,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    hintText: "Enter your email",
+                    labelText: 'Email',
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: ThemeColors.StadiumOrange,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                  onChanged: context.read<SignInPageCubit>().onEmailChanged,
+                ),
+                const SizedBox(height: 20.0),
+                Button(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      ThemeColors.HackyBlue,
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 20.0),
+                    ),
+                  ),
+                  variant: ButtonVariant.TextButton,
+                  onPressed: () async {
+                    await context
+                        .read<SignInPageCubit>()
+                        .sendPasswordResetEmail();
+                    navigator.pop();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DefaultText(
+                        "Submit",
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
