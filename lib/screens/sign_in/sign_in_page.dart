@@ -115,7 +115,10 @@ class SignInScreen extends StatelessWidget {
                         if (state.error != null)
                           const Padding(
                             padding: EdgeInsets.only(
-                                top: 14.0, left: 20.0, right: 5.0),
+                              top: 14.0,
+                              left: 20.0,
+                              right: 5.0,
+                            ),
                             child: Icon(
                               Icons.error,
                               size: 23.0,
@@ -149,8 +152,14 @@ class SignInScreen extends StatelessWidget {
                         onPressed: () {
                           showModalBottomSheet(
                             context: context,
-                            builder: (BuildContext context) =>
-                                _ForgotPassword(),
+                            builder: (BuildContext modalContext) {
+                              return BlocProvider.value(
+                                value: BlocProvider.of<SignInPageCubit>(
+                                  context,
+                                ),
+                                child: const _ForgotPassword(),
+                              );
+                            },
                           );
                         },
                         style: ButtonStyle(
@@ -300,6 +309,7 @@ class _PasswordInput extends StatelessWidget {
 class _ForgotPassword extends StatelessWidget {
   const _ForgotPassword({Key? key}) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     final navigator = Navigator.of(context);
     return BlocBuilder<SignInPageCubit, SignInPageCubitState>(
