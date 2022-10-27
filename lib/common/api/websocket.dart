@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import '../config/flavor_constants.dart';
@@ -18,16 +19,15 @@ class SocketData {
 
 class SocketManager {
   static final _instance = SocketManager();
-  final _socketResponse = StreamController<SocketData>();
+  final BehaviorSubject<SocketData> _socketResponse = BehaviorSubject();
   io.Socket? _socket;
   bool isConnected = false;
-
-  void Function(SocketData) get _streamAdd => _socketResponse.sink.add;
 
   Stream<SocketData> get socket => _socketResponse.stream;
 
   static SocketManager get instance => _instance;
 
+  // Initialized in AuthBloc after user is successfully authenticated
   Future<void> connect() async {
     if (FirebaseAuth.instance.currentUser != null && _socket == null) {
       final token = await FirebaseAuth.instance.currentUser?.getIdToken();
@@ -52,19 +52,24 @@ class SocketManager {
           print("Error: $data");
         }
       });
+      _socket?.onDisconnect((data) {
+        if (kDebugMode) {
+          print("LOG [WS]: Disconnecting");
+        }
+      });
 
       _socket?.onConnect((_) {
         isConnected = true;
         _socket?.emit("ping:mobile");
 
         if (kDebugMode) {
-          print("CONNECTED!");
+          print("LOG [WS]: Connected");
         }
       });
 
       _socket?.on(
         "update:event",
-        (data) => _streamAdd(
+        (data) => _socketResponse.add(
           SocketData(
             event: "update:event",
             data: data,
@@ -74,7 +79,7 @@ class SocketManager {
 
       _socket?.on(
         "update:hackathon",
-        (data) => _streamAdd(
+        (data) => _socketResponse.add(
           SocketData(
             event: "update:hackathon",
             data: data,
@@ -84,7 +89,7 @@ class SocketManager {
 
       _socket?.on(
         "update:sponsorship",
-        (data) => _streamAdd(
+        (data) => _socketResponse.add(
           SocketData(
             event: "update:sponsorship",
             data: data,
@@ -94,7 +99,7 @@ class SocketManager {
 
       _socket?.on(
         "update:extraCredit",
-        (data) => _streamAdd(
+        (data) => _socketResponse.add(
           SocketData(
             event: "update:extraCredit",
             data: data,
@@ -105,6 +110,7 @@ class SocketManager {
   }
 
   void dispose() {
-    _socketResponse.close();
+    _socket?.dispose();
+    _socket = null;
   }
 }

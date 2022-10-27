@@ -59,7 +59,7 @@ dependencies:
   timezone: ^0.8.0
 
   # persistent bloc
-  hydrated_bloc: ^8.1.0
+  hydrated_bloc: ^9.0.0-dev.3
 
   # filesystem
   path_provider: ^2.0.10
@@ -89,6 +89,9 @@ dependencies:
 
   # html parser
   html: ^0.15.0
+
+  # Stream
+  rxdart: ^0.27.5
 
 dev_dependencies:
   flutter_test:

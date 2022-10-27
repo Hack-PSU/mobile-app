@@ -65,10 +65,7 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
       (data) {
         switch (data.event) {
           case "update:event":
-            print(data.data);
-            break;
-          default:
-            print("DEFAULT");
+            refetch();
             break;
         }
       },

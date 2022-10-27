@@ -42,6 +42,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await SocketManager.instance.connect();
       _userBloc.add(const RegisterUser());
     }
+
+    if (event.user == null) {
+      SocketManager.instance.dispose();
+    }
+
     emit(
       event.user != null
           ? AuthState.authenticated(event.user)
