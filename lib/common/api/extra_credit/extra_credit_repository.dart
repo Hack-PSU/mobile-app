@@ -32,4 +32,27 @@ class ExtraCreditRepository {
     }
     return [];
   }
+
+  Future<List<ExtraCreditClass>> getClassesByUid(String uid) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final token = await user.getIdToken();
+      final client = Client.withToken(token);
+
+      final resp = await client.get(
+        Uri.parse(
+          "$_endpoint/assignment?type=user",
+        ),
+      );
+
+      if (resp.statusCode == 200) {
+        final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
+        return (apiResponse.body["data"] as List)
+            .map((c) => ExtraCreditClass.fromJson(c as Map<String, dynamic>))
+            .toList();
+      }
+    }
+    return [];
+  }
 }

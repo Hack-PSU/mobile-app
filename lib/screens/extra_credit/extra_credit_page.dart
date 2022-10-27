@@ -3,12 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../widgets/screen/screen.dart';
+import '../../common/api/extra_credit/extra_credit_class_model.dart';
 import '../../common/api/extra_credit/extra_credit_repository.dart';
 import '../../styles/theme_colors.dart';
 import '../../widgets/default_text.dart';
 import '../../widgets/loading.dart';
 import 'extra_credit_page_cubit.dart';
-
 
 class ExtraCreditPage extends StatelessWidget {
   const ExtraCreditPage({
@@ -17,47 +17,60 @@ class ExtraCreditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return BlocProvider<ExtraCreditPageCubit>(
-    //   create: (context) => ExtraCreditPageCubit(
-    //     context.read<ExtraCreditRepository>(),
-    //   ),
-    //   child: Screen(
-    //     body: BlocBuilder<ExtraCreditPageCubit, ExtraCreditPageCubitState>(
-    //       builder: (context, state) {
-    //         if (state.status == PageStatus.idle) {
-    //           context.read<ExtraCreditPageCubit>().init();
-    //         }
-    //         if (state.status == PageStatus.ready) {
-    //           return const ExtraCreditPage();
-    //         }
-    //         return const Loading(
-    //           label: "Loading classes",
-    //         );
-    //       },
-    //     ),
-    //   ),
-    // );
-    return Screen(
-      body: ExtraCreditScreen(),
+    return BlocProvider<ExtraCreditPageCubit>(
+      create: (context) => ExtraCreditPageCubit(
+        context.read<ExtraCreditRepository>(),
+      ),
+      child: Screen(
+        body: BlocBuilder<ExtraCreditPageCubit, ExtraCreditPageCubitState>(
+          builder: (context, state) {
+            if (state.status == PageStatus.idle) {
+              context.read<ExtraCreditPageCubit>().init();
+            }
+            if (state.status == PageStatus.ready) {
+              return ExtraCreditScreen(
+                userClasses: state.userClasses ?? [],
+                classes: state.classes ?? [],
+              );
+            }
+            return const Loading(
+              label: "Loading classes",
+            );
+          },
+        ),
+      ),
     );
   }
 }
 
 class ExtraCreditScreen extends StatelessWidget {
-  const ExtraCreditScreen({Key? key}) : super(key: key);
+  const ExtraCreditScreen({
+    required this.userClasses,
+    required this.classes,
+    Key? key,
+  }) : super(
+          key: key,
+        );
+
+  final List<ExtraCreditClass> userClasses;
+  final List<ExtraCreditClass> classes;
 
   @override
   Widget build(BuildContext context) {
-    body: return Padding(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column (
-        children: const <Widget>[
-        _Toolbar(),
-        Expanded (
-          child: ClassView(classes: ["classes","asdfjasd;f","asdf"], labels: ["labels","other"])
-        ),
-      ],
-    )
+      child: Column(
+        children: <Widget>[
+          const _Toolbar(),
+          Expanded(
+            child: ClassView(
+              userClasses: userClasses,
+              classes: classes,
+              labels: const ["labels", "other"],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -77,7 +90,10 @@ class _Toolbar extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: const Icon(Icons.arrow_back, size: 25.0),
+            child: const Icon(
+              Icons.arrow_back,
+              size: 25.0,
+            ),
           ),
         ],
       ),
@@ -85,6 +101,7 @@ class _Toolbar extends StatelessWidget {
   }
 }
 
+// TODO(Quinn): Remove this since it is the same as ExtraCreditClass
 class _Classes {
   const _Classes({
     required this.name,
@@ -97,13 +114,14 @@ class _Classes {
 class ClassView extends StatefulWidget {
   const ClassView({
     Key? key,
+    required this.userClasses,
     required this.classes,
     required this.labels,
   }) : super(key: key);
 
-  final List<String> classes;
+  final List<ExtraCreditClass> userClasses;
+  final List<ExtraCreditClass> classes;
   final List<String> labels;
-
 
   @override
   State<StatefulWidget> createState() => ClassViewState();
@@ -124,7 +142,8 @@ class ClassViewState extends State<ClassView> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  List<Widget> _generateTabChildren(Map<String, List<_Classes>> classes) {
+  List<Widget> _generateTabChildren(
+      Map<String, List<ExtraCreditClass>> classes) {
     return classes.keys
         .map(
           (key) => Container(
@@ -143,9 +162,10 @@ class ClassViewState extends State<ClassView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, List<_Classes>> data = <String, List<_Classes>>{};
-
-
+    final Map<String, List<ExtraCreditClass>> data = {
+      "labels": widget.userClasses,
+      "other": widget.classes,
+    };
 
     return Column(
       children: [
