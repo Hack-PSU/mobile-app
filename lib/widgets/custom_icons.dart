@@ -27,4 +27,8 @@ class CustomIcons {
       IconData(0xf09b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData google =
       IconData(0xf1a0, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData unselectedClass =
+      IconData(0xefd9, fontFamily: 'MaterialIcons');
+  static const IconData selectedClass =
+      IconData(0xe156, fontFamily: 'MaterialIcons');
 }

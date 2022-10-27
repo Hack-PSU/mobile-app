@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../api_response.dart';
 import '../client.dart';
+import 'extra_credit_assignment_model.dart';
 import 'extra_credit_class_model.dart';
 
 class ExtraCreditRepository {
@@ -33,7 +34,8 @@ class ExtraCreditRepository {
     return [];
   }
 
-  Future<List<ExtraCreditClass>> getClassesByUid(String uid) async {
+  Future<List<ExtraCreditAssignment>> getClassAssignmentsByUid(
+      String uid) async {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
@@ -42,17 +44,50 @@ class ExtraCreditRepository {
 
       final resp = await client.get(
         Uri.parse(
-          "$_endpoint/assignment?type=user",
+          "$_endpoint/assignment?type=user&uid=$uid",
         ),
       );
 
       if (resp.statusCode == 200) {
         final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
         return (apiResponse.body["data"] as List)
-            .map((c) => ExtraCreditClass.fromJson(c as Map<String, dynamic>))
+            .map((c) =>
+                ExtraCreditAssignment.fromJson(c as Map<String, dynamic>))
             .toList();
       }
     }
     return [];
+  }
+
+  Future<void> registerClass(int uid) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final token = await user.getIdToken();
+      final client = Client.withToken(token);
+
+      await client.post(
+        Uri.parse(_endpoint),
+        body: {
+          "classUid": uid,
+        },
+      );
+    }
+  }
+
+  Future<void> unregisterClass(int uid) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final token = await user.getIdToken();
+      final client = Client.withToken(token);
+
+      await client.post(
+        Uri.parse("$_endpoint/delete"),
+        body: {
+          "uid": uid,
+        },
+      );
+    }
   }
 }

@@ -3,30 +3,31 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../common/api/extra_credit/extra_credit_repository.dart';
+import '../../common/api/extra_credit/extra_credit_assignment_model.dart';
 import '../../common/api/extra_credit/extra_credit_class_model.dart';
 
 enum PageStatus { idle, loading, ready }
 
 class ExtraCreditPageCubitState extends Equatable {
   const ExtraCreditPageCubitState({
-    this.userClasses,
-    this.classes,
+    required this.assignments,
+    required this.classes,
     this.status = PageStatus.idle,
   });
 
-  final List<ExtraCreditClass>? userClasses;
-  final List<ExtraCreditClass>? classes;
+  final Map<int, ExtraCreditAssignment> assignments;
+  final List<ExtraCreditClass> classes;
   final PageStatus status;
 
   ExtraCreditPageCubitState copyWith({
-    List<ExtraCreditClass>? userClasses,
+    Map<int, ExtraCreditAssignment>? assignments,
     List<ExtraCreditClass>? classes,
     PageStatus? status,
   }) {
     return ExtraCreditPageCubitState(
       classes: classes ?? this.classes,
       status: status ?? this.status,
-      userClasses: userClasses ?? this.userClasses,
+      assignments: assignments ?? this.assignments,
     );
   }
 
@@ -40,7 +41,7 @@ class ExtraCreditPageCubit extends Cubit<ExtraCreditPageCubitState> {
   )   : _extraCreditRepository = extraCreditRepository,
         super(
           const ExtraCreditPageCubitState(
-            userClasses: [],
+            assignments: {},
             classes: [],
           ),
         );
@@ -52,19 +53,35 @@ class ExtraCreditPageCubit extends Cubit<ExtraCreditPageCubitState> {
     emit(state.copyWith(classes: classes));
   }
 
-  Future<void> getClassesByUid() async {
+  Future<void> getClassAssignmentsByUid() async {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      final classes = await _extraCreditRepository.getClassesByUid(user.uid);
-      emit(state.copyWith(classes: classes));
+      final classes =
+          await _extraCreditRepository.getClassAssignmentsByUid(user.uid);
+
+      emit(
+        state.copyWith(
+          assignments: Map.fromEntries(
+            classes.map((c) => MapEntry(c.classUid, c)),
+          ),
+        ),
+      );
     }
+  }
+
+  Future<void> registerClass(int uid) async {
+    await _extraCreditRepository.registerClass(uid);
+  }
+
+  Future<void> unregisterClass(int uid) async {
+    await _extraCreditRepository.unregisterClass(uid);
   }
 
   Future<void> init() async {
     emit(state.copyWith(status: PageStatus.loading));
     await getClasses();
-    await getClassesByUid();
+    await getClassAssignmentsByUid();
     emit(state.copyWith(status: PageStatus.ready));
   }
 
