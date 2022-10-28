@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../common/api/event.dart';
+import '../../common/api/websocket.dart';
 import '../../common/bloc/favorites/favorites_bloc.dart';
 import '../../common/bloc/favorites/favorites_event.dart';
 import '../../common/bloc/favorites/favorites_state.dart';
@@ -47,10 +50,20 @@ class WorkshopsPageCubit extends Cubit<WorkshopsPageCubitState> {
         _favoritesBloc = favoritesBloc,
         super(
           const WorkshopsPageCubitState(workshops: [], favorites: {}),
-        );
+        ) {
+    _socketSubscription = SocketManager.instance.socket.listen((data) {
+      switch (data.event) {
+        case "update:hackathon":
+        case "update:event":
+          refetch();
+          break;
+      }
+    });
+  }
 
   final EventRepository _eventRepository;
   final FavoritesBloc _favoritesBloc;
+  late final StreamSubscription<SocketData> _socketSubscription;
 
   Future<void> getWorkshops() async {
     final events = await _eventRepository.getEvents();
@@ -120,5 +133,11 @@ class WorkshopsPageCubit extends Cubit<WorkshopsPageCubitState> {
             _favoritesBloc.state.status == FavoritesStatus.enabled,
       ),
     );
+  }
+
+  @override
+  Future<void> close() async {
+    await _socketSubscription.cancel();
+    super.close();
   }
 }

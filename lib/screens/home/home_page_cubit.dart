@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/api/event.dart';
@@ -64,6 +65,8 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
     _socketSubscription = SocketManager.instance.socket.listen(
       (data) {
         switch (data.event) {
+          case "update:hackathon": // fall through
+          case "update:sponsorship": // fall through
           case "update:event":
             refetch();
             break;
@@ -82,14 +85,20 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
       final event = await _eventRepository.getEvents();
       emit(
         state.copyWith(
-          events: event,
+          events: event
+              .where((item) => item.eventType != EventType.WORKSHOP)
+              .take(3)
+              .toList(),
           workshops: event
               .where((item) => item.eventType == EventType.WORKSHOP)
+              .take(3)
               .toList(),
         ),
       );
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

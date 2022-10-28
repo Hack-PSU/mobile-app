@@ -56,6 +56,7 @@ class EventsPageCubit extends Cubit<EventsPageCubitState> {
         ) {
     _socketSubscription = SocketManager.instance.socket.listen((data) {
       switch (data.event) {
+        case "update:hackathon":
         case "update:event":
           refetch();
           break;
@@ -141,7 +142,7 @@ class EventsPageCubit extends Cubit<EventsPageCubitState> {
 
   @override
   Future<void> close() async {
-    _socketSubscription.cancel();
+    await _socketSubscription.cancel();
     super.close();
   }
 }

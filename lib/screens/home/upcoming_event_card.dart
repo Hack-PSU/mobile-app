@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -5,7 +6,10 @@ import 'package:intl/intl.dart';
 import '../../common/api/event.dart';
 import '../../common/bloc/favorites/favorites_bloc.dart';
 import '../../common/bloc/favorites/favorites_event.dart';
+import '../../common/bloc/navigation/bottom_navigation_state.dart';
 import '../../styles/theme_colors.dart';
+import '../../widgets/bottom_navigation/bottom_navigation_cubit.dart';
+import '../../widgets/custom_icons.dart';
 import '../../widgets/default_text.dart';
 import '../../widgets/event/event_workshop_card.dart';
 import 'upcoming_event_cubit.dart';
@@ -84,17 +88,52 @@ class UpcomingEventCard extends StatelessWidget {
                       "Next ${type == EventType.ACTIVITY ? "Event" : "Workshop"}",
                       textLevel: TextLevel.h4,
                     ),
-                    DefaultText(
-                      _formatTime(
-                        state.upcomingEvents!.first.eventStartTime
-                            .millisecondsSinceEpoch,
+                    RichText(
+                      text: TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            if (type == EventType.WORKSHOP) {
+                              BlocProvider.of<BottomNavigationCubit>(context)
+                                  .navigate(Routes.Workshops);
+                            } else {
+                              BlocProvider.of<BottomNavigationCubit>(context)
+                                  .navigate(Routes.Events);
+                            }
+                          },
+                        children: [
+                          WidgetSpan(
+                            child: DefaultText(
+                              "Show More",
+                              textLevel: TextLevel.body1,
+                              color: ThemeColors.HackyBlue,
+                            ),
+                          ),
+                          const WidgetSpan(
+                            child: SizedBox(
+                              width: 4.0,
+                            ),
+                          ),
+                          const WidgetSpan(
+                            child: Icon(
+                              CustomIcons.arrowForward,
+                              size: 20.0,
+                              color: ThemeColors.HackyBlue,
+                            ),
+                          ),
+                        ],
                       ),
-                      textLevel: TextLevel.h4,
-                      weight: FontWeight.bold,
-                      color: ThemeColors.HackyBlue,
-                      maxLines: 2,
-                      textAlign: TextAlign.left,
                     ),
+                    // DefaultText(
+                    //   _formatTime(
+                    //     state.upcomingEvents!.first.eventStartTime
+                    //         .millisecondsSinceEpoch,
+                    //   ),
+                    //   textLevel: TextLevel.h4,
+                    //   weight: FontWeight.bold,
+                    //   color: ThemeColors.HackyBlue,
+                    //   maxLines: 2,
+                    //   textAlign: TextAlign.left,
+                    // ),
                   ],
                 ),
                 DefaultText(
