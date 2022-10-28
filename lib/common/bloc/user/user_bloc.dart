@@ -37,13 +37,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     // get user pin
     try {
-      final userPin = await _userRepository.getUserPin();
-      emit(state.updatePin(userPin));
+      final pin = await _userRepository.getUserPin();
+      emit(state.copyWith(pin: pin));
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      // throw Exception("Unable to fetch user pin");
     }
 
     // register user into FCM
@@ -51,7 +50,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       try {
         if (event.token != "") {
           await _notificationRepository.register(state.pin, event.token);
-          emit(state.updateToken(event.token));
+          emit(state.copyWith(token: event.token));
         } else {
           await _notificationRepository.register(state.pin);
         }

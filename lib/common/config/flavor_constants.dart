@@ -9,7 +9,7 @@ class Config {
   static Flavor appFlavor = Flavor.DEV;
 
   static String get fcmUrl =>
-      'https://us-central1-hackpsu18.cloudfunctions.net';
+      'https://us-central1-hackpsu18.cloudfunctions.net/api';
 
   static String get baseUrl {
     return getConstantByFlavor(

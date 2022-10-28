@@ -40,7 +40,7 @@ class NotificationRepository {
     final client = Client.withToken(token);
 
     try {
-      final uri = Uri.parse("$_endpoint/user/register");
+      final uri = Uri.parse("$_endpoint/user/ping");
       final resp = await client.post(
         uri,
         body: {
@@ -50,6 +50,9 @@ class NotificationRepository {
       );
 
       final data = client.extractData(resp);
+
+      print(data);
+
       if (data != null && data["status"] == "ERROR") {
         // throw Exception("Unauthorized");
       }
@@ -66,10 +69,7 @@ class NotificationRepository {
     final client = Client.withToken(token);
 
     try {
-      await client.post(
-        Uri.parse("$_endpoint/user/subscribe/all"),
-        body: {"userPin": pin},
-      );
+      await client.post(Uri.parse("$_endpoint/user/$pin/subscribe/all"));
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -85,12 +85,7 @@ class NotificationRepository {
     final client = Client.withToken(token);
 
     try {
-      await client.post(
-        Uri.parse("$_endpoint/user/unsubscribe/all"),
-        body: {
-          "userPin": pin,
-        },
-      );
+      await client.post(Uri.parse("$_endpoint/user/$pin/unsubscribe/all"));
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -106,12 +101,7 @@ class NotificationRepository {
     final client = Client.withToken(token);
 
     try {
-      await client.post(
-        Uri.parse("$_endpoint/user/subscribe/event/$uid"),
-        body: {
-          "userPin": pin,
-        },
-      );
+      await client.post(Uri.parse("$_endpoint/user/$pin/subscribe/$uid"));
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -127,12 +117,7 @@ class NotificationRepository {
     final client = Client.withToken(token);
 
     try {
-      await client.post(
-        Uri.parse("$_endpoint/user/unsubscribe/event/$uid"),
-        body: {
-          "userPin": pin,
-        },
-      );
+      await client.post(Uri.parse("$_endpoint/user/$pin/unsubscribe/$uid"));
     } catch (e) {
       if (kDebugMode) {
         print(e);

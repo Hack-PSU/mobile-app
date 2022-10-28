@@ -44,7 +44,7 @@ class UserRepository {
     if (currentRegistration.isNotEmpty) {
       final user = currentRegistration.elementAt(0);
 
-      return (user.pin! - user.basePin!).toString();
+      return user.wordPin;
     }
 
     return "";
