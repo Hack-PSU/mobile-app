@@ -31,7 +31,7 @@ class ExtraCreditClassView extends StatelessWidget {
               context
                   .read<ExtraCreditPageCubit>()
                   .unregisterClass(assignment.uid);
-              context.read<ExtraCreditPageCubit>().getClassAssignmentsByUid();
+              context.read<ExtraCreditPageCubit>().refetch();
             },
           );
         },
@@ -54,9 +54,8 @@ class ExtraCreditClassView extends StatelessWidget {
             message:
                 "${ecClass.className.trim()} will be added to your extra credit classes.",
             onConfirm: () {
-              print(ecClass.uid);
               context.read<ExtraCreditPageCubit>().registerClass(ecClass.uid);
-              context.read<ExtraCreditPageCubit>().getClassAssignmentsByUid();
+              context.read<ExtraCreditPageCubit>().refetch();
             },
           );
         },

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -57,8 +59,6 @@ class ExtraCreditPageCubit extends Cubit<ExtraCreditPageCubitState> {
     if (user != null) {
       final classes =
           await _extraCreditRepository.getClassAssignmentsByUid(user.uid);
-
-      print("HERE");
 
       emit(
         state.copyWith(
