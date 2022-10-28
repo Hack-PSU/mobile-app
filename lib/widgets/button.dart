@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'default_text.dart';
 
 enum ButtonVariant {
   TextButton,
@@ -125,20 +124,14 @@ class Button extends StatelessWidget {
         return _TextButton(
           config: config,
         );
-        break;
       case ButtonVariant.ElevatedButton:
         return _ElevatedButton(
           config: config,
         );
-        break;
       case ButtonVariant.IconButton:
         return _IconButton(
           config: config,
         );
-        break;
     }
-    return _TextButton(
-      config: config,
-    );
   }
 }

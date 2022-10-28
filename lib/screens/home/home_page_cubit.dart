@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/api/event.dart';
+import '../../common/api/sponsorship/sponsor_model.dart';
 import '../../common/api/sponsorship/sponsorship_repository.dart';
 import '../../common/api/user.dart';
 
@@ -19,14 +20,14 @@ class HomePageCubitState {
   final List<Event>? events;
   final List<Event>? workshops;
   final List<User>? users;
-  final List<Map<String, String>>? sponsors;
+  final List<Sponsor>? sponsors;
   final PageStatus status;
 
   HomePageCubitState copyWith({
     List<Event>? events,
     List<Event>? workshops,
     List<User>? users,
-    List<Map<String, String>>? sponsors,
+    List<Sponsor>? sponsors,
     PageStatus? status,
   }) {
     return HomePageCubitState(
@@ -61,15 +62,19 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
   final SponsorshipRepository _sponsorshipRepository;
 
   Future<void> getEvents() async {
-    final event = await _eventRepository.getEvents();
-    emit(
-      state.copyWith(
-        events: event,
-        workshops: event
-            .where((item) => item.eventType == EventType.WORKSHOP)
-            .toList(),
-      ),
-    );
+    try {
+      final event = await _eventRepository.getEvents();
+      emit(
+        state.copyWith(
+          events: event,
+          workshops: event
+              .where((item) => item.eventType == EventType.WORKSHOP)
+              .toList(),
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> getUserRegistrations() async {
@@ -86,9 +91,13 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
   }
 
   Future<void> getSponsors() async {
+    final sponsors = await _sponsorshipRepository.getAllSponsors();
     emit(
       state.copyWith(
-        sponsors: await _sponsorshipRepository.getSponsors(),
+        sponsors: sponsors
+          ..sort(
+            (a, b) => a.order.compareTo(b.order),
+          ),
       ),
     );
   }

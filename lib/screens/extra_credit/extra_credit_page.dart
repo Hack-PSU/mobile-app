@@ -3,8 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../widgets/screen/screen.dart';
-import '../../common/api/extra_credit/extra_credit_assignment_model.dart';
-import '../../common/api/extra_credit/extra_credit_class_model.dart';
 import '../../common/api/extra_credit/extra_credit_repository.dart';
 import '../../widgets/loading.dart';
 import 'extra_credit_class_view.dart';
@@ -28,10 +26,7 @@ class ExtraCreditPage extends StatelessWidget {
               context.read<ExtraCreditPageCubit>().init();
             }
             if (state.status == PageStatus.ready) {
-              return ExtraCreditScreen(
-                assignments: state.assignments ?? {},
-                classes: state.classes ?? [],
-              );
+              return ExtraCreditScreen();
             }
             return const Loading(
               label: "Loading classes",
@@ -45,15 +40,10 @@ class ExtraCreditPage extends StatelessWidget {
 
 class ExtraCreditScreen extends StatelessWidget {
   const ExtraCreditScreen({
-    required this.assignments,
-    required this.classes,
     Key? key,
   }) : super(
           key: key,
         );
-
-  final Map<int, ExtraCreditAssignment> assignments;
-  final List<ExtraCreditClass> classes;
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +53,10 @@ class ExtraCreditScreen extends StatelessWidget {
         children: <Widget>[
           const _Toolbar(),
           Expanded(
-            child: ExtraCreditClassView(
-              assignments: assignments,
-              classes: classes,
+            child: BlocBuilder<ExtraCreditPageCubit, ExtraCreditPageCubitState>(
+              builder: (context, state) {
+                return const ExtraCreditClassView();
+              },
             ),
           ),
         ],

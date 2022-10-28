@@ -19,18 +19,25 @@ class ProfilePageCubitState extends Equatable {
 
   String? get email => _firebaseAuth.currentUser?.email;
 
-  String? get name => _firebaseAuth.currentUser!.displayName;
+  String? get name => _firebaseAuth.currentUser?.displayName;
 
   String? get initials {
     if (name != null) {
       final names = name?.split(" ");
 
       if (names != null) {
-        if (names.length > 1) {
-          return "${names.first[0]}${names.last[0]}";
-        } else {
-          return names.first[0];
+        String firstInitial = "";
+        String lastInitial = "";
+
+        if (names.first.isNotEmpty) {
+          firstInitial = names.first[0];
         }
+
+        if (names.last != names.first && names.last.isNotEmpty) {
+          lastInitial = names.last[0];
+        }
+
+        return "$firstInitial$lastInitial".toUpperCase().trim();
       }
     }
     return null;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../common/api/sponsorship/sponsor_model.dart';
 import 'default_text.dart';
 
 const ECHO_AR_SVG_URL =
@@ -43,10 +44,10 @@ const PSU_GO_URL = "https://mobile.psu.edu/";
 class SponsorCarousel extends StatelessWidget {
   const SponsorCarousel({
     Key? key,
-    this.sponsors,
+    required this.sponsors,
   }) : super(key: key);
 
-  final List<Map<String, String>>? sponsors;
+  final List<Sponsor> sponsors;
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +79,14 @@ class SponsorCarousel extends StatelessWidget {
             //   [PWC_SVG_URL, PWC_URL],
             //   [ECHO_AR_SVG_URL, ECHO_AR_URL],
             // ]
-            items: sponsors!.map(
+            items: sponsors.map(
               (i) {
                 return Builder(
                   builder: (BuildContext context) {
                     return InkWell(
                       onTap: () async {
-                        if (!await launchUrlString(i["url"]!)) {
-                          throw Exception("Could not launch ${i["url"]}");
+                        if (!await launchUrlString(i.websiteLink ?? "")) {
+                          throw Exception("Could not launch ${i.websiteLink}");
                         }
                       },
                       child: Container(
@@ -103,14 +104,14 @@ class SponsorCarousel extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            if (i["image"]!.contains(".png"))
+                            if (i.logo.contains(".png"))
                               Image.network(
-                                i["image"]!,
+                                i.logo,
                                 width: MediaQuery.of(context).size.width * 0.7,
                               ),
-                            if (i["image"]!.contains(".svg"))
+                            if (i.logo.contains(".svg"))
                               SvgPicture.network(
-                                i["image"]!,
+                                i.logo,
                                 width: MediaQuery.of(context).size.width * 0.7,
                               ),
                           ],

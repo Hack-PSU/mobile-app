@@ -17,11 +17,19 @@ class Client<T> extends http.BaseClient {
     if (_headers != null) {
       request.headers.addAll(_headers!);
     }
+
+    if (request.method == "POST") {
+      request.headers.addAll({"Content-Type": "application/json"});
+    }
+
     return _client.send(request);
   }
 
   T? extractData(http.Response response) {
-    final apiResp = ApiResponse.fromJson(jsonDecode(response.body));
-    return apiResp.body["data"] as T;
+    if (response.body.isNotEmpty) {
+      final apiResp = ApiResponse.fromJson(jsonDecode(response.body));
+      return apiResp.body["data"] as T;
+    }
+    return null;
   }
 }

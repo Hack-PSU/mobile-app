@@ -12,12 +12,7 @@ import 'extra_credit_page_cubit.dart';
 class ExtraCreditClassView extends StatelessWidget {
   const ExtraCreditClassView({
     Key? key,
-    required this.assignments,
-    required this.classes,
   }) : super(key: key);
-
-  final Map<int, ExtraCreditAssignment> assignments;
-  final List<ExtraCreditClass> classes;
 
   Function() _onRemoveClass(
     ExtraCreditAssignment assignment,
@@ -31,11 +26,12 @@ class ExtraCreditClassView extends StatelessWidget {
           return _ConfirmModal(
             title: "Remove Class",
             message:
-                "$className will be removed from your extra credit classes.",
+                "${className.trim()} will be removed from your extra credit classes.",
             onConfirm: () {
               context
                   .read<ExtraCreditPageCubit>()
                   .unregisterClass(assignment.uid);
+              context.read<ExtraCreditPageCubit>().getClassAssignmentsByUid();
             },
           );
         },
@@ -56,9 +52,11 @@ class ExtraCreditClassView extends StatelessWidget {
           return _ConfirmModal(
             title: "Add Class",
             message:
-                "${ecClass.className} will be added to your extra credit classes.",
+                "${ecClass.className.trim()} will be added to your extra credit classes.",
             onConfirm: () {
+              print(ecClass.uid);
               context.read<ExtraCreditPageCubit>().registerClass(ecClass.uid);
+              context.read<ExtraCreditPageCubit>().getClassAssignmentsByUid();
             },
           );
         },
@@ -70,42 +68,55 @@ class ExtraCreditClassView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        if (assignments.isNotEmpty) ...[
-          DefaultText("My Classes", textLevel: TextLevel.h2),
-          ...classes
-              .where(
-                (c) => assignments.keys.contains(c.uid),
-              )
-              .map(
-                (c) => _ExtraCreditClassCard(
-                  extraCreditClass: c,
-                  onSelectClass: _onRemoveClass(
-                    assignments[c.uid]!,
-                    c.className,
-                    context,
-                  ),
-                ),
-              )
-              .toList(),
-        ],
-        DefaultText("Extra Credit Classes", textLevel: TextLevel.h2),
-        ...classes
-            .where(
-              (c) => !assignments.keys.contains(c.uid),
-            )
-            .map(
-              (c) => _ExtraCreditClassCard(
-                extraCreditClass: c,
-                onSelectClass: _onAddClass(
-                  c,
-                  context,
-                ),
+    return BlocBuilder<ExtraCreditPageCubit, ExtraCreditPageCubitState>(
+      builder: (context, state) {
+        return ListView(
+          children: [
+            if (state.assignments.isNotEmpty) ...[
+              DefaultText(
+                "My Classes",
+                textLevel: TextLevel.h3,
+                weight: FontWeight.bold,
               ),
-            )
-            .toList(),
-      ],
+              ...state.classes
+                  .where(
+                    (c) => state.assignments.keys.contains(c.uid),
+                  )
+                  .map(
+                    (c) => _ExtraCreditClassCard(
+                      extraCreditClass: c,
+                      onSelectClass: _onRemoveClass(
+                        state.assignments[c.uid]!,
+                        c.className,
+                        context,
+                      ),
+                    ),
+                  )
+                  .toList(),
+              const SizedBox(height: 30.0),
+            ],
+            DefaultText(
+              "Offered Classes",
+              textLevel: TextLevel.h3,
+              weight: FontWeight.bold,
+            ),
+            ...state.classes
+                .where(
+                  (c) => !state.assignments.keys.contains(c.uid),
+                )
+                .map(
+                  (c) => _ExtraCreditClassCard(
+                    extraCreditClass: c,
+                    onSelectClass: _onAddClass(
+                      c,
+                      context,
+                    ),
+                  ),
+                )
+                .toList(),
+          ],
+        );
+      },
     );
   }
 }
@@ -174,27 +185,52 @@ class _ExtraCreditClassCard extends StatelessWidget {
         );
 
   final ExtraCreditClass extraCreditClass;
-  final Function onSelectClass;
+  final void Function() onSelectClass;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        DefaultText(
-          extraCreditClass.className,
-          textLevel: TextLevel.body1,
+    return InkWell(
+      onTap: onSelectClass,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: ThemeColors.addAlpha(
+                Colors.black,
+                0.08,
+              ),
+              width: 1.5,
+            ),
+          ),
         ),
-        BlocBuilder<ExtraCreditPageCubit, ExtraCreditPageCubitState>(
-          builder: (context, state) {
-            if (state.assignments.keys.contains(extraCreditClass.uid)) {
-              return const Icon(CustomIcons.selectedClass);
-            } else {
-              return const Icon(CustomIcons.unselectedClass);
-            }
-          },
-        )
-      ],
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            DefaultText(
+              extraCreditClass.className.trim(),
+              textLevel: TextLevel.body1,
+              fontSize: 16.0,
+              weight: FontWeight.w500,
+            ),
+            BlocBuilder<ExtraCreditPageCubit, ExtraCreditPageCubitState>(
+              builder: (context, state) {
+                if (state.assignments.keys.contains(extraCreditClass.uid)) {
+                  return const Icon(
+                    CustomIcons.selectedClass,
+                    color: Colors.green,
+                  );
+                } else {
+                  return const Icon(
+                    CustomIcons.unselectedClass,
+                    color: ThemeColors.StadiumOrange,
+                  );
+                }
+              },
+            )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -214,48 +250,78 @@ class _ConfirmModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Column(children: [
-        DefaultText(
-          title,
-          textLevel: TextLevel.h2,
-          weight: FontWeight.bold,
-        ),
-        const SizedBox(height: 20),
-        DefaultText(
-          message,
-          textLevel: TextLevel.body1,
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Button(
-              variant: ButtonVariant.TextButton,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.grey),
-              ),
-              onPressed: () => Navigator.of(
-                context,
-                rootNavigator: true,
-              ).pop("dialog"),
-              child: DefaultText("Cancel", textLevel: TextLevel.button),
+      child: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 10.0,
             ),
-            Button(
-              variant: ButtonVariant.TextButton,
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(ThemeColors.StadiumOrange),
-              ),
-              onPressed: onConfirm,
-              child: DefaultText(
-                "Confirm",
-                textLevel: TextLevel.button,
-                color: Colors.white,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DefaultText(
+                  title,
+                  textLevel: TextLevel.h4,
+                  weight: FontWeight.bold,
+                ),
+                const SizedBox(height: 8.0),
+                DefaultText(
+                  message,
+                  textLevel: TextLevel.body1,
+                  maxLines: 2,
+                ),
+                const SizedBox(height: 8.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Button(
+                        variant: ButtonVariant.TextButton,
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                        ),
+                        onPressed: () => Navigator.of(
+                          context,
+                          rootNavigator: true,
+                        ).pop("dialog"),
+                        child: DefaultText(
+                          "Cancel",
+                          textLevel: TextLevel.button,
+                          height: 1.25,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10.0),
+                    Expanded(
+                      child: Button(
+                        variant: ButtonVariant.TextButton,
+                        style: TextButton.styleFrom(
+                          backgroundColor: ThemeColors.StadiumOrange,
+                        ),
+                        onPressed: () {
+                          onConfirm();
+                          Navigator.of(
+                            context,
+                            rootNavigator: true,
+                          ).pop("dialog");
+                        },
+                        child: DefaultText(
+                          "Confirm",
+                          textLevel: TextLevel.button,
+                          color: Colors.white,
+                          height: 1.25,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
-      ]),
+          ),
+        ],
+      ),
     );
   }
 }

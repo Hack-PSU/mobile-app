@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 import '../../../common/api/extra_credit/extra_credit_repository.dart';
 import '../../common/api/extra_credit/extra_credit_assignment_model.dart';
@@ -8,7 +8,8 @@ import '../../common/api/extra_credit/extra_credit_class_model.dart';
 
 enum PageStatus { idle, loading, ready }
 
-class ExtraCreditPageCubitState extends Equatable {
+@immutable
+class ExtraCreditPageCubitState {
   const ExtraCreditPageCubitState({
     required this.assignments,
     required this.classes,
@@ -30,9 +31,6 @@ class ExtraCreditPageCubitState extends Equatable {
       assignments: assignments ?? this.assignments,
     );
   }
-
-  @override
-  List<Object?> get props => [classes, status];
 }
 
 class ExtraCreditPageCubit extends Cubit<ExtraCreditPageCubitState> {
@@ -59,6 +57,8 @@ class ExtraCreditPageCubit extends Cubit<ExtraCreditPageCubitState> {
     if (user != null) {
       final classes =
           await _extraCreditRepository.getClassAssignmentsByUid(user.uid);
+
+      print("HERE");
 
       emit(
         state.copyWith(

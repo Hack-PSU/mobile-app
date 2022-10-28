@@ -40,7 +40,7 @@ class NotificationRepository {
     final client = Client.withToken(token);
 
     try {
-      final uri = Uri.https(_endpoint, "/user/register");
+      final uri = Uri.parse("$_endpoint/user/register");
       final resp = await client.post(
         uri,
         body: {
@@ -50,7 +50,7 @@ class NotificationRepository {
       );
 
       final data = client.extractData(resp);
-      if (data["status"] == "ERROR") {
+      if (data != null && data["status"] == "ERROR") {
         // throw Exception("Unauthorized");
       }
     } catch (e) {
@@ -67,7 +67,7 @@ class NotificationRepository {
 
     try {
       await client.post(
-        Uri.https(_endpoint, "/user/subscribe/all"),
+        Uri.parse("$_endpoint/user/subscribe/all"),
         body: {"userPin": pin},
       );
     } catch (e) {
@@ -86,7 +86,7 @@ class NotificationRepository {
 
     try {
       await client.post(
-        Uri.https(_endpoint, "/user/unsubscribe/all"),
+        Uri.parse("$_endpoint/user/unsubscribe/all"),
         body: {
           "userPin": pin,
         },
@@ -107,7 +107,7 @@ class NotificationRepository {
 
     try {
       await client.post(
-        Uri.https(_endpoint, "/user/subscribe/event/$uid"),
+        Uri.parse("$_endpoint/user/subscribe/event/$uid"),
         body: {
           "userPin": pin,
         },
@@ -128,7 +128,7 @@ class NotificationRepository {
 
     try {
       await client.post(
-        Uri.https(_endpoint, "/user/unsubscribe/event/$uid"),
+        Uri.parse("$_endpoint/user/unsubscribe/event/$uid"),
         body: {
           "userPin": pin,
         },

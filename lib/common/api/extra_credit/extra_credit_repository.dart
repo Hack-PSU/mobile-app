@@ -21,7 +21,7 @@ class ExtraCreditRepository {
       final token = await user.getIdToken();
       final client = Client.withToken(token);
 
-      final resp = await client.get(Uri.parse(_endpoint));
+      final resp = await client.get(Uri.parse("$_endpoint?ignoreCache=true"));
 
       if (resp.statusCode == 200) {
         final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
@@ -35,7 +35,8 @@ class ExtraCreditRepository {
   }
 
   Future<List<ExtraCreditAssignment>> getClassAssignmentsByUid(
-      String uid) async {
+    String uid,
+  ) async {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
@@ -44,7 +45,7 @@ class ExtraCreditRepository {
 
       final resp = await client.get(
         Uri.parse(
-          "$_endpoint/assignment?type=user&uid=$uid",
+          "$_endpoint/assignment?type=user&uid=$uid&ignoreCache=true",
         ),
       );
 
@@ -68,9 +69,9 @@ class ExtraCreditRepository {
 
       await client.post(
         Uri.parse(_endpoint),
-        body: {
-          "classUid": uid,
-        },
+        body: json.encode({
+          "classUid": uid.toString(),
+        }),
       );
     }
   }
@@ -84,9 +85,9 @@ class ExtraCreditRepository {
 
       await client.post(
         Uri.parse("$_endpoint/delete"),
-        body: {
-          "uid": uid,
-        },
+        body: json.encode({
+          "uid": uid.toString(),
+        }),
       );
     }
   }

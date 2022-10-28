@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
 
 import '../../common/bloc/auth/auth_bloc.dart';
-import '../../common/bloc/auth/auth_event.dart';
 import '../../common/bloc/auth/auth_state.dart';
 import '../../common/models/email.dart';
 import '../../common/models/password.dart';
@@ -89,7 +88,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         state.password != null &&
         state.password?.value != null) {
       try {
-        _authBloc.add(AuthVerifying());
         await _authenticationRepository.signUp(
             email: state.email?.value ?? "",
             password: state.password?.value ?? "");
@@ -101,7 +99,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
           );
         }
       } on SignUpWithEmailAndPasswordError catch (e) {
-        _authBloc.add(AuthError());
         if (kDebugMode) {
           print(e.message);
         }
@@ -112,7 +109,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
           ),
         );
       } catch (e) {
-        _authBloc.add(AuthError());
         if (kDebugMode) {
           print(e);
         }
@@ -132,7 +128,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       ),
     );
     try {
-      _authBloc.add(AuthVerifying());
       await _authenticationRepository.signInWithGoogle();
       if (_authBloc.state.status == AuthStatus.unauthenticated) {
         emit(
@@ -142,7 +137,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         );
       }
     } on SignInWithGoogleError catch (e) {
-      _authBloc.add(AuthError());
       if (kDebugMode) {
         print(e.message);
       }
@@ -152,7 +146,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         ),
       );
     } catch (e) {
-      _authBloc.add(AuthError());
       if (kDebugMode) {
         print(e);
       }
@@ -171,7 +164,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       ),
     );
     try {
-      _authBloc.add(AuthVerifying());
       await _authenticationRepository.signInWithGitHub(context);
       if (_authBloc.state.status == AuthStatus.unauthenticated) {
         emit(
@@ -181,7 +173,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         );
       }
     } on SignInWithGithubError catch (e) {
-      _authBloc.add(AuthError());
       if (kDebugMode) {
         print(e.message);
       }
@@ -189,7 +180,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         state.copyWith(status: FormzStatus.submissionFailure, error: e.message),
       );
     } catch (e) {
-      _authBloc.add(AuthError());
       if (kDebugMode) {
         print(e);
       }
@@ -208,7 +198,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       ),
     );
     try {
-      _authBloc.add(AuthVerifying());
       await _authenticationRepository.signInWithApple();
       if (_authBloc.state.status == AuthStatus.unauthenticated) {
         emit(
@@ -218,7 +207,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         );
       }
     } on SignInWithGithubError catch (e) {
-      _authBloc.add(AuthError());
       if (kDebugMode) {
         print(e.message);
       }
@@ -229,7 +217,6 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         ),
       );
     } catch (e) {
-      _authBloc.add(AuthError());
       if (kDebugMode) {
         print(e);
       }
