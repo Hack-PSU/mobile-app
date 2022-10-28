@@ -25,7 +25,7 @@ class SponsorshipRepository {
       final resp = await client.get(Uri.parse("$_endpoint/all"));
 
       if (resp.statusCode == 200 && resp.body.isNotEmpty) {
-        final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
+        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
 
         return (apiResponse.body["data"] as List)
             .map((sponsor) => Sponsor.fromJson(sponsor as Map<String, dynamic>))

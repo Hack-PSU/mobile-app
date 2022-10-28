@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -40,27 +42,17 @@ class NotificationRepository {
     final client = Client.withToken(token);
 
     try {
-      final uri = Uri.parse("$_endpoint/user/ping");
-      final resp = await client.post(
-        uri,
-        body: {
+      await client.post(
+        Uri.parse("$_endpoint/user/ping"),
+        body: jsonEncode({
           "userPin": pin,
           "fcmToken": fcmToken,
-        },
+        }),
       );
-
-      final data = client.extractData(resp);
-
-      print(data);
-
-      if (data != null && data["status"] == "ERROR") {
-        // throw Exception("Unauthorized");
-      }
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      // throw Exception("Unable to register device");
     }
   }
 

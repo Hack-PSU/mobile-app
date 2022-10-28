@@ -26,7 +26,7 @@ class UserRepository {
       final resp = await client.get(_endpoint);
 
       if (resp.statusCode == 200) {
-        final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
+        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
 
         return (apiResponse.body["data"] as List)
             .map((user) => model.User.fromJson(user as Map<String, dynamic>))

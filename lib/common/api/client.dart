@@ -27,7 +27,7 @@ class Client<T> extends http.BaseClient {
 
   T? extractData(http.Response response) {
     if (response.body.isNotEmpty) {
-      final apiResp = ApiResponse.fromJson(jsonDecode(response.body));
+      final apiResp = ApiResponse.fromJson(json.decode(response.body));
       return apiResp.body["data"] as T;
     }
     return null;

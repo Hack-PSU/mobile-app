@@ -36,8 +36,7 @@ class MyApp extends StatelessWidget {
           create: (_) => UserRepository('${Config.baseUrl}/users/register'),
         ),
         RepositoryProvider(
-          create: (_) =>
-              NotificationRepository('${Config.fcmUrl}/notifications'),
+          create: (_) => NotificationRepository('${Config.fcmUrl}/api'),
         ),
         RepositoryProvider(
           create: (_) => SponsorshipRepository(
@@ -76,11 +75,6 @@ class MyApp extends StatelessWidget {
               userBloc: BlocProvider.of<UserBloc>(context),
             ),
           ),
-          // BlocProvider<SponsorshipCubit>(
-          //   create: (context) => SponsorshipCubit(
-          //     context.read<SponsorshipRepository>(),
-          //   ),
-          // ),
           BlocProvider<EventsPageCubit>(
             create: (context) => EventsPageCubit(
               context.read<EventRepository>(),
