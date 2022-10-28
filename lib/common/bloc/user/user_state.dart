@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class UserState extends Equatable {
   const UserState._({
-    this.pin,
+    required this.pin,
     this.token,
   });
 
@@ -13,19 +13,7 @@ class UserState extends Equatable {
         );
 
   final String? token;
-  final String? pin;
-
-  UserState updateToken(String token) {
-    return copyWith(
-      token: token,
-    );
-  }
-
-  UserState updatePin(String pin) {
-    return copyWith(
-      pin: pin,
-    );
-  }
+  final String pin;
 
   UserState copyWith({
     String? token,

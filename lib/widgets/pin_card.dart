@@ -18,10 +18,9 @@ class UserPinCard extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       buildWhen: (previous, current) => previous.pin != current.pin,
       builder: (context, state) {
-        if (state.pin!.isEmpty) {
+        if (state.pin.isEmpty) {
           return const _RegisterCard();
         }
-
         return InkWell(
           onTap: () {
             showGeneralDialog(
@@ -39,30 +38,37 @@ class UserPinCard extends StatelessWidget {
           },
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+              borderRadius: BorderRadius.circular(10.0),
+              color: Colors.white,
+            ),
             margin: const EdgeInsets.only(top: 10),
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10.0,
+              horizontal: 20.0,
+            ),
             width: MediaQuery.of(context).size.width * 0.95,
             alignment: Alignment.centerLeft,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DefaultText(
-                      "My PIN",
-                      textLevel: TextLevel.h4,
-                    ),
-                    Container(height: 10.0),
-                    DefaultText(
-                      state.pin!,
-                      textLevel: TextLevel.h1,
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DefaultText(
+                        "My PIN",
+                        textLevel: TextLevel.h4,
+                      ),
+                      Container(height: 10.0),
+                      DefaultText(
+                        state.pin,
+                        textLevel: TextLevel.body1,
+                        weight: FontWeight.w500,
+                        maxLines: 2,
+                      ),
+                    ],
+                  ),
                 ),
-                Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * .54)),
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),

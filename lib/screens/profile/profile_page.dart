@@ -209,9 +209,12 @@ class _ProfileOptions extends StatelessWidget {
                       current != null &&
                       previous.pin != current.pin,
                   builder: (context, state) {
-                    return DefaultText(
-                      "View Pin: ${state.pin}",
-                      color: Colors.blue,
+                    return Expanded(
+                      child: DefaultText(
+                        "View Pin: ${state.pin}",
+                        color: Colors.blue,
+                        maxLines: 2,
+                      ),
                     );
                   },
                 ),
