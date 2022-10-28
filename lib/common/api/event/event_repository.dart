@@ -7,9 +7,8 @@ import '../client.dart';
 import 'event_model.dart';
 
 class EventRepository {
-  EventRepository(
-    String configUrl,
-  )   : _endpoint = Uri.parse(configUrl),
+  EventRepository(String configUrl)
+      : _endpoint = Uri.parse("$configUrl?ignoreCache=true"),
         _firebaseAuth = FirebaseAuth.instance;
 
   final Uri _endpoint;
@@ -25,7 +24,7 @@ class EventRepository {
       final resp = await client.get(_endpoint);
 
       if (resp.statusCode == 200) {
-        final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
+        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
 
         return (apiResponse.body["data"] as List)
             .map((event) => Event.fromJson(event as Map<String, dynamic>))

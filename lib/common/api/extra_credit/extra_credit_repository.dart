@@ -24,7 +24,7 @@ class ExtraCreditRepository {
       final resp = await client.get(Uri.parse("$_endpoint?ignoreCache=true"));
 
       if (resp.statusCode == 200) {
-        final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
+        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
         return (apiResponse.body["data"] as List)
             .map((data) =>
                 ExtraCreditClass.fromJson(data as Map<String, dynamic>))
@@ -50,7 +50,7 @@ class ExtraCreditRepository {
       );
 
       if (resp.statusCode == 200) {
-        final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
+        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
         return (apiResponse.body["data"] as List)
             .map((c) =>
                 ExtraCreditAssignment.fromJson(c as Map<String, dynamic>))

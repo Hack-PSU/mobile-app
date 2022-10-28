@@ -9,7 +9,7 @@ class Config {
   static Flavor appFlavor = Flavor.DEV;
 
   static String get fcmUrl =>
-      'https://us-central1-hackpsu18.cloudfunctions.net/api';
+      'https://us-central1-hackpsu18.cloudfunctions.net';
 
   static String get baseUrl {
     return getConstantByFlavor(
@@ -17,6 +17,8 @@ class Config {
       devConst: 'https://staging-v2-dot-hackpsu18.uc.r.appspot.com/v2',
     );
   }
+
+  static String get wsUrl => 'https://ws.hackpsu.org';
 
   static String get storageBucket {
     return getConstantByFlavor(

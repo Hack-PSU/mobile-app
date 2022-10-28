@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../api/websocket.dart';
 import '../../services/authentication_repository.dart';
 import '../user/user_bloc.dart';
 import '../user/user_event.dart';
@@ -38,8 +39,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     if (event.user != null) {
+      await SocketManager.instance.connect();
       _userBloc.add(const RegisterUser());
     }
+
+    if (event.user == null) {
+      SocketManager.instance.dispose();
+    }
+
     emit(
       event.user != null
           ? AuthState.authenticated(event.user)
@@ -69,6 +76,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   @override
   Future<void> close() {
     _userSubscription.cancel();
+    SocketManager.instance.dispose();
     return super.close();
   }
 }

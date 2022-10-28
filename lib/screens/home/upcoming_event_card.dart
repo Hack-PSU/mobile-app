@@ -5,7 +5,11 @@ import 'package:intl/intl.dart';
 import '../../common/api/event.dart';
 import '../../common/bloc/favorites/favorites_bloc.dart';
 import '../../common/bloc/favorites/favorites_event.dart';
+import '../../common/bloc/navigation/bottom_navigation_bloc.dart';
+import '../../common/bloc/navigation/bottom_navigation_event.dart';
+import '../../common/bloc/navigation/bottom_navigation_state.dart';
 import '../../styles/theme_colors.dart';
+import '../../widgets/custom_icons.dart';
 import '../../widgets/default_text.dart';
 import '../../widgets/event/event_workshop_card.dart';
 import 'upcoming_event_cubit.dart';
@@ -84,17 +88,71 @@ class UpcomingEventCard extends StatelessWidget {
                       "Next ${type == EventType.ACTIVITY ? "Event" : "Workshop"}",
                       textLevel: TextLevel.h4,
                     ),
-                    DefaultText(
-                      _formatTime(
-                        state.upcomingEvents!.first.eventStartTime
-                            .millisecondsSinceEpoch,
+                    GestureDetector(
+                      onTap: () {
+                        if (type == EventType.WORKSHOP) {
+                          context
+                              .read<BottomNavigationBloc>()
+                              .add(const RouteChanged(Routes.Workshops));
+                        } else {
+                          context
+                              .read<BottomNavigationBloc>()
+                              .add(const RouteChanged(Routes.Events));
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          DefaultText(
+                            "Show More",
+                            textLevel: TextLevel.body1,
+                            color: ThemeColors.HackyBlue,
+                            height: 1.0,
+                          ),
+                          const SizedBox(
+                            width: 4.0,
+                          ),
+                          const Icon(
+                            CustomIcons.arrowForward,
+                            size: 20.0,
+                            color: ThemeColors.HackyBlue,
+                          ),
+                        ],
                       ),
-                      textLevel: TextLevel.h4,
-                      weight: FontWeight.bold,
-                      color: ThemeColors.HackyBlue,
-                      maxLines: 2,
-                      textAlign: TextAlign.left,
-                    ),
+                    )
+                    // RichText(
+                    //   text: TextSpan(
+                    //     // // recognizer: TapGestureRecognizer()
+                    //     // //   ..onTap = () {
+                    //     //
+                    //     //   },
+                    //     children: [
+                    //       WidgetSpan(
+                    //         child: GestureDetector(
+                    //             onTap: () {
+                    //
+                    //             },
+                    //             child: TextSpan(children: [
+                    //
+                    //             ])),
+                    //       ),
+                    //       const TextSpan(
+                    //           text: "Show More",
+                    //           style: TextStyle(color: Colors.black)),
+                    //     ],
+                    //   ),
+                    // ),
+                    // DefaultText(
+                    //   _formatTime(
+                    //     state.upcomingEvents!.first.eventStartTime
+                    //         .millisecondsSinceEpoch,
+                    //   ),
+                    //   textLevel: TextLevel.h4,
+                    //   weight: FontWeight.bold,
+                    //   color: ThemeColors.HackyBlue,
+                    //   maxLines: 2,
+                    //   textAlign: TextAlign.left,
+                    // ),
                   ],
                 ),
                 DefaultText(

@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 import '../../../common/api/extra_credit/extra_credit_repository.dart';
 import '../../common/api/extra_credit/extra_credit_assignment_model.dart';
 import '../../common/api/extra_credit/extra_credit_class_model.dart';
+import '../../common/api/websocket.dart';
 
 enum PageStatus { idle, loading, ready }
 
-@immutable
 class ExtraCreditPageCubitState {
   const ExtraCreditPageCubitState({
     required this.assignments,
@@ -44,9 +43,19 @@ class ExtraCreditPageCubit extends Cubit<ExtraCreditPageCubitState> {
             assignments: {},
             classes: [],
           ),
-        );
+        ) {
+    _socketSubscription = SocketManager.instance.socket.listen((data) {
+      switch (data.event) {
+        case "update:hackathon": // fall through
+        case "update:extraCredit":
+          refetch();
+          break;
+      }
+    });
+  }
 
   final ExtraCreditRepository _extraCreditRepository;
+  late final StreamSubscription<SocketData> _socketSubscription;
 
   Future<void> getClasses() async {
     final classes = await _extraCreditRepository.getClasses();
@@ -87,5 +96,11 @@ class ExtraCreditPageCubit extends Cubit<ExtraCreditPageCubitState> {
 
   Future<void> refetch() async {
     emit(state.copyWith(status: PageStatus.idle));
+  }
+
+  @override
+  Future<void> close() async {
+    await _socketSubscription.cancel();
+    super.close();
   }
 }

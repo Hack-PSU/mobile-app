@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/api/event.dart';
 import '../../common/api/sponsorship/sponsor_model.dart';
 import '../../common/api/sponsorship/sponsorship_repository.dart';
 import '../../common/api/user.dart';
+import '../../common/api/websocket.dart';
 
 enum PageStatus { idle, loading, ready }
 
@@ -55,25 +59,46 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
             users: [],
             workshops: [],
           ),
-        );
+        ) {
+    // Listen to specific events emitted from SocketManager
+    // SocketManager.instance ensures singleton is used
+    _socketSubscription = SocketManager.instance.socket.listen(
+      (data) {
+        switch (data.event) {
+          case "update:hackathon": // fall through
+          case "update:sponsorship": // fall through
+          case "update:event":
+            refetch();
+            break;
+        }
+      },
+    );
+  }
 
   final EventRepository _eventRepository;
   final UserRepository _userRepository;
   final SponsorshipRepository _sponsorshipRepository;
+  late StreamSubscription<SocketData> _socketSubscription;
 
   Future<void> getEvents() async {
     try {
       final event = await _eventRepository.getEvents();
       emit(
         state.copyWith(
-          events: event,
+          events: event
+              .where((item) => item.eventType != EventType.WORKSHOP)
+              .take(3)
+              .toList(),
           workshops: event
               .where((item) => item.eventType == EventType.WORKSHOP)
+              .take(3)
               .toList(),
         ),
       );
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -112,5 +137,11 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
 
   Future<void> refetch() async {
     emit(state.copyWith(status: PageStatus.idle));
+  }
+
+  @override
+  Future<void> close() async {
+    await _socketSubscription.cancel();
+    return super.close();
   }
 }

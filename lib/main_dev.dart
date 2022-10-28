@@ -20,12 +20,9 @@ Future<void> main() async {
 
   HttpOverrides.global = MyHttpOverrides();
 
-  final storage = await HydratedStorage.build(
+  HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
 
-  HydratedBlocOverrides.runZoned(
-    () => runApp(const MyApp()),
-    storage: storage,
-  );
+  runApp(const MyApp());
 }

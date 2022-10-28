@@ -21,6 +21,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UnsubscribeTopic>(_onUnsubscribeTopic);
     on<RegisterUser>(_onRegisterUser);
     _tokenSubscription = _notificationRepository.onTokenRefresh.listen((token) {
+      print(state.pin);
       if (state.pin != "") {
         add(RegisterUser(token));
       }

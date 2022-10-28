@@ -11,7 +11,7 @@ class UserRepository {
     String configUrl, {
     FirebaseAuth? firebaseAuth,
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _endpoint = Uri.parse(configUrl);
+        _endpoint = Uri.parse("$configUrl?ignoreCache=true");
 
   final Uri _endpoint;
   final FirebaseAuth _firebaseAuth;
@@ -26,7 +26,7 @@ class UserRepository {
       final resp = await client.get(_endpoint);
 
       if (resp.statusCode == 200) {
-        final apiResponse = ApiResponse.fromJson(jsonDecode(resp.body));
+        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
 
         return (apiResponse.body["data"] as List)
             .map((user) => model.User.fromJson(user as Map<String, dynamic>))

@@ -68,7 +68,7 @@ class NotificationService {
   }
 
   Future<void> _onSelectNotification(String? payload) async {
-    final data = jsonDecode(payload!);
+    final data = json.decode(payload!);
     if (data["link"] != null) {
       final String link = data["link"] as String;
       if (kDebugMode) {
