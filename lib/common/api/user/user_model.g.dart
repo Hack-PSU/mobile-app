@@ -43,7 +43,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       endTime: User._timeFromJson(json['end_time'] as String),
       basePin: json['base_pin'] as int?,
       active: json['active'] as bool?,
-      word_pin: json['word_pin'] as String?,
+      wordPin: json['word_pin'] as String,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -83,5 +83,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'end_time': instance.endTime.toIso8601String(),
       'base_pin': instance.basePin,
       'active': instance.active,
-      'word_pin': instance.word_pin,
+      'word_pin': instance.wordPin,
     };

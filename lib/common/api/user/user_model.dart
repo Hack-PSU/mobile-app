@@ -2,7 +2,11 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(
+  createFactory: true,
+  createToJson: true,
+  fieldRename: FieldRename.snake,
+)
 class User {
   User({
     required this.uid,
@@ -41,7 +45,7 @@ class User {
     required this.endTime,
     required this.basePin,
     required this.active,
-    required this.word_pin,
+    required this.wordPin,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -90,5 +94,5 @@ class User {
   final DateTime endTime;
   final int? basePin;
   final bool? active;
-  final String? word_pin;
+  final String wordPin;
 }

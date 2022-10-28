@@ -16,9 +16,9 @@ class UserPinCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
-      buildWhen: (previous, current) => previous.word_pin != current.word_pin,
+      buildWhen: (previous, current) => previous.pin != current.pin,
       builder: (context, state) {
-        if (state.word_pin!.isEmpty) {
+        if (state.pin.isEmpty) {
           return const _RegisterCard();
         }
         return InkWell(
@@ -38,37 +38,44 @@ class UserPinCard extends StatelessWidget {
           },
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+              borderRadius: BorderRadius.circular(10.0),
+              color: Colors.white,
+            ),
             margin: const EdgeInsets.only(top: 10),
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10.0,
+              horizontal: 20.0,
+            ),
             width: MediaQuery.of(context).size.width * 0.95,
             alignment: Alignment.centerLeft,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DefaultText(
-                      "My PIN",
-                      textLevel: TextLevel.h4,
-                    ),
-                    Container(height: 10.0),
-                    DefaultText(
-                      state.word_pin!,
-                      textLevel: TextLevel.h1,
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DefaultText(
+                        "My PIN",
+                        textLevel: TextLevel.h4,
+                      ),
+                      Container(height: 10.0),
+                      DefaultText(
+                        state.pin,
+                        textLevel: TextLevel.body1,
+                        weight: FontWeight.w500,
+                        maxLines: 2,
+                      ),
+                    ],
+                  ),
                 ),
-                Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * .54)),
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
                       border: Border.all(width: 2),
                       color: Colors.white),
                   child: QrImage(
-                    data: "HACKPSU_${state.word_pin}",
+                    data: "HACKPSU_${state.pin}",
                     version: 3,
                     size: 60,
                   ),
@@ -168,7 +175,7 @@ class QRScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             QrImage(
-              data: "HACKPSU_${bloc.state.word_pin}",
+              data: "HACKPSU_${bloc.state.pin}",
               version: 3,
             ),
           ],
