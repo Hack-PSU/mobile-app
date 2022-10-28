@@ -12,6 +12,7 @@ import '../../widgets/default_text.dart';
 import '../../widgets/pin_card.dart';
 import '../../widgets/screen/screen.dart';
 import '../../widgets/view/keyboard_avoiding.dart';
+import '../extra_credit/extra_credit_page.dart';
 import 'profile_page_cubit.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -219,6 +220,35 @@ class _ProfileOptions extends StatelessWidget {
                   size: 25.0,
                   color: Colors.blue,
                 ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10.0),
+          Button(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.white),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+              ),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+              ),
+            ),
+            variant: ButtonVariant.TextButton,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ExtraCreditPage(),
+                ),
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DefaultText("Add Extra Credit Classes"),
+                const Icon(Icons.arrow_forward, size: 25.0),
               ],
             ),
           ),
