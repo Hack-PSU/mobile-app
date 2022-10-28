@@ -115,10 +115,7 @@ class SignInScreen extends StatelessWidget {
                         if (state.error != null)
                           const Padding(
                             padding: EdgeInsets.only(
-                              top: 14.0,
-                              left: 20.0,
-                              right: 5.0,
-                            ),
+                                top: 14.0, left: 20.0, right: 5.0),
                             child: Icon(
                               Icons.error,
                               size: 23.0,
@@ -146,9 +143,6 @@ class SignInScreen extends StatelessWidget {
                     children: [
                       Button(
                         variant: ButtonVariant.TextButton,
-                        // onPressed: context
-                        //     .read<SignInPageCubit>()
-                        //     .sendPasswordResetEmail,
                         onPressed: () {
                           showModalBottomSheet(
                             context: context,
@@ -161,6 +155,22 @@ class SignInScreen extends StatelessWidget {
                               );
                             },
                           );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            const Color(0x00FAFAFA),
+                          ),
+                        ),
+                        child: DefaultText(
+                          "Forgot password?",
+                          textLevel: TextLevel.button,
+                        ),
+                      ),
+                      Button(
+                        variant: ButtonVariant.TextButton,
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("signUp");
+                          // _navigateCreatAccount(context)
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(

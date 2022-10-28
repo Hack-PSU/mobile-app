@@ -28,6 +28,7 @@ class DefaultText extends Text {
     double? letterSpacing,
     Color? color,
     Key? key,
+    double? height,
   }) : super(
           text,
           textAlign: textAlign,
@@ -39,6 +40,7 @@ class DefaultText extends Text {
             letterSpacing: letterSpacing,
             color: color,
             overflow: TextOverflow.ellipsis,
+            height: height,
           ),
           key: key,
         );
