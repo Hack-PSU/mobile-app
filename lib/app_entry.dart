@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'common/api/event.dart';
+import 'common/api/extra_credit/extra_credit_repository.dart';
 import 'common/api/notification.dart';
 import 'common/api/sponsorship/sponsorship_repository.dart';
 import 'common/api/user.dart';
@@ -11,7 +12,6 @@ import 'common/bloc/auth/auth_bloc.dart';
 import 'common/bloc/favorites/favorites_bloc.dart';
 import 'common/bloc/user/user_bloc.dart';
 import 'common/config/flavor_constants.dart';
-import 'common/cubit/sponsor_cubit.dart';
 import 'common/services/authentication_repository.dart';
 import 'routers/root_router.dart';
 import 'screens/event/events_page_cubit.dart';
@@ -41,8 +41,12 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (_) => SponsorshipRepository(
-            bucket: Config.storageBucket,
+            '${Config.baseUrl}/sponsorship',
           ),
+        ),
+        RepositoryProvider(
+          create: (_) =>
+              ExtraCreditRepository('${Config.baseUrl}/users/extra-credit'),
         ),
       ],
       child: MultiBlocProvider(
@@ -72,11 +76,11 @@ class MyApp extends StatelessWidget {
               userBloc: BlocProvider.of<UserBloc>(context),
             ),
           ),
-          BlocProvider<SponsorshipCubit>(
-            create: (context) => SponsorshipCubit(
-              context.read<SponsorshipRepository>(),
-            ),
-          ),
+          // BlocProvider<SponsorshipCubit>(
+          //   create: (context) => SponsorshipCubit(
+          //     context.read<SponsorshipRepository>(),
+          //   ),
+          // ),
           BlocProvider<EventsPageCubit>(
             create: (context) => EventsPageCubit(
               context.read<EventRepository>(),

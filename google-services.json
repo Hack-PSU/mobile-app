@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "614592542726",
+    "firebase_url": "https://hackpsu18-staging.firebaseio.com",
+    "project_id": "hackpsu18-staging",
+    "storage_bucket": "hackpsu18-staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614592542726:android:7fb0f74508135a387c6b87",
+        "android_client_info": {
+          "package_name": "org.hackpsu.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614592542726-0lohu61vtngc2lmmpibjoutomr1gk58p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.hackpsu.dev",
+            "certificate_hash": "457ae92f84ee1642d9f4e07825907cf6d267098e"
+          }
+        },
+        {
+          "client_id": "614592542726-3c75j342dcrg7gq02624od9jc7e4t59i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.hackpsu.dev",
+            "certificate_hash": "d36b230d509d23e13d3d5d73d7cc95e4f09dcba6"
+          }
+        },
+        {
+          "client_id": "614592542726-srsa3o4l0kle0k51on9ecn2r5r86tflk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.hackpsu.dev",
+            "certificate_hash": "08ebaeafbbf9ecd777d5395f0072559398f8807e"
+          }
+        },
+        {
+          "client_id": "614592542726-54ek8m3njkop3r91hf8ajlkr3dje3as5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU3fn5ULtwVtxMsTOkGzlegR99JK1MJLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614592542726-54ek8m3njkop3r91hf8ajlkr3dje3as5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "614592542726-6jhb7lqgdk4oahdpkncsrsmvl5v942jo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "host.exp.exponent"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

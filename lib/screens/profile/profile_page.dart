@@ -12,6 +12,7 @@ import '../../widgets/default_text.dart';
 import '../../widgets/pin_card.dart';
 import '../../widgets/screen/screen.dart';
 import '../../widgets/view/keyboard_avoiding.dart';
+import '../extra_credit/extra_credit_page.dart';
 import 'profile_page_cubit.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -37,12 +38,14 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(children: const [
-        _Toolbar(),
-        _MainHeader(),
-        SizedBox(height: 20.0),
-        _ProfileOptions(),
-      ]),
+      child: Column(
+        children: const [
+          _Toolbar(),
+          _MainHeader(),
+          SizedBox(height: 20.0),
+          _ProfileOptions(),
+        ],
+      ),
     );
   }
 }
@@ -79,43 +82,45 @@ class _MainHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfilePageCubit, ProfilePageCubitState>(
       builder: (context, state) {
-        return Column(children: [
-          if (state.name != null)
-            CircleAvatar(
-              radius: 70,
-              backgroundColor: Colors.white,
-              child: DefaultText(
-                state.initials ?? "",
-                textLevel: TextLevel.h2,
-                color: ThemeColors.StadiumOrange,
-                fontSize: 48,
+        return Column(
+          children: [
+            if (state.name != null)
+              CircleAvatar(
+                radius: 70,
+                backgroundColor: Colors.white,
+                child: DefaultText(
+                  state.initials ?? "",
+                  textLevel: TextLevel.h2,
+                  color: ThemeColors.StadiumOrange,
+                  fontSize: 48,
+                ),
               ),
-            ),
-          if (state.name == null)
-            CircleAvatar(
-              radius: 70,
-              backgroundColor: Colors.white,
-              child: SvgPicture.asset(
-                "assets/icons/person.svg",
-                color: ThemeColors.StadiumOrange,
-                width: 80,
-                height: 80,
+            if (state.name == null)
+              CircleAvatar(
+                radius: 70,
+                backgroundColor: Colors.white,
+                child: SvgPicture.asset(
+                  "assets/icons/person.svg",
+                  color: ThemeColors.StadiumOrange,
+                  width: 80,
+                  height: 80,
+                ),
               ),
+            const SizedBox(height: 10.0),
+            DefaultText(
+              state.name ?? "Hacker",
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              fontSize: 32,
+              textLevel: TextLevel.h1,
             ),
-          const SizedBox(height: 10.0),
-          DefaultText(
-            state.name ?? "Hacker",
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            fontSize: 32,
-            textLevel: TextLevel.h1,
-          ),
-          DefaultText(
-            state.email ?? "",
-            textLevel: TextLevel.caption,
-            fontSize: 16,
-          ),
-        ]);
+            DefaultText(
+              state.email ?? "",
+              textLevel: TextLevel.caption,
+              fontSize: 16,
+            ),
+          ],
+        );
       },
     );
   }
@@ -149,7 +154,12 @@ class _ProfileOptions extends StatelessWidget {
             onPressed: () {
               showModalBottomSheet(
                 context: context,
-                builder: (BuildContext context) => _ChangePassword(),
+                builder: (BuildContext modalContext) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<ProfilePageCubit>(context),
+                    child: const _ChangePassword(),
+                  );
+                },
               );
             },
             child: Row(
@@ -210,6 +220,35 @@ class _ProfileOptions extends StatelessWidget {
                   size: 25.0,
                   color: Colors.blue,
                 ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10.0),
+          Button(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.white),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+              ),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+              ),
+            ),
+            variant: ButtonVariant.TextButton,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ExtraCreditPage(),
+                ),
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DefaultText("Add Extra Credit Classes"),
+                const Icon(Icons.arrow_forward, size: 25.0),
               ],
             ),
           ),

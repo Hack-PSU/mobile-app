@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/api/event.dart';
+import '../../common/api/sponsorship/sponsor_model.dart';
 import '../../common/api/user.dart';
 import '../../styles/theme_colors.dart';
 import '../../widgets/homepage_header.dart';
@@ -115,7 +116,7 @@ class _Content extends StatelessWidget {
   final List<User> users;
   final List<Event> events;
   final List<Event> workshops;
-  final List<Map<String, String>> sponsors;
+  final List<Sponsor> sponsors;
 
   Widget _renderEventCard(BuildContext context, EventType type) {
     if (type == EventType.WORKSHOP) {
@@ -147,7 +148,7 @@ class _Content extends StatelessWidget {
                 const HomepageHeader(),
                 const UserPinCard(),
                 _renderEventCard(context, EventType.ACTIVITY),
-                // _renderEventCard(context, EventType.WORKSHOP),
+                _renderEventCard(context, EventType.WORKSHOP),
                 const SizedBox(height: 20.0),
                 SponsorCarousel(sponsors: sponsors),
                 const SizedBox(height: 20.0),
