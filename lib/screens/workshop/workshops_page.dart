@@ -18,7 +18,7 @@ class WorkshopsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Screen(
       withBottomNavigation: true,
-      header: ScreenHeader.text("Worksohps"),
+      header: ScreenHeader.text("Workshops"),
       body: const WorkshopsScreen(),
       contentBackgroundColor: Colors.white,
     );

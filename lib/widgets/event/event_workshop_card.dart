@@ -9,6 +9,7 @@ import '../../common/bloc/favorites/favorites_event.dart';
 import '../../common/bloc/favorites/favorites_state.dart';
 import '../../styles/theme_colors.dart';
 import '../default_text.dart';
+import '../render_html.dart';
 
 class EventWorkshopCard extends StatelessWidget {
   const EventWorkshopCard({
@@ -179,7 +180,6 @@ class _BottomSheet {
           builder: (context, state) {
             return Container(
               padding: const EdgeInsets.all(15.0),
-              // height: 300,
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,8 +192,10 @@ class _BottomSheet {
                           child: event.eventIcon != null
                               ? CircleAvatar(
                                   radius: 25,
-                                  backgroundImage:
-                                      NetworkImage(event.eventIcon!))
+                                  backgroundImage: NetworkImage(
+                                    event.eventIcon!,
+                                  ),
+                                )
                               : getEventIcon(event.eventType),
                         ),
                         Expanded(
@@ -274,14 +276,13 @@ class _BottomSheet {
                               'Description',
                               textLevel: TextLevel.body1,
                             ),
-                            DefaultText(
+                            RenderHtml(
                               event.eventDescription!,
-                              textLevel: TextLevel.body2,
-                              maxLines: 300,
                             ),
                           ],
                         ),
                       ),
+                    const SizedBox(height: 80.0),
                   ],
                 ),
               ),
