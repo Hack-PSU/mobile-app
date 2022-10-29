@@ -39,7 +39,7 @@ class HomepageHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CountdownTimerCard(),
+                  const CountdownTimerCard(),
                   Row(
                     children: [
                       ElevatedButton(
