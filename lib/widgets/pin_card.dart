@@ -56,24 +56,20 @@ class UserPinCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DefaultText(
-                        "My PIN",
-                        textLevel: TextLevel.h4,
-                      ),
-                      Container(height: 10.0),
-                      DefaultText(
-                        state.pin,
-                        textLevel: TextLevel.body1,
-                        weight: FontWeight.w500,
-                        maxLines: 2,
+                        "My QR Code",
+                        textLevel: TextLevel.h3,
+                        fontSize: 30.0,
+                        weight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      border: Border.all(width: 2),
-                      color: Colors.white),
+                    borderRadius: BorderRadius.circular(5.0),
+                    border: Border.all(width: 2),
+                    color: Colors.white,
+                  ),
                   child: QrImage(
                     data: "HACKPSU_${state.pin}",
                     version: 3,
@@ -154,14 +150,21 @@ class _RegisterCard extends StatelessWidget {
 }
 
 class QRScreen extends StatelessWidget {
-  const QRScreen({Key? key}) : super(key: key);
+  const QRScreen({
+    Key? key,
+    this.disableGesture = false,
+  }) : super(key: key);
+
+  final bool disableGesture;
 
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<UserBloc>();
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pop();
+        if (disableGesture == false) {
+          Navigator.of(context).pop();
+        }
       },
       child: Container(
         alignment: Alignment.center,

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../api/websocket.dart';
 import '../../services/authentication_repository.dart';
+import '../app/app_bloc.dart';
 import '../user/user_bloc.dart';
 import '../user/user_event.dart';
 import 'auth_event.dart';
@@ -14,8 +15,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required AuthenticationRepository authenticationRepository,
     required UserBloc userBloc,
+    required AppBloc appBloc,
   })  : _authenticationRepository = authenticationRepository,
         _userBloc = userBloc,
+        _appBloc = appBloc,
         super(
           authenticationRepository.currentUser != null
               ? AuthState.authenticated(authenticationRepository.currentUser)
@@ -31,6 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   final AuthenticationRepository _authenticationRepository;
   final UserBloc _userBloc;
+  final AppBloc _appBloc;
 
   late StreamSubscription<User?> _userSubscription;
 
@@ -38,7 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthUserChanged event,
     Emitter<AuthState> emit,
   ) async {
-    if (event.user != null) {
+    if (event.user != null && _appBloc.state.isConnected == true) {
       await SocketManager.instance.connect();
       _userBloc.add(const RegisterUser());
     }

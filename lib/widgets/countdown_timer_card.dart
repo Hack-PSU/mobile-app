@@ -5,27 +5,29 @@ import 'package:flutter/material.dart';
 
 import 'default_text.dart';
 
-final openingCeremony = DateTime.utc(2021, 4, 9, 12)
+final openingCeremony = DateTime.utc(2022, 11, 5, 12)
     .add(const Duration(hours: 4)); // Add 4 hours to account for EDT off set
-final hackingEnd = DateTime.utc(2022, 4, 10, 13, 45)
+final hackingEnd = DateTime.utc(2022, 11, 6, 13, 45)
     .add(const Duration(hours: 4)); // Add 4 hours to account for EDT off set
 
 class StringDuration {
+  StringDuration(this.days, this.hours, this.minutes, this.seconds);
   String days;
   String hours;
   String minutes;
   String seconds;
-
-  StringDuration(this.days, this.hours, this.minutes, this.seconds);
 }
 
 class CountdownTimerCard extends StatefulWidget {
-  State createState() => new _CountdownTimerCardState();
+  const CountdownTimerCard({Key? key}) : super(key: key);
+
+  @override
+  State createState() => _CountdownTimerCardState();
 }
 
 class _CountdownTimerCardState extends State<CountdownTimerCard> {
-  var openingDifference = openingCeremony.difference(DateTime.now());
-  var endDifference = hackingEnd.difference(DateTime.now());
+  Duration openingDifference = openingCeremony.difference(DateTime.now());
+  Duration endDifference = hackingEnd.difference(DateTime.now());
   // store widget state to prevent memory leak
   Timer? _timer;
 

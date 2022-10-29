@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../../api/notification.dart';
 import '../../api/user.dart';
 import 'user_event.dart';
 import 'user_state.dart';
 
-class UserBloc extends Bloc<UserEvent, UserState> {
+class UserBloc extends HydratedBloc<UserEvent, UserState> {
   UserBloc({
     required UserRepository userRepository,
     required NotificationRepository notificationRepository,
@@ -21,7 +22,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UnsubscribeTopic>(_onUnsubscribeTopic);
     on<RegisterUser>(_onRegisterUser);
     _tokenSubscription = _notificationRepository.onTokenRefresh.listen((token) {
-      print(state.pin);
       if (state.pin != "") {
         add(RegisterUser(token));
       }
@@ -101,4 +101,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     _tokenSubscription.cancel();
     return super.close();
   }
+
+  @override
+  UserState fromJson(Map<String, dynamic> json) => UserState.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(UserState state) => state.toJson();
 }

@@ -25,6 +25,18 @@ class UserState extends Equatable {
     );
   }
 
+  static UserState fromJson(Map<String, dynamic> json) {
+    final pin = json["pin"] as String?;
+    return UserState._(
+      token: "",
+      pin: pin ?? "",
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {"pin": pin};
+  }
+
   @override
   List<Object?> get props => [token, pin];
 }

@@ -33,4 +33,6 @@ class CustomIcons {
       IconData(0xe156, fontFamily: 'MaterialIcons');
   static const IconData arrowForward =
       IconData(0xe09b, fontFamily: 'MaterialIcons', matchTextDirection: true);
+  static const IconData signalOff =
+      IconData(0xe5b3, fontFamily: 'MaterialIcons');
 }

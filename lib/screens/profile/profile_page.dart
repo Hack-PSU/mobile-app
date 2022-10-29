@@ -211,7 +211,7 @@ class _ProfileOptions extends StatelessWidget {
                   builder: (context, state) {
                     return Expanded(
                       child: DefaultText(
-                        "View Pin: ${state.pin}",
+                        "View QR Code",
                         color: Colors.blue,
                         maxLines: 2,
                       ),
