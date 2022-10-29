@@ -45,7 +45,7 @@ class HomepageHeader extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           await launchUrlString(
-                            "http://devpost.hackpsu.org",
+                            "https://devpost.hackpsu.org",
                           );
                           // Respond to button press
                         },
@@ -76,7 +76,7 @@ class HomepageHeader extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           await launchUrlString(
-                            "http://discord.hackpsu.org",
+                            "https://discord.hackpsu.org",
                           );
                           // Respond to button press
                         },
