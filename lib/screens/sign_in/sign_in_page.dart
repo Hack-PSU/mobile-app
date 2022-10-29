@@ -178,22 +178,6 @@ class SignInScreen extends StatelessWidget {
                           ),
                         ),
                         child: DefaultText(
-                          "Forgot password?",
-                          textLevel: TextLevel.button,
-                        ),
-                      ),
-                      Button(
-                        variant: ButtonVariant.TextButton,
-                        onPressed: () {
-                          Navigator.of(context).pushNamed("signUp");
-                          // _navigateCreatAccount(context)
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                            const Color(0x00FAFAFA),
-                          ),
-                        ),
-                        child: DefaultText(
                           "Create account",
                           textLevel: TextLevel.button,
                         ),
@@ -202,31 +186,36 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 300),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: const Color(0xFFF4603D),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(.5),
-                          spreadRadius: 2,
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
+                  padding: const EdgeInsets.only(right: 23.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xFFF4603D),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(.5),
+                              spreadRadius: 2,
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Button(
-                      variant: ButtonVariant.IconButton,
-                      icon: const Icon(Icons.send),
-                      iconSize: 20,
-                      color: Colors.white,
-                      onPressed: () async {
-                        await context
-                            .read<SignInPageCubit>()
-                            .signInWithEmailAndPassword();
-                      },
-                    ),
+                        child: Button(
+                          variant: ButtonVariant.IconButton,
+                          icon: const Icon(Icons.send),
+                          iconSize: 20,
+                          color: Colors.white,
+                          onPressed: () async {
+                            await context
+                                .read<SignInPageCubit>()
+                                .signInWithEmailAndPassword();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 _SignInButtons(),

@@ -8,6 +8,7 @@ import 'common/api/extra_credit/extra_credit_repository.dart';
 import 'common/api/notification.dart';
 import 'common/api/sponsorship/sponsorship_repository.dart';
 import 'common/api/user.dart';
+import 'common/bloc/app/app_bloc.dart';
 import 'common/bloc/auth/auth_bloc.dart';
 import 'common/bloc/favorites/favorites_bloc.dart';
 import 'common/bloc/user/user_bloc.dart';
@@ -44,12 +45,16 @@ class MyApp extends StatelessWidget {
           ),
         ),
         RepositoryProvider(
-          create: (_) =>
-              ExtraCreditRepository('${Config.baseUrl}/users/extra-credit'),
+          create: (_) => ExtraCreditRepository(
+            '${Config.baseUrl}/users/extra-credit',
+          ),
         ),
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<AppBloc>(
+            create: (_) => AppBloc(),
+          ),
           BlocProvider<UserBloc>(
             create: (context) => UserBloc(
               userRepository: context.read<UserRepository>(),
@@ -61,6 +66,7 @@ class MyApp extends StatelessWidget {
               authenticationRepository:
                   context.read<AuthenticationRepository>(),
               userBloc: BlocProvider.of<UserBloc>(context),
+              appBloc: BlocProvider.of<AppBloc>(context),
             ),
           ),
           BlocProvider<HomePageCubit>(

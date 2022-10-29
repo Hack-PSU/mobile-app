@@ -29,7 +29,9 @@ class AuthRouter extends StatelessWidget {
                 throw Exception("Invalid route ${settings.name}");
             }
             return MaterialPageRoute<void>(
-                builder: builder, settings: settings);
+              builder: builder,
+              settings: settings,
+            );
           },
         );
       },

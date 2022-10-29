@@ -89,15 +89,14 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         state.password?.value != null) {
       try {
         await _authenticationRepository.signUp(
-            email: state.email?.value ?? "",
-            password: state.password?.value ?? "");
-        if (_authBloc.state.status == AuthStatus.unauthenticated) {
-          emit(
-            state.copyWith(
-              status: FormzStatus.submissionSuccess,
-            ),
-          );
-        }
+          email: state.email?.value ?? "",
+          password: state.password?.value ?? "",
+        );
+        emit(
+          state.copyWith(
+            status: FormzStatus.submissionSuccess,
+          ),
+        );
       } on SignUpWithEmailAndPasswordError catch (e) {
         if (kDebugMode) {
           print(e.message);
