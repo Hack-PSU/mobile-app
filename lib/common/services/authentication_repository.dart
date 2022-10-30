@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
@@ -7,6 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../secrets.dart';
+import '../api/api_response.dart';
+import '../api/client.dart';
 
 class SignUpWithEmailAndPasswordError implements Exception {
   const SignUpWithEmailAndPasswordError([
@@ -173,10 +178,12 @@ class SignOutError implements Exception {}
 
 class AuthenticationRepository {
   AuthenticationRepository({
+    required String functionsUrl,
     FirebaseAuth? firebaseAuth,
     GoogleSignIn? googleSignIn,
     GitHubSignIn? gitHubSignIn,
-  })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+  })  : _functionsEndpoint = functionsUrl,
+        _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
         _githubSignIn = gitHubSignIn ??
             GitHubSignIn(
@@ -189,6 +196,7 @@ class AuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
   final GitHubSignIn _githubSignIn;
+  final String _functionsEndpoint;
 
   Stream<User?> get user => _firebaseAuth.authStateChanges();
   User? get currentUser => _firebaseAuth.currentUser;
@@ -264,10 +272,8 @@ class AuthenticationRepository {
           break;
         case GitHubSignInResultStatus.cancelled:
           throw const SignInWithGithubError("Status Cancelled");
-          break;
         case GitHubSignInResultStatus.failed:
           throw const SignInWithGithubError("Status failed");
-          break;
       }
     } on FirebaseAuthException catch (e) {
       throw SignInWithGithubError.fromCode(e.code);
@@ -295,6 +301,15 @@ class AuthenticationRepository {
               String.fromCharCodes(appleIdCredential.authorizationCode!),
         );
 
+        final refreshToken = await getAppleRefreshToken(
+          String.fromCharCodes(appleIdCredential.authorizationCode!),
+        );
+
+        await const FlutterSecureStorage().write(
+          key: "refresh_token",
+          value: refreshToken,
+        );
+
         try {
           final UserCredential userCredential =
               await _firebaseAuth.signInWithCredential(credential);
@@ -316,10 +331,8 @@ class AuthenticationRepository {
         break;
       case AuthorizationStatus.cancelled:
         throw const SignInWithAppleError("Status Cancelled");
-        break;
       case AuthorizationStatus.error:
         throw const SignInWithAppleError("Status Error");
-        break;
     }
   }
 
@@ -345,5 +358,36 @@ class AuthenticationRepository {
     } else {
       throw Exception('Could not launch $url');
     }
+  }
+
+  Future<String> getAppleRefreshToken(String authorizationCode) async {
+    final client = Client();
+
+    final resp = await client.get(
+      Uri.parse(
+          "$_functionsEndpoint/apple/refresh_token?code=$authorizationCode"),
+    );
+
+    final data = ApiResponse.fromJson(jsonDecode(resp.body));
+
+    return data.body["data"].toString();
+  }
+
+  Future<bool> revokeAppleUser() async {
+    final client = Client();
+
+    final refreshToken =
+        await const FlutterSecureStorage().read(key: "refresh_token");
+
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      await client.post(
+        Uri.parse(
+          "$_functionsEndpoint/apple/revoke_token?refresh_token=$refreshToken",
+        ),
+      );
+      return true;
+    }
+
+    return false;
   }
 }

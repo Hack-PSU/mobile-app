@@ -2,8 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../common/api/user.dart';
 import '../../common/models/password.dart';
+import '../../common/services/authentication_repository.dart';
 
 class ProfilePageCubitState extends Equatable {
   ProfilePageCubitState._({
@@ -62,13 +65,19 @@ class ProfilePageCubitState extends Equatable {
 }
 
 class ProfilePageCubit extends Cubit<ProfilePageCubitState> {
-  ProfilePageCubit()
-      : _firebaseAuth = FirebaseAuth.instance,
+  ProfilePageCubit(
+    AuthenticationRepository authenticationRepository,
+    UserRepository userRepository,
+  )   : _firebaseAuth = FirebaseAuth.instance,
+        _authenticationRepository = authenticationRepository,
+        _userRepository = userRepository,
         super(
           ProfilePageCubitState.init(),
         );
 
   final FirebaseAuth _firebaseAuth;
+  final AuthenticationRepository _authenticationRepository;
+  final UserRepository _userRepository;
 
   void onChangeOldPassword(String newValue) {
     emit(
@@ -113,5 +122,20 @@ class ProfilePageCubit extends Cubit<ProfilePageCubitState> {
         }
       }
     }
+  }
+
+  Future<void> revokeUser() async {
+    if (FirebaseAuth.instance.currentUser?.uid ==
+            "gsOwfFcUHKfmRHTsmI7N1k7Ocie2" ||
+        FirebaseAuth.instance.currentUser?.uid ==
+            "FHBbkIw88qZBaxSmQxmdtSURsto1") {
+      throw Exception("Cannot delete admin user");
+    }
+
+    if (await const FlutterSecureStorage().read(key: "refresh_token") != null) {
+      await _authenticationRepository.revokeAppleUser();
+    }
+    await _userRepository.deleteUser();
+    await _authenticationRepository.signOut();
   }
 }

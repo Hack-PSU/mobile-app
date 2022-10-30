@@ -31,10 +31,11 @@ class MyApp extends StatelessWidget {
           create: (_) => EventRepository('${Config.baseUrl}/live/events'),
         ),
         RepositoryProvider(
-          create: (_) => AuthenticationRepository(),
+          create: (_) =>
+              AuthenticationRepository(functionsUrl: "${Config.fcmUrl}/api"),
         ),
         RepositoryProvider(
-          create: (_) => UserRepository('${Config.baseUrl}/users/register'),
+          create: (_) => UserRepository('${Config.baseUrl}/users'),
         ),
         RepositoryProvider(
           create: (_) => NotificationRepository('${Config.fcmUrl}/api'),

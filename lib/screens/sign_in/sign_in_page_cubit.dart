@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
 
 import '../../common/bloc/auth/auth_bloc.dart';
-import '../../common/bloc/auth/auth_state.dart';
 import '../../common/models/email.dart';
 import '../../common/models/password.dart';
 import '../../common/services/authentication_repository.dart';
@@ -231,11 +230,9 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
     );
     try {
       await _authenticationRepository.signInWithApple();
-      if (_authBloc.state.status == AuthStatus.unauthenticated) {
-        emit(
-          state.copyWith(status: FormzStatus.submissionSuccess),
-        );
-      }
+      emit(
+        state.copyWith(status: FormzStatus.submissionSuccess),
+      );
     } on SignInWithAppleError catch (e) {
       if (kDebugMode) {
         print(e.message);

@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../common/api/user.dart';
 import '../../common/bloc/user/user_bloc.dart';
 import '../../common/bloc/user/user_state.dart';
 import '../../common/services/authentication_repository.dart';
@@ -23,7 +24,10 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfilePageCubit(),
+      create: (context) => ProfilePageCubit(
+        context.read<AuthenticationRepository>(),
+        context.read<UserRepository>(),
+      ),
       child: Screen(
         body: const ProfileScreen(),
       ),
@@ -258,6 +262,49 @@ class _ProfileOptions extends StatelessWidget {
           const SizedBox(height: 10.0),
           Button(
             style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+              ),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+              ),
+            ),
+            variant: ButtonVariant.TextButton,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (dialogContext) {
+                  return _ConfirmModal(
+                    title: "Are you sure?",
+                    message:
+                        "This account and its data will be deleted. You can't undo this action.",
+                    onConfirm: () async {
+                      await context.read<ProfilePageCubit>().revokeUser();
+                    },
+                  );
+                },
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DefaultText(
+                  "Delete Account",
+                  color: Colors.white,
+                ),
+                const Icon(
+                  Icons.arrow_forward,
+                  size: 25.0,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 40.0),
+          Button(
+            style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
                 ThemeColors.StadiumOrange,
               ),
@@ -406,6 +453,97 @@ class _ChangePassword extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _ConfirmModal extends StatelessWidget {
+  const _ConfirmModal({
+    Key? key,
+    required this.title,
+    required this.message,
+    required this.onConfirm,
+  }) : super(key: key);
+
+  final String title;
+  final String message;
+  final dynamic Function() onConfirm;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 10.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DefaultText(
+                  title,
+                  textLevel: TextLevel.h4,
+                  weight: FontWeight.bold,
+                ),
+                const SizedBox(height: 8.0),
+                DefaultText(
+                  message,
+                  textLevel: TextLevel.body1,
+                  maxLines: 2,
+                ),
+                const SizedBox(height: 8.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Button(
+                        variant: ButtonVariant.TextButton,
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                        ),
+                        onPressed: () => Navigator.of(
+                          context,
+                          rootNavigator: true,
+                        ).pop("dialog"),
+                        child: DefaultText(
+                          "Cancel",
+                          textLevel: TextLevel.button,
+                          height: 1.25,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10.0),
+                    Expanded(
+                      child: Button(
+                        variant: ButtonVariant.TextButton,
+                        style: TextButton.styleFrom(
+                          backgroundColor: ThemeColors.StadiumOrange,
+                        ),
+                        onPressed: () {
+                          onConfirm();
+                          Navigator.of(
+                            context,
+                            rootNavigator: true,
+                          ).pop("dialog");
+                        },
+                        child: DefaultText(
+                          "Confirm",
+                          textLevel: TextLevel.button,
+                          color: Colors.white,
+                          height: 1.25,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

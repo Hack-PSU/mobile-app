@@ -11,9 +11,9 @@ class UserRepository {
     String configUrl, {
     FirebaseAuth? firebaseAuth,
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _endpoint = Uri.parse("$configUrl?ignoreCache=true");
+        _endpoint = configUrl;
 
-  final Uri _endpoint;
+  final String _endpoint;
   final FirebaseAuth _firebaseAuth;
 
   Future<List<model.User>> getUserRegistrations() async {
@@ -23,7 +23,9 @@ class UserRepository {
       final String idToken = await user.getIdToken();
       final client = Client.withToken(idToken);
 
-      final resp = await client.get(_endpoint);
+      final resp = await client.get(
+        Uri.parse("$_endpoint/register?ignoreCache=true"),
+      );
 
       if (resp.statusCode == 200) {
         final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
@@ -48,5 +50,25 @@ class UserRepository {
     }
 
     return "";
+  }
+
+  Future<void> deleteUser() async {
+    final user = _firebaseAuth.currentUser;
+
+    if (user != null &&
+        user.uid != "FHBbkIw88qZBaxSmQxmdtSURsto1" &&
+        user.uid != "gsOwfFcUHKfmRHTsmI7N1k7Ocie2") {
+      final token = await user.getIdToken();
+      final client = Client.withToken(token);
+
+      await client.post(
+        Uri.parse("$_endpoint/delete"),
+        body: jsonEncode({
+          "uid": user.uid,
+        }),
+      );
+    } else {
+      throw Exception("Cannot delete admin user");
+    }
   }
 }
