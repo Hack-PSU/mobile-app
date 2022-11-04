@@ -91,7 +91,7 @@ class HomePageState extends State<HomePage> {
                 color: Color(0xffF5F5F5),
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/Logo.png",
+                    "assets/images/ios_icon_vaporwave.png",
                   ),
                 ),
               ),

@@ -95,13 +95,14 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ],
-        child: const ImageCache(
-          images: [
+        child: ImageCache(
+          images: const [
             AssetImage("assets/images/header_mountains.png"),
           ],
           child: MaterialApp(
             title: "HackPSU",
-            home: RootRouter(),
+            debugShowCheckedModeBanner: Config.appFlavor == Flavor.DEV,
+            home: const RootRouter(),
           ),
         ),
       ),
