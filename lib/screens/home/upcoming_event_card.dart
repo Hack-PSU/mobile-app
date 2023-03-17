@@ -157,7 +157,7 @@ class UpcomingEventCard extends StatelessWidget {
                 ),
                 DefaultText(
                   DateFormat("EEEE").format(
-                    state.upcomingEvents!.first.eventStartTime,
+                    state.upcomingEvents!.first.startTime,
                   ),
                   textLevel: TextLevel.h4,
                 ),

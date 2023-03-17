@@ -9,8 +9,9 @@ part 'extra_credit_class_model.g.dart';
 )
 class ExtraCreditClass {
   ExtraCreditClass({
-    required this.uid,
-    required this.className,
+    required this.id,
+    required this.name,
+    required this.hackathonId,
   });
 
   factory ExtraCreditClass.fromJson(Map<String, dynamic> json) =>
@@ -18,6 +19,7 @@ class ExtraCreditClass {
 
   Map<String, dynamic> toJson() => _$ExtraCreditClassToJson(this);
 
-  final int uid;
-  final String className;
+  final int id;
+  final String name;
+  final String hackathonId;
 }

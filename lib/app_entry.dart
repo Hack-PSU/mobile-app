@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
-          create: (_) => EventRepository('${Config.baseUrl}/live/events'),
+          create: (_) => EventRepository(Config.baseUrl),
         ),
         RepositoryProvider(
           create: (_) =>
@@ -38,17 +38,13 @@ class MyApp extends StatelessWidget {
           create: (_) => UserRepository('${Config.baseUrl}/users'),
         ),
         RepositoryProvider(
-          create: (_) => NotificationRepository('${Config.fcmUrl}/api'),
+          create: (_) => NotificationRepository(Config.baseUrl),
         ),
         RepositoryProvider(
-          create: (_) => SponsorshipRepository(
-            '${Config.baseUrl}/sponsorship',
-          ),
+          create: (_) => SponsorshipRepository(Config.baseUrl),
         ),
         RepositoryProvider(
-          create: (_) => ExtraCreditRepository(
-            '${Config.baseUrl}/users/extra-credit',
-          ),
+          create: (_) => ExtraCreditRepository(Config.baseUrl),
         ),
       ],
       child: MultiBlocProvider(
@@ -59,6 +55,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<UserBloc>(
             create: (context) => UserBloc(
               userRepository: context.read<UserRepository>(),
+              eventRepository: context.read<EventRepository>(),
               notificationRepository: context.read<NotificationRepository>(),
             ),
           ),

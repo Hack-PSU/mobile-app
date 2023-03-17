@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 import '../../common/api/event.dart';
 import '../../common/api/sponsorship/sponsor_model.dart';
@@ -15,7 +14,6 @@ enum PageStatus { idle, loading, ready }
 class HomePageCubitState {
   HomePageCubitState({
     this.events,
-    this.users,
     this.sponsors,
     this.status = PageStatus.idle,
     this.workshops,
@@ -23,20 +21,17 @@ class HomePageCubitState {
 
   final List<Event>? events;
   final List<Event>? workshops;
-  final List<User>? users;
   final List<Sponsor>? sponsors;
   final PageStatus status;
 
   HomePageCubitState copyWith({
     List<Event>? events,
     List<Event>? workshops,
-    List<User>? users,
     List<Sponsor>? sponsors,
     PageStatus? status,
   }) {
     return HomePageCubitState(
       events: events ?? this.events,
-      users: users ?? this.users,
       sponsors: sponsors ?? this.sponsors,
       status: status ?? this.status,
       workshops: workshops ?? this.workshops,
@@ -56,7 +51,6 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
           HomePageCubitState(
             events: [],
             sponsors: [],
-            users: [],
             workshops: [],
           ),
         ) {
@@ -86,11 +80,15 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
       emit(
         state.copyWith(
           events: event
-              .where((item) => item.eventType != EventType.WORKSHOP)
+              .where(
+                (item) =>
+                    item.type == EventType.ACTIVITY ||
+                    item.type == EventType.FOOD,
+              )
               .take(3)
               .toList(),
           workshops: event
-              .where((item) => item.eventType == EventType.WORKSHOP)
+              .where((item) => item.type == EventType.WORKSHOP)
               .take(3)
               .toList(),
         ),
@@ -99,19 +97,6 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
       if (kDebugMode) {
         print(e);
       }
-    }
-  }
-
-  Future<void> getUserRegistrations() async {
-    try {
-      final users = await _userRepository.getUserRegistrations();
-      emit(
-        state.copyWith(
-          users: users,
-        ),
-      );
-    } catch (e) {
-      debugPrint(e.toString());
     }
   }
 
@@ -130,7 +115,6 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
   Future<void> init() async {
     emit(state.copyWith(status: PageStatus.loading));
     await getEvents();
-    await getUserRegistrations();
     await getSponsors();
     emit(state.copyWith(status: PageStatus.ready));
   }

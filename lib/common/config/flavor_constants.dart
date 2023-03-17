@@ -18,7 +18,8 @@ class Config {
     );
   }
 
-  static String get wsUrl => 'https://ws.hackpsu.org';
+  // static String get wsUrl => 'https://ws.hackpsu.org';
+  static String get wsUrl => 'http://localhost:3000/socket';
 
   static String get storageBucket {
     return getConstantByFlavor(

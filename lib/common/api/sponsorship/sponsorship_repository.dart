@@ -8,35 +8,31 @@ import 'sponsor_model.dart';
 
 class SponsorshipRepository {
   SponsorshipRepository(
-    String configUrl,
-  )   : _endpoint = configUrl,
+    String baseUrl,
+  )   : _baseUrl = baseUrl,
         _firebaseAuth = FirebaseAuth.instance;
 
-  final String _endpoint;
+  final String _baseUrl;
   final FirebaseAuth _firebaseAuth;
 
   Future<List<Sponsor>> getAllSponsors() async {
     final user = _firebaseAuth.currentUser;
 
     if (user != null) {
-      final String token = await user.getIdToken();
-      final client = Client.withToken(token);
+      final client = Client();
 
-      final resp = await client.get(Uri.parse("$_endpoint/all"));
+      final resp = await client.get(Uri.parse("$_baseUrl/sponsors"));
 
-      if (resp.statusCode == 200 && resp.body.isNotEmpty) {
+      if (resp.statusCode == 200) {
         final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
 
-        return (apiResponse.body["data"] as List)
+        return (apiResponse.body as List)
             .map((sponsor) => Sponsor.fromJson(sponsor as Map<String, dynamic>))
             .toList();
-      } else if (resp.statusCode == 204) {
-        return [];
       } else {
         throw Exception("Failed to get sponsors from API");
       }
     }
-
     return [];
   }
 }

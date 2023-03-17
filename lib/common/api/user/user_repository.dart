@@ -8,48 +8,23 @@ import 'user_model.dart' as model;
 
 class UserRepository {
   UserRepository(
-    String configUrl, {
+    String baseUrl, {
     FirebaseAuth? firebaseAuth,
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _endpoint = configUrl;
+        _baseUrl = baseUrl;
 
-  final String _endpoint;
+  final String _baseUrl;
   final FirebaseAuth _firebaseAuth;
 
-  Future<List<model.User>> getUserRegistrations() async {
-    final user = _firebaseAuth.currentUser;
+  Future<model.User?> getUserProfile() async {
+    final client = Client();
+    final resp = await client.get(Uri.parse("$_baseUrl/users/info/me"));
 
-    if (user != null) {
-      final String idToken = await user.getIdToken();
-      final client = Client.withToken(idToken);
-
-      final resp = await client.get(
-        Uri.parse("$_endpoint/register?ignoreCache=true"),
-      );
-
-      if (resp.statusCode == 200) {
-        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
-
-        return (apiResponse.body["data"] as List)
-            .map((user) => model.User.fromJson(user as Map<String, dynamic>))
-            .toList();
-      }
+    if (resp.statusCode == 200) {
+      final apiResp = ApiResponse.fromJson(json.decode(resp.body));
+      return model.User.fromJson(apiResp.body);
     }
-
-    return [];
-  }
-
-  Future<String> getUserPin() async {
-    final users = await getUserRegistrations();
-    final currentRegistration = users.where((user) => user.active == true);
-
-    if (currentRegistration.isNotEmpty) {
-      final user = currentRegistration.elementAt(0);
-
-      return user.wordPin;
-    }
-
-    return "";
+    return null;
   }
 
   Future<void> deleteUser() async {
@@ -58,15 +33,8 @@ class UserRepository {
     if (user != null &&
         user.uid != "FHBbkIw88qZBaxSmQxmdtSURsto1" &&
         user.uid != "gsOwfFcUHKfmRHTsmI7N1k7Ocie2") {
-      final token = await user.getIdToken();
-      final client = Client.withToken(token);
-
-      await client.post(
-        Uri.parse("$_endpoint/delete"),
-        body: jsonEncode({
-          "uid": user.uid,
-        }),
-      );
+      final client = Client();
+      await client.delete(Uri.parse("$_baseUrl/users/${user.uid}"));
     } else {
       throw Exception("Cannot delete admin user");
     }

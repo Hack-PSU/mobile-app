@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/api/event.dart';
 import '../../common/api/sponsorship/sponsor_model.dart';
-import '../../common/api/user.dart';
 import '../../styles/theme_colors.dart';
 import '../../widgets/homepage_header.dart';
 import '../../widgets/loading.dart';
@@ -67,7 +66,6 @@ class HomePageState extends State<HomePage> {
               if (state.status == PageStatus.ready) {
                 return _Content(
                   controller: _controller,
-                  users: state.users ?? [],
                   events: state.events ?? [],
                   sponsors: state.sponsors ?? [],
                   workshops: state.workshops ?? [],
@@ -106,14 +104,12 @@ class HomePageState extends State<HomePage> {
 class _Content extends StatelessWidget {
   const _Content({
     required ScrollController? controller,
-    required this.users,
     required this.events,
     required this.sponsors,
     required this.workshops,
   }) : _controller = controller;
 
   final ScrollController? _controller;
-  final List<User> users;
   final List<Event> events;
   final List<Event> workshops;
   final List<Sponsor> sponsors;

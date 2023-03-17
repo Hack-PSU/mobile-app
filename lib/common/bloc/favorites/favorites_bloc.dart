@@ -35,7 +35,7 @@ class FavoritesBloc extends HydratedBloc<FavoritesEvent, FavoritesState> {
     AddFavoritesItem event,
     Emitter<FavoritesState> emit,
   ) {
-    _userBloc.add(SubscribeTopic(topic: event.event.uid));
+    _userBloc.add(SubscribeTopic(topic: event.event.id));
     emit(state.addItem(event.event));
   }
 
@@ -43,7 +43,7 @@ class FavoritesBloc extends HydratedBloc<FavoritesEvent, FavoritesState> {
     RemoveFavoritesItem event,
     Emitter<FavoritesState> emit,
   ) {
-    _userBloc.add(UnsubscribeTopic(topic: event.event.uid));
+    _userBloc.add(UnsubscribeTopic(topic: event.event.id));
     emit(state.removeItem(event.event));
   }
 

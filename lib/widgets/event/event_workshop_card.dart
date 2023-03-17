@@ -41,15 +41,18 @@ class EventWorkshopCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String parseLocation(String locationName) {
-      if (locationName.contains('zoom')) {
-        return "Zoom";
-      } else if (locationName.contains('youtube') ||
-          locationName.contains('youtu.be')) {
-        return "Youtube";
-      } else {
-        return locationName;
+    String parseLocation(String? locationName) {
+      if (locationName != null) {
+        if (locationName.contains('zoom')) {
+          return "Zoom";
+        } else if (locationName.contains('youtube') ||
+            locationName.contains('youtu.be')) {
+          return "Youtube";
+        } else {
+          return locationName;
+        }
       }
+      return "";
     }
 
     return BlocBuilder<FavoritesBloc, FavoritesState>(
@@ -72,12 +75,12 @@ class EventWorkshopCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         DefaultText(
-                          parseLocation(event.locationName!),
+                          parseLocation(event.location?.name!),
                           color: const Color(0x99000000),
                           textLevel: TextLevel.overline,
                         ),
                         DefaultText(
-                          event.eventTitle!,
+                          event.name!,
                           textLevel: TextLevel.sub1,
                         ),
                         if (event.wsPresenterNames == null)
@@ -141,8 +144,8 @@ class _FavoritesIcon extends StatelessWidget {
 class _BottomSheet {
   static void showModal(BuildContext context, Event event,
       bool Function(FavoritesState, FavoritesState) buildWhen) {
-    final String formatStartTime = DateFormat.jm().format(event.eventStartTime);
-    final String formatEndTime = DateFormat.jm().format(event.eventEndTime);
+    final String formatStartTime = DateFormat.jm().format(event.startTime);
+    final String formatEndTime = DateFormat.jm().format(event.endTime);
 
     showModalBottomSheet<void>(
       context: context,
@@ -189,21 +192,21 @@ class _BottomSheet {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 5.0, right: 10.0),
-                          child: event.eventIcon != null
+                          child: event.icon != null
                               ? CircleAvatar(
                                   radius: 25,
                                   backgroundImage: NetworkImage(
-                                    event.eventIcon!,
+                                    event.icon!,
                                   ),
                                 )
-                              : getEventIcon(event.eventType),
+                              : getEventIcon(event.type),
                         ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               DefaultText(
-                                event.eventTitle!,
+                                event.name!,
                                 textLevel: TextLevel.sub1,
                                 maxLines: 10,
                               ),
@@ -249,9 +252,9 @@ class _BottomSheet {
                     ),
                     Chip(
                       avatar: const Icon(Icons.location_on_rounded),
-                      label: DefaultText(event.locationName!),
+                      label: DefaultText(event.location?.name ?? ""),
                     ),
-                    if (event.eventDescription != null)
+                    if (event.description != null)
                       Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.only(top: 10.0),
@@ -277,7 +280,7 @@ class _BottomSheet {
                               textLevel: TextLevel.body1,
                             ),
                             RenderHtml(
-                              event.eventDescription!,
+                              event.description!,
                             ),
                           ],
                         ),

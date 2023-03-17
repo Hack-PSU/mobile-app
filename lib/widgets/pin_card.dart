@@ -16,9 +16,10 @@ class UserPinCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
-      buildWhen: (previous, current) => previous.pin != current.pin,
+      buildWhen: (previous, current) =>
+          previous.profile?.registration != current.profile?.registration,
       builder: (context, state) {
-        if (state.pin.isEmpty) {
+        if (state.profile?.registration == null) {
           return const _RegisterCard();
         }
         return InkWell(
@@ -71,7 +72,7 @@ class UserPinCard extends StatelessWidget {
                     color: Colors.white,
                   ),
                   child: QrImage(
-                    data: "HACKPSU_${state.pin}",
+                    data: "HACKPSU_${state.userId}",
                     version: 3,
                     size: 60,
                   ),
@@ -178,7 +179,7 @@ class QRScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             QrImage(
-              data: "HACKPSU_${bloc.state.pin}",
+              data: "HACKPSU_${bloc.state.userId}",
               version: 3,
             ),
           ],

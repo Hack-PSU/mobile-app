@@ -4,90 +4,76 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../api_response.dart';
 import '../client.dart';
-import 'extra_credit_assignment_model.dart';
 import 'extra_credit_class_model.dart';
 
 class ExtraCreditRepository {
   ExtraCreditRepository(
-    String configUrl,
-  ) : _endpoint = configUrl;
+    String baseUrl,
+  ) : _baseUrl = baseUrl;
 
-  final String _endpoint;
+  final String _baseUrl;
 
-  Future<List<ExtraCreditClass>> getClasses() async {
+  Future<List<ExtraCreditClass>> getAllClasses() async {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      final token = await user.getIdToken();
-      final client = Client.withToken(token);
-
-      final resp = await client.get(Uri.parse("$_endpoint?ignoreCache=true"));
-
-      if (resp.statusCode == 200) {
-        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
-        return (apiResponse.body["data"] as List)
-            .map((data) =>
-                ExtraCreditClass.fromJson(data as Map<String, dynamic>))
-            .toList();
-      }
-    }
-    return [];
-  }
-
-  Future<List<ExtraCreditAssignment>> getClassAssignmentsByUid(
-    String uid,
-  ) async {
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      final token = await user.getIdToken();
-      final client = Client.withToken(token);
+      final client = Client();
 
       final resp = await client.get(
-        Uri.parse(
-          "$_endpoint/assignment?type=user&uid=$uid&ignoreCache=true",
-        ),
+        Uri.parse("$_baseUrl/extra-credit/classes"),
       );
 
       if (resp.statusCode == 200) {
         final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
-        return (apiResponse.body["data"] as List)
-            .map((c) =>
-                ExtraCreditAssignment.fromJson(c as Map<String, dynamic>))
+        return (apiResponse.body as List)
+            .map(
+              (data) => ExtraCreditClass.fromJson(data as Map<String, dynamic>),
+            )
             .toList();
       }
     }
     return [];
   }
 
-  Future<void> registerClass(int uid) async {
+  Future<List<ExtraCreditClass>> getClassesForUser() async {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      final token = await user.getIdToken();
-      final client = Client.withToken(token);
+      final client = Client();
+      final resp = await client.get(
+        Uri.parse("$_baseUrl/users/${user!.uid}/extra-credit/classes"),
+      );
 
+      if (resp.statusCode == 200) {
+        final apiResp = ApiResponse.fromJson(resp.body);
+        return (apiResp.body as List)
+            .map(
+              (data) => ExtraCreditClass.fromJson(data as Map<String, dynamic>),
+            )
+            .toList();
+      }
+    }
+    return [];
+  }
+
+  Future<void> registerClass(int id) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final client = Client();
       await client.post(
-        Uri.parse(_endpoint),
-        body: json.encode({
-          "classUid": uid.toString(),
-        }),
+        Uri.parse("$_baseUrl/users/${user.uid}/extra-credit/assign/$id"),
       );
     }
   }
 
-  Future<void> unregisterClass(int uid) async {
+  Future<void> unregisterClass(int id) async {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      final token = await user.getIdToken();
-      final client = Client.withToken(token);
-
+      final client = Client();
       await client.post(
-        Uri.parse("$_endpoint/delete"),
-        body: json.encode({
-          "uid": uid.toString(),
-        }),
+        Uri.parse("$_baseUrl/users/${user.uid}/extra-credit/unassign/$id"),
       );
     }
   }
