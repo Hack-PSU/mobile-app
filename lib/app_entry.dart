@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'common/api/event.dart';
 import 'common/api/extra_credit/extra_credit_repository.dart';
 import 'common/api/notification.dart';
+import 'common/api/registration/registration_repository.dart';
 import 'common/api/sponsorship/sponsorship_repository.dart';
 import 'common/api/user.dart';
 import 'common/bloc/app/app_bloc.dart';
@@ -17,6 +18,7 @@ import 'common/services/authentication_repository.dart';
 import 'routers/root_router.dart';
 import 'screens/event/events_page_cubit.dart';
 import 'screens/home/home_page_cubit.dart';
+import 'screens/registration/registration_cubit.dart';
 import 'screens/workshop/workshops_page_cubit.dart';
 
 class MyApp extends StatelessWidget {
@@ -31,11 +33,10 @@ class MyApp extends StatelessWidget {
           create: (_) => EventRepository(Config.baseUrl),
         ),
         RepositoryProvider(
-          create: (_) =>
-              AuthenticationRepository(functionsUrl: "${Config.fcmUrl}/api"),
+          create: (_) => AuthenticationRepository(baseUrl: Config.baseUrl),
         ),
         RepositoryProvider(
-          create: (_) => UserRepository('${Config.baseUrl}/users'),
+          create: (_) => UserRepository(Config.baseUrl),
         ),
         RepositoryProvider(
           create: (_) => NotificationRepository(Config.baseUrl),
@@ -46,6 +47,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (_) => ExtraCreditRepository(Config.baseUrl),
         ),
+        RepositoryProvider(
+          create: (_) => RegistrationRepository(Config.baseUrl),
+        )
       ],
       child: MultiBlocProvider(
         providers: [
@@ -89,6 +93,11 @@ class MyApp extends StatelessWidget {
             create: (context) => WorkshopsPageCubit(
               context.read<EventRepository>(),
               BlocProvider.of<FavoritesBloc>(context),
+            ),
+          ),
+          BlocProvider<RegistrationCubit>(
+            create: (context) => RegistrationCubit(
+              registrationRepository: context.read<RegistrationRepository>(),
             ),
           ),
         ],

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../api_response.dart';
 import '../client.dart';
 import 'sponsor_model.dart';
 
@@ -24,9 +23,8 @@ class SponsorshipRepository {
       final resp = await client.get(Uri.parse("$_baseUrl/sponsors"));
 
       if (resp.statusCode == 200) {
-        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
-
-        return (apiResponse.body as List)
+        final apiResp = jsonDecode(resp.body);
+        return (apiResp as List)
             .map((sponsor) => Sponsor.fromJson(sponsor as Map<String, dynamic>))
             .toList();
       } else {

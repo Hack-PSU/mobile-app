@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../api_response.dart';
 import '../client.dart';
 import 'user_model.dart' as model;
 
@@ -21,8 +20,7 @@ class UserRepository {
     final resp = await client.get(Uri.parse("$_baseUrl/users/info/me"));
 
     if (resp.statusCode == 200) {
-      final apiResp = ApiResponse.fromJson(json.decode(resp.body));
-      return model.User.fromJson(apiResp.body);
+      return model.User.fromJson(jsonDecode(resp.body) as Map<String, dynamic>);
     }
     return null;
   }

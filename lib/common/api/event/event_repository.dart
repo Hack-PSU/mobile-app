@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
-import '../api_response.dart';
 import '../client.dart';
 import 'event_model.dart';
 
@@ -21,9 +20,8 @@ class EventRepository {
     final resp = await client.get(Uri.parse("$_baseUrl/events"));
 
     if (resp.statusCode == 200) {
-      final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
-
-      return (apiResponse.body as List)
+      final apiResp = json.decode(resp.body);
+      return (apiResp as List)
           .map((event) => Event.fromJson(event as Map<String, dynamic>))
           .toList();
     } else {

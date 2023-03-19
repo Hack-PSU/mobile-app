@@ -1,14 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'registration_model.dart';
+part of 'registration_body_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Registration _$RegistrationFromJson(Map<String, dynamic> json) => Registration(
-      id: json['id'] as int?,
-      userId: json['userId'] as String?,
+RegistrationBody _$RegistrationBodyFromJson(Map<String, dynamic> json) =>
+    RegistrationBody(
       travelReimbursement: json['travelReimbursement'] as bool?,
       driving: json['driving'] as bool?,
       firstHackathon: json['firstHackathon'] as bool?,
@@ -25,14 +24,11 @@ Registration _$RegistrationFromJson(Map<String, dynamic> json) => Registration(
       shareAddressSponsors: json['shareAddressSponsors'] as bool?,
       shareEmailMlh: json['shareEmailMlh'] as bool?,
       veteran: json['veteran'] as String?,
-      hackathonId: json['hackathonId'] as String?,
-      time: Registration._timeFromJson(json['time'] as int),
+      time: DateTime.parse(json['time'] as String),
     );
 
-Map<String, dynamic> _$RegistrationToJson(Registration instance) =>
+Map<String, dynamic> _$RegistrationBodyToJson(RegistrationBody instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'userId': instance.userId,
       'eighteenBeforeEvent': instance.eighteenBeforeEvent,
       'travelReimbursement': instance.travelReimbursement,
       'driving': instance.driving,
@@ -49,6 +45,5 @@ Map<String, dynamic> _$RegistrationToJson(Registration instance) =>
       'shareAddressMlh': instance.shareAddressMlh,
       'shareAddressSponsors': instance.shareAddressSponsors,
       'shareEmailMlh': instance.shareEmailMlh,
-      'time': Registration._timeToJson(instance.time),
-      'hackathonId': instance.hackathonId,
+      'time': RegistrationBody._timeToJson(instance.time),
     };

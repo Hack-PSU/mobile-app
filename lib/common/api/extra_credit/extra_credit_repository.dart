@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../api_response.dart';
 import '../client.dart';
 import 'extra_credit_class_model.dart';
 
@@ -24,8 +23,8 @@ class ExtraCreditRepository {
       );
 
       if (resp.statusCode == 200) {
-        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
-        return (apiResponse.body as List)
+        final apiResp = json.decode(resp.body);
+        return (apiResp as List)
             .map(
               (data) => ExtraCreditClass.fromJson(data as Map<String, dynamic>),
             )
@@ -41,12 +40,12 @@ class ExtraCreditRepository {
     if (user != null) {
       final client = Client();
       final resp = await client.get(
-        Uri.parse("$_baseUrl/users/${user!.uid}/extra-credit/classes"),
+        Uri.parse("$_baseUrl/users/${user.uid}/extra-credit/classes"),
       );
 
       if (resp.statusCode == 200) {
-        final apiResp = ApiResponse.fromJson(resp.body);
-        return (apiResp.body as List)
+        final apiResp = jsonDecode(resp.body);
+        return (apiResp as List)
             .map(
               (data) => ExtraCreditClass.fromJson(data as Map<String, dynamic>),
             )

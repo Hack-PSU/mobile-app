@@ -1,15 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'registration_model.g.dart';
+part 'registration_body_model.g.dart';
 
 @JsonSerializable(
-  createFactory: true,
   createToJson: true,
 )
-class Registration {
-  Registration({
-    required this.id,
-    required this.userId,
+class RegistrationBody {
+  RegistrationBody({
     required this.travelReimbursement,
     required this.driving,
     required this.firstHackathon,
@@ -26,22 +23,13 @@ class Registration {
     required this.shareAddressSponsors,
     required this.shareEmailMlh,
     required this.veteran,
-    required this.hackathonId,
     required this.time,
   });
 
-  factory Registration.fromJson(Map<String, dynamic> json) =>
-      _$RegistrationFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RegistrationToJson(this);
-
-  static DateTime _timeFromJson(int date) =>
-      DateTime.fromMillisecondsSinceEpoch(date);
+  Map<String, dynamic> toJson() => _$RegistrationBodyToJson(this);
 
   static int _timeToJson(DateTime date) => date.millisecondsSinceEpoch;
 
-  final int? id;
-  final String? userId;
   final bool? eighteenBeforeEvent;
   final bool? travelReimbursement;
   final bool? driving;
@@ -58,7 +46,6 @@ class Registration {
   final bool? shareAddressMlh;
   final bool? shareAddressSponsors;
   final bool? shareEmailMlh;
-  @JsonKey(fromJson: _timeFromJson, toJson: _timeToJson)
+  @JsonKey(toJson: _timeToJson)
   final DateTime time;
-  final String? hackathonId;
 }

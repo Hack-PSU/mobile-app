@@ -14,12 +14,13 @@ class Config {
   static String get baseUrl {
     return getConstantByFlavor(
       prodConst: 'https://api.hackpsu.org/v2',
-      devConst: 'https://staging-v2-dot-hackpsu18.uc.r.appspot.com/v2',
+      devConst: 'https://apiv3-staging-apgi25sgea-uc.a.run.app',
     );
   }
 
   // static String get wsUrl => 'https://ws.hackpsu.org';
-  static String get wsUrl => 'http://localhost:3000/socket';
+  static String get wsUrl =>
+      'https://apiv3-staging-apgi25sgea-uc.a.run.app/socket';
 
   static String get storageBucket {
     return getConstantByFlavor(
