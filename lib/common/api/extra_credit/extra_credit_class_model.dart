@@ -5,7 +5,6 @@ part 'extra_credit_class_model.g.dart';
 @JsonSerializable(
   createFactory: true,
   createToJson: true,
-  fieldRename: FieldRename.snake,
 )
 class ExtraCreditClass {
   ExtraCreditClass({

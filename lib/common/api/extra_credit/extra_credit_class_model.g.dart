@@ -10,12 +10,12 @@ ExtraCreditClass _$ExtraCreditClassFromJson(Map<String, dynamic> json) =>
     ExtraCreditClass(
       id: json['id'] as int,
       name: json['name'] as String,
-      hackathonId: json['hackathon_id'] as String,
+      hackathonId: json['hackathonId'] as String,
     );
 
 Map<String, dynamic> _$ExtraCreditClassToJson(ExtraCreditClass instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'hackathon_id': instance.hackathonId,
+      'hackathonId': instance.hackathonId,
     };

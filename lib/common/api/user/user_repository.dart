@@ -21,7 +21,9 @@ class UserRepository {
     final client = Client();
     final resp = await client.get(Uri.parse("$_baseUrl/users/info/me"));
 
-    if (resp.statusCode == 200) {
+    final body = jsonDecode(resp.body) as Map<String, dynamic>;
+
+    if (resp.statusCode == 200 && body.isNotEmpty) {
       return model.User.fromJson(jsonDecode(resp.body) as Map<String, dynamic>);
     }
     return null;

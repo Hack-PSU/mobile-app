@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -372,8 +370,8 @@ class AuthenticationRepository {
       Uri.parse("$_baseUrl/apple/auth/refresh?code=$authorizationCode"),
     );
 
-    if (resp.statusCode == 200) {
-      return jsonDecode(resp.body).toString();
+    if (resp.statusCode == 201) {
+      return resp.body;
     }
     return null;
   }
