@@ -16,9 +16,9 @@ class UserPinCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
-      buildWhen: (previous, current) => previous.pin != current.pin,
+//      buildWhen: (previous, current) => previous.uid != current.uid, Don't know if we need buildWhen with uid as it is always right
       builder: (context, state) {
-        if (state.pin.isEmpty) {
+        if (state.uid.isEmpty) {
           return const _RegisterCard();
         }
         return InkWell(
@@ -71,7 +71,7 @@ class UserPinCard extends StatelessWidget {
                     color: Colors.white,
                   ),
                   child: QrImage(
-                    data: "HACKPSU_${state.pin}",
+                    data: "HACKPSU_${state.uid}",
                     version: 3,
                     size: 60,
                   ),
@@ -102,7 +102,7 @@ class _RegisterCard extends StatelessWidget {
           Column(
             children: [
               DefaultText(
-                "My PIN",
+                "My UID",
                 textLevel: TextLevel.h4,
               ),
               Container(
@@ -178,7 +178,7 @@ class QRScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             QrImage(
-              data: "HACKPSU_${bloc.state.pin}",
+              data: "HACKPSU_${bloc.state.uid}",
               version: 3,
             ),
           ],

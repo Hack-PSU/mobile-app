@@ -39,14 +39,14 @@ class UserRepository {
     return [];
   }
 
-  Future<String> getUserPin() async {
+  Future<String?> getUserUid() async {
     final users = await getUserRegistrations();
     final currentRegistration = users.where((user) => user.active == true);
-
+    
     if (currentRegistration.isNotEmpty) {
       final user = currentRegistration.elementAt(0);
 
-      return user.wordPin;
+      return user.uid;
     }
 
     return "";
