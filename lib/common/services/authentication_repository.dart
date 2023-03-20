@@ -301,18 +301,23 @@ class AuthenticationRepository {
               String.fromCharCodes(appleIdCredential.authorizationCode!),
         );
 
-        final refreshToken = await getAppleRefreshToken(
-          String.fromCharCodes(appleIdCredential.authorizationCode!),
-        );
-
-        await const FlutterSecureStorage().write(
-          key: "refresh_token",
-          value: refreshToken,
-        );
-
         try {
           final UserCredential userCredential =
               await _firebaseAuth.signInWithCredential(credential);
+
+          final refreshToken = await getAppleRefreshToken(
+            String.fromCharCodes(appleIdCredential.authorizationCode!),
+          );
+
+          if (refreshToken == null) {
+            await signOut();
+            return;
+          }
+
+          await const FlutterSecureStorage().write(
+            key: "refresh_token",
+            value: refreshToken,
+          );
 
           final user = userCredential.user;
           final fullName = appleIdCredential.fullName;
@@ -360,14 +365,17 @@ class AuthenticationRepository {
     }
   }
 
-  Future<String> getAppleRefreshToken(String authorizationCode) async {
+  Future<String?> getAppleRefreshToken(String authorizationCode) async {
     final client = Client();
 
     final resp = await client.post(
       Uri.parse("$_baseUrl/apple/auth/refresh?code=$authorizationCode"),
     );
 
-    return jsonDecode(resp.body).toString();
+    if (resp.statusCode == 200) {
+      return jsonDecode(resp.body).toString();
+    }
+    return null;
   }
 
   Future<bool> revokeAppleUser() async {

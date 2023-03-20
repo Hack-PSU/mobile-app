@@ -13,14 +13,18 @@ class Config {
 
   static String get baseUrl {
     return getConstantByFlavor(
-      prodConst: 'https://api.hackpsu.org/v2',
+      prodConst: 'https://apiv3-production-apgi25sgea-uc.a.run.app',
       devConst: 'https://apiv3-staging-apgi25sgea-uc.a.run.app',
     );
   }
 
   // static String get wsUrl => 'https://ws.hackpsu.org';
-  static String get wsUrl =>
-      'https://apiv3-staging-apgi25sgea-uc.a.run.app/socket';
+  static String get wsUrl {
+    return getConstantByFlavor(
+      prodConst: 'https://apiv3-production-apgi25sgea-uc.a.run.app/socket',
+      devConst: 'https://apiv3-staging-apgi25sgea-uc.a.run.app/socket',
+    );
+  }
 
   static String get storageBucket {
     return getConstantByFlavor(

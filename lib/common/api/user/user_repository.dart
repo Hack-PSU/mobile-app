@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 import '../client.dart';
+import 'user_body_model.dart';
 import 'user_model.dart' as model;
 
 class UserRepository {
@@ -23,6 +25,17 @@ class UserRepository {
       return model.User.fromJson(jsonDecode(resp.body) as Map<String, dynamic>);
     }
     return null;
+  }
+
+  Future<void> createUserProfile(UserBody user) async {
+    final client = Client(contentType: "application/json");
+    final resp = await client.post(
+      Uri.parse("$_baseUrl/users"),
+      body: jsonEncode(user.toJson()),
+    );
+    if (kDebugMode) {
+      print(resp.body);
+    }
   }
 
   Future<void> deleteUser() async {

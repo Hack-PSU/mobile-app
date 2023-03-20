@@ -7,6 +7,7 @@ class UserState extends Equatable {
     required this.userId,
     this.token,
     this.profile,
+    this.exists = true,
   });
 
   const UserState.initialize()
@@ -14,21 +15,25 @@ class UserState extends Equatable {
           token: "",
           userId: "",
           profile: null,
+          exists: true,
         );
 
   final String? token;
   final String? userId;
   final User? profile;
+  final bool exists;
 
   UserState copyWith({
     String? userId,
     String? token,
     User? profile,
+    bool? exists,
   }) {
     return UserState._(
       token: token ?? this.token,
       userId: userId ?? this.userId,
       profile: profile ?? this.profile,
+      exists: exists ?? this.exists,
     );
   }
 
@@ -44,5 +49,5 @@ class UserState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [token, userId, profile];
+  List<Object?> get props => [token, userId, profile, exists];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../common/api/event.dart';
@@ -142,10 +143,59 @@ class _FavoritesIcon extends StatelessWidget {
 }
 
 class _BottomSheet {
-  static void showModal(BuildContext context, Event event,
-      bool Function(FavoritesState, FavoritesState) buildWhen) {
+  static void showModal(
+    BuildContext context,
+    Event event,
+    bool Function(FavoritesState, FavoritesState) buildWhen,
+  ) {
     final String formatStartTime = DateFormat.jm().format(event.startTime);
     final String formatEndTime = DateFormat.jm().format(event.endTime);
+
+    Widget resolveIcon(Event event) {
+      if (event.icon == null) {
+        switch (event.type!) {
+          case EventType.ACTIVITY:
+            return const Icon(
+              Icons.event_available,
+              size: 40,
+            );
+          case EventType.FOOD:
+            return const Icon(
+              Icons.fastfood,
+              size: 40,
+            );
+          case EventType.WORKSHOP:
+            return const Icon(
+              Icons.co_present,
+              size: 40,
+            );
+          case EventType.CHECKIN:
+            return const Icon(
+              Icons.error,
+              size: 40,
+            );
+        }
+      } else {
+        if (event.icon!.endsWith(".svg")) {
+          return SizedBox(
+            width: 50,
+            height: 50,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(1000),
+              child: SvgPicture.network(
+                event.icon!,
+                fit: BoxFit.cover,
+              ),
+            ),
+          );
+        } else {
+          return CircleAvatar(
+            radius: 25,
+            backgroundImage: NetworkImage(event.icon!),
+          );
+        }
+      }
+    }
 
     showModalBottomSheet<void>(
       context: context,
@@ -153,30 +203,30 @@ class _BottomSheet {
         borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
       ),
       builder: (BuildContext context) {
-        Icon getEventIcon(EventType? eventType) {
-          if (eventType == EventType.ACTIVITY) {
-            return const Icon(
-              Icons.event_available,
-              size: 40,
-            );
-          }
-          if (eventType == EventType.FOOD) {
-            return const Icon(
-              Icons.fastfood,
-              size: 40,
-            );
-          }
-          if (eventType == EventType.WORKSHOP) {
-            return const Icon(
-              Icons.co_present,
-              size: 40,
-            );
-          }
-          return const Icon(
-            Icons.error,
-            size: 40,
-          );
-        }
+        // Icon getEventIcon(EventType? eventType) {
+        //   if (eventType == EventType.ACTIVITY) {
+        //     return const Icon(
+        //       Icons.event_available,
+        //       size: 40,
+        //     );
+        //   }
+        //   if (eventType == EventType.FOOD) {
+        //     return const Icon(
+        //       Icons.fastfood,
+        //       size: 40,
+        //     );
+        //   }
+        //   if (eventType == EventType.WORKSHOP) {
+        //     return const Icon(
+        //       Icons.co_present,
+        //       size: 40,
+        //     );
+        //   }
+        //   return const Icon(
+        //     Icons.error,
+        //     size: 40,
+        //   );
+        // }
 
         return BlocBuilder<FavoritesBloc, FavoritesState>(
           buildWhen: buildWhen,
@@ -192,14 +242,7 @@ class _BottomSheet {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 5.0, right: 10.0),
-                          child: event.icon != null
-                              ? CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage: NetworkImage(
-                                    event.icon!,
-                                  ),
-                                )
-                              : getEventIcon(event.type),
+                          child: resolveIcon(event),
                         ),
                         Expanded(
                           child: Column(

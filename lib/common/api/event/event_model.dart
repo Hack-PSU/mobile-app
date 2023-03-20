@@ -28,7 +28,7 @@ class Location {
 
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 
-  final String? id;
+  final int? id;
   final String? name;
 }
 

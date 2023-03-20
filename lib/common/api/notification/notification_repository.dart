@@ -5,11 +5,11 @@ import '../client.dart';
 
 class NotificationRepository {
   NotificationRepository(
-    String configUrl,
-  )   : _endpoint = configUrl,
+    String baseUrl,
+  )   : _baseUrl = baseUrl,
         _fcm = FirebaseMessaging.instance;
 
-  final String _endpoint;
+  final String _baseUrl;
   final FirebaseMessaging _fcm;
 
   Stream<String> get onTokenRefresh => _fcm.onTokenRefresh;
@@ -26,7 +26,9 @@ class NotificationRepository {
     final client = Client();
 
     try {
-      await client.post(Uri.parse("$_endpoint/register/device/$fcmToken"));
+      await client.post(
+        Uri.parse("$_baseUrl/notifications/register/device/$fcmToken"),
+      );
     } catch (e) {
       if (kDebugMode) {
         print(e);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/api/event.dart';
+import '../../common/api/hackathon/hackathon_model.dart';
 import '../../common/api/sponsorship/sponsor_model.dart';
 import '../../styles/theme_colors.dart';
 import '../../widgets/homepage_header.dart';
@@ -59,16 +60,23 @@ class HomePageState extends State<HomePage> {
             withProfile: true,
           ),
           body: BlocBuilder<HomePageCubit, HomePageCubitState>(
+            buildWhen: (prev, curr) =>
+                prev.status != curr.status ||
+                prev.events != curr.events ||
+                prev.sponsors != curr.sponsors ||
+                prev.workshops != curr.workshops ||
+                prev.hackathon != curr.hackathon,
             builder: (context, state) {
               if (state.status == PageStatus.idle) {
                 context.read<HomePageCubit>().init();
               }
-              if (state.status == PageStatus.ready) {
+              if (state.status == PageStatus.ready && state.hackathon != null) {
                 return _Content(
                   controller: _controller,
                   events: state.events ?? [],
                   sponsors: state.sponsors ?? [],
                   workshops: state.workshops ?? [],
+                  hackathon: state.hackathon!,
                 );
               }
               return const Loading(
@@ -107,11 +115,13 @@ class _Content extends StatelessWidget {
     required this.events,
     required this.sponsors,
     required this.workshops,
+    required this.hackathon,
   }) : _controller = controller;
 
   final ScrollController? _controller;
   final List<Event> events;
   final List<Event> workshops;
+  final Hackathon hackathon;
   final List<Sponsor> sponsors;
 
   Widget _renderEventCard(BuildContext context, EventType type) {
@@ -141,7 +151,7 @@ class _Content extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const HomepageHeader(),
+                HomepageHeader(hackathon: hackathon),
                 const UserPinCard(),
                 _renderEventCard(context, EventType.ACTIVITY),
                 _renderEventCard(context, EventType.WORKSHOP),

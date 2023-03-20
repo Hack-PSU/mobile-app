@@ -43,6 +43,10 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
 
     if (user != null) {
       emit(state.copyWith(profile: user, userId: user.id));
+      emit(state.copyWith(exists: true));
+    } else {
+      emit(state.copyWith(exists: false));
+      return;
     }
 
     // register user into FCM

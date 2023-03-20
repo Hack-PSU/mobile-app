@@ -7,7 +7,7 @@ part of 'event_model.dart';
 // **************************************************************************
 
 Location _$LocationFromJson(Map<String, dynamic> json) => Location(
-      id: json['id'] as String?,
+      id: json['id'] as int?,
       name: json['name'] as String?,
     );
 

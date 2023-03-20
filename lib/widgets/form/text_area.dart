@@ -7,11 +7,13 @@ class TextArea extends StatelessWidget {
     this.value,
     this.onChanged,
     this.placeholder,
+    this.minLines = 3,
   }) : super(key: key);
 
   final String? value;
   final Function(String)? onChanged;
   final String? placeholder;
+  final int minLines;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class TextArea extends StatelessWidget {
       ),
       initialValue: value,
       onChanged: onChanged,
-      minLines: 3,
+      minLines: minLines,
       maxLines: null,
     );
   }

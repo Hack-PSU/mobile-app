@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../common/api/event.dart';
+import '../../common/api/hackathon/hackathon_model.dart';
+import '../../common/api/hackathon/hackathon_repository.dart';
 import '../../common/api/sponsorship/sponsor_model.dart';
 import '../../common/api/sponsorship/sponsorship_repository.dart';
 import '../../common/api/user.dart';
@@ -17,11 +19,13 @@ class HomePageCubitState {
     this.sponsors,
     this.status = PageStatus.idle,
     this.workshops,
+    this.hackathon,
   });
 
   final List<Event>? events;
   final List<Event>? workshops;
   final List<Sponsor>? sponsors;
+  final Hackathon? hackathon;
   final PageStatus status;
 
   HomePageCubitState copyWith({
@@ -29,12 +33,14 @@ class HomePageCubitState {
     List<Event>? workshops,
     List<Sponsor>? sponsors,
     PageStatus? status,
+    Hackathon? hackathon,
   }) {
     return HomePageCubitState(
       events: events ?? this.events,
       sponsors: sponsors ?? this.sponsors,
       status: status ?? this.status,
       workshops: workshops ?? this.workshops,
+      hackathon: hackathon ?? this.hackathon,
     );
   }
 }
@@ -44,9 +50,11 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
     EventRepository eventRepository,
     UserRepository userRepository,
     SponsorshipRepository sponsorshipRepository,
+    HackathonRepository hackathonRepository,
   )   : _eventRepository = eventRepository,
         _userRepository = userRepository,
         _sponsorshipRepository = sponsorshipRepository,
+        _hackathonRepository = hackathonRepository,
         super(
           HomePageCubitState(
             events: [],
@@ -72,6 +80,7 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
   final EventRepository _eventRepository;
   final UserRepository _userRepository;
   final SponsorshipRepository _sponsorshipRepository;
+  final HackathonRepository _hackathonRepository;
   late StreamSubscription<SocketData> _socketSubscription;
 
   Future<void> getEvents() async {
@@ -112,8 +121,18 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
     );
   }
 
+  Future<void> getHackathon() async {
+    final hackathon = await _hackathonRepository.getActiveHackathon();
+    emit(
+      state.copyWith(
+        hackathon: hackathon,
+      ),
+    );
+  }
+
   Future<void> init() async {
     emit(state.copyWith(status: PageStatus.loading));
+    await getHackathon();
     await getEvents();
     await getSponsors();
     emit(state.copyWith(status: PageStatus.ready));
