@@ -283,7 +283,7 @@ class _ProfileSwitch extends StatelessWidget {
         if (withProfile == true)
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed("profile");
+              Navigator.of(context).pushNamed("/profile");
             },
             child: Padding(
               padding: withSwitch == false

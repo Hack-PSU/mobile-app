@@ -31,11 +31,11 @@ class EventsScreen extends StatelessWidget {
   const EventsScreen({Key? key}) : super(key: key);
 
   String _groupEvents(Event item) {
-    return DateFormat("EEEE").format(item.eventStartTime);
+    return DateFormat("EEEE").format(item.startTime);
   }
 
   int _groupElement(Event item) {
-    return item.eventStartTime.millisecondsSinceEpoch;
+    return item.startTime.millisecondsSinceEpoch;
   }
 
   @override

@@ -13,8 +13,7 @@ class UpcomingEventCubitState extends Equatable {
 
   UpcomingEventCubitState.init(List<Event> events)
       : this._(
-          events: events
-            ..sort((a, b) => a.eventStartTime.compareTo(b.eventStartTime)),
+          events: events..sort((a, b) => a.startTime.compareTo(b.startTime)),
         );
 
   final List<Event>? events;
@@ -33,10 +32,11 @@ class UpcomingEventCubitState extends Equatable {
   UpcomingEventCubitState next() {
     if (events != null) {
       final upcomingEvents = events?.where((event) {
-        final DateTime eventStart =
-            event.eventStartTime.add(const Duration(minutes: 15));
+        final DateTime eventStart = event.startTime.add(
+          const Duration(minutes: 15),
+        );
 
-        return eventStart.compareTo(events!.first.eventStartTime) >= 0;
+        return eventStart.compareTo(events!.first.startTime) >= 0;
       }).toList();
 
       if (upcomingEvents != null) {

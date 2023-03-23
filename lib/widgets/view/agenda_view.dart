@@ -74,7 +74,7 @@ class AgendaViewState extends State<AgendaView> with TickerProviderStateMixin {
       if (widget.favoritesEnabled == true) {
         if (widget.data[label] != null) {
           eventList = widget.data[label]!
-              .where((e) => widget.favorites!.contains(e.uid))
+              .where((e) => widget.favorites!.contains(e.id))
               .toList();
         }
       } else {

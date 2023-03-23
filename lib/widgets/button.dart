@@ -4,6 +4,7 @@ enum ButtonVariant {
   TextButton,
   ElevatedButton,
   IconButton,
+  OutlinedButton,
 }
 
 class ButtonConfig {
@@ -92,6 +93,23 @@ class _IconButton extends StatelessWidget {
   }
 }
 
+class _OutlinedButton extends StatelessWidget {
+  const _OutlinedButton({
+    this.config,
+  });
+
+  final ButtonConfig? config;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: config!.onPressed,
+      style: config!.style,
+      child: config!.child!,
+    );
+  }
+}
+
 // Currently implements TextButton/TextButton.icon,
 // ElevatedButton/ElevatedButton.icon, and IconButton
 class Button extends StatelessWidget {
@@ -122,6 +140,10 @@ class Button extends StatelessWidget {
     switch (variant) {
       case ButtonVariant.TextButton:
         return _TextButton(
+          config: config,
+        );
+      case ButtonVariant.OutlinedButton:
+        return _OutlinedButton(
           config: config,
         );
       case ButtonVariant.ElevatedButton:

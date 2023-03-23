@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../common/api/extra_credit/extra_credit_assignment_model.dart';
 import '../../common/api/extra_credit/extra_credit_class_model.dart';
 import '../../styles/theme_colors.dart';
 import '../../widgets/button.dart';
@@ -15,8 +14,7 @@ class ExtraCreditClassView extends StatelessWidget {
   }) : super(key: key);
 
   Function() _onRemoveClass(
-    ExtraCreditAssignment assignment,
-    String className,
+    ExtraCreditClass ecClass,
     BuildContext context,
   ) {
     void func() {
@@ -26,11 +24,9 @@ class ExtraCreditClassView extends StatelessWidget {
           return _ConfirmModal(
             title: "Remove Class",
             message:
-                "${className.trim()} will be removed from your extra credit classes.",
+                "${ecClass.name.trim()} will be removed from your extra credit classes.",
             onConfirm: () {
-              context
-                  .read<ExtraCreditPageCubit>()
-                  .unregisterClass(assignment.uid);
+              context.read<ExtraCreditPageCubit>().unregisterClass(ecClass.id);
               context.read<ExtraCreditPageCubit>().refetch();
             },
           );
@@ -52,9 +48,9 @@ class ExtraCreditClassView extends StatelessWidget {
           return _ConfirmModal(
             title: "Add Class",
             message:
-                "${ecClass.className.trim()} will be added to your extra credit classes.",
+                "${ecClass.name.trim()} will be added to your extra credit classes.",
             onConfirm: () {
-              context.read<ExtraCreditPageCubit>().registerClass(ecClass.uid);
+              context.read<ExtraCreditPageCubit>().registerClass(ecClass.id);
               context.read<ExtraCreditPageCubit>().refetch();
             },
           );
@@ -79,14 +75,13 @@ class ExtraCreditClassView extends StatelessWidget {
               ),
               ...state.classes
                   .where(
-                    (c) => state.assignments.keys.contains(c.uid),
+                    (c) => state.assignments.keys.contains(c.id),
                   )
                   .map(
                     (c) => _ExtraCreditClassCard(
                       extraCreditClass: c,
                       onSelectClass: _onRemoveClass(
-                        state.assignments[c.uid]!,
-                        c.className,
+                        state.assignments[c.id]!,
                         context,
                       ),
                     ),
@@ -101,7 +96,7 @@ class ExtraCreditClassView extends StatelessWidget {
             ),
             ...state.classes
                 .where(
-                  (c) => !state.assignments.keys.contains(c.uid),
+                  (c) => !state.assignments.keys.contains(c.id),
                 )
                 .map(
                   (c) => _ExtraCreditClassCard(
@@ -207,14 +202,14 @@ class _ExtraCreditClassCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             DefaultText(
-              extraCreditClass.className.trim(),
+              extraCreditClass.name.trim(),
               textLevel: TextLevel.body1,
               fontSize: 16.0,
               weight: FontWeight.w500,
             ),
             BlocBuilder<ExtraCreditPageCubit, ExtraCreditPageCubitState>(
               builder: (context, state) {
-                if (state.assignments.keys.contains(extraCreditClass.uid)) {
+                if (state.assignments.keys.contains(extraCreditClass.id)) {
                   return const Icon(
                     CustomIcons.selectedClass,
                     color: Colors.green,

@@ -42,7 +42,10 @@ class LoadingState extends State<Loading> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Screen(
+      safeAreaBottom: false,
+      safeAreaTop: false,
       body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         decoration: const BoxDecoration(
           color: Colors.white,
         ),
@@ -67,6 +70,8 @@ class LoadingState extends State<Loading> with TickerProviderStateMixin {
                 widget.label!,
                 textLevel: TextLevel.h2,
                 color: Colors.black,
+                textAlign: TextAlign.center,
+                maxLines: 5,
               ),
             ],
           ),

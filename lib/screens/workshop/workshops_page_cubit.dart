@@ -69,9 +69,8 @@ class WorkshopsPageCubit extends Cubit<WorkshopsPageCubitState> {
     final events = await _eventRepository.getEvents();
     emit(
       state.copyWith(
-        workshops: events
-            .where((event) => event.eventType == EventType.WORKSHOP)
-            .toList(),
+        workshops:
+            events.where((event) => event.type == EventType.WORKSHOP).toList(),
       ),
     );
   }

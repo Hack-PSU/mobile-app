@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../common/api/hackathon/hackathon_model.dart';
 import '../styles/theme_colors.dart';
 import '../widgets/countdown_timer_card.dart';
 import '../widgets/default_text.dart';
 
 class HomepageHeader extends StatelessWidget {
-  const HomepageHeader({Key? key}) : super(key: key);
+  const HomepageHeader({
+    Key? key,
+    required this.hackathon,
+  }) : super(key: key);
+
+  final Hackathon hackathon;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +45,7 @@ class HomepageHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CountdownTimerCard(),
+                  CountdownTimer(hackathon: hackathon),
                   Row(
                     children: [
                       ElevatedButton(
