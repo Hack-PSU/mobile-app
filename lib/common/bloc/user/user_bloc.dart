@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
+import '../../api/event.dart';
 import '../../api/notification.dart';
 import '../../api/user.dart';
 import 'user_event.dart';
@@ -12,9 +13,11 @@ import 'user_state.dart';
 class UserBloc extends HydratedBloc<UserEvent, UserState> {
   UserBloc({
     required UserRepository userRepository,
+    required EventRepository eventRepository,
     required NotificationRepository notificationRepository,
   })  : _notificationRepository = notificationRepository,
         _userRepository = userRepository,
+        _eventRepository = eventRepository,
         super(
           const UserState.initialize(),
         ) {
@@ -22,13 +25,12 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     on<UnsubscribeTopic>(_onUnsubscribeTopic);
     on<RegisterUser>(_onRegisterUser);
     _tokenSubscription = _notificationRepository.onTokenRefresh.listen((token) {
-      if (state.uid != "") {
-        add(RegisterUser(token));
-      }
+      add(RegisterUser(token));
     });
   }
 
   final UserRepository _userRepository;
+  final EventRepository _eventRepository;
   final NotificationRepository _notificationRepository;
   late StreamSubscription<String> _tokenSubscription;
 
@@ -36,43 +38,30 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     RegisterUser event,
     Emitter<UserState> emit,
   ) async {
-    // get user pin
+    // get user profile
+    final user = await _userRepository.getUserProfile();
+
+    if (user != null) {
+      emit(state.copyWith(profile: user, userId: user.id));
+      emit(state.copyWith(exists: true));
+    } else {
+      emit(state.copyWith(exists: false));
+      return;
+    }
+
+    // register user into FCM
     try {
-      final uid = await _userRepository.getUserUid();
-      emit(state.copyWith(uid: uid));
+      if (event.token != "") {
+        await _notificationRepository.register(event.token);
+        emit(state.copyWith(token: event.token));
+      } else {
+        await _notificationRepository.register();
+      }
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-    }
-
-    // register user into FCM
-    if (state.uid != "") {
-      try {
-        if (event.token != "") {
-          await _notificationRepository.register(state.uid, event.token);
-          emit(state.copyWith(token: event.token));
-        } else {
-          await _notificationRepository.register(state.uid);
-        }
-      } catch (e) {
-        if (kDebugMode) {
-          print(e);
-        }
-        throw Exception("Unable to register device");
-      }
-    }
-
-    // subscribe user to broadcast
-    if (state.uid != "") {
-      try {
-        await _notificationRepository.subscribeAll(state.uid);
-      } catch (e) {
-        if (kDebugMode) {
-          print(e);
-        }
-        throw Exception("Unable to subscribe to broadcast onRefresh");
-      }
+      throw Exception("Unable to register device");
     }
   }
 
@@ -83,7 +72,9 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     if (kDebugMode) {
       print(event.topic);
     }
-    await _notificationRepository.subscribeEvent(state.uid, event.topic);
+    if (event.topic != null) {
+      await _eventRepository.subscribeTo(event.topic!);
+    }
   }
 
   Future<void> _onUnsubscribeTopic(
@@ -93,7 +84,9 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     if (kDebugMode) {
       print(event.topic);
     }
-    await _notificationRepository.unsubscribeEvent(state.uid, event.topic);
+    if (event.topic != null) {
+      await _eventRepository.unsubscribeFrom(event.topic!);
+    }
   }
 
   @override

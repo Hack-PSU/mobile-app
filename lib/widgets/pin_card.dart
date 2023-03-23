@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../common/bloc/user/user_bloc.dart';
 import '../common/bloc/user/user_state.dart';
@@ -16,9 +14,10 @@ class UserPinCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
-//      buildWhen: (previous, current) => previous.uid != current.uid, Don't know if we need buildWhen with uid as it is always right
+      buildWhen: (previous, current) =>
+          previous.profile?.registration != current.profile?.registration,
       builder: (context, state) {
-        if (state.uid.isEmpty) {
+        if (state.profile?.registration == null) {
           return const _RegisterCard();
         }
         return InkWell(
@@ -71,7 +70,7 @@ class UserPinCard extends StatelessWidget {
                     color: Colors.white,
                   ),
                   child: QrImage(
-                    data: "HACKPSU_${state.uid}",
+                    data: "HACKPSU_${state.userId}",
                     version: 3,
                     size: 60,
                   ),
@@ -106,33 +105,35 @@ class _RegisterCard extends StatelessWidget {
                 textLevel: TextLevel.h4,
               ),
               Container(
-                  padding: const EdgeInsets.only(top: 5.0, left: 15.0),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      const url = 'https://app.hackpsu.org/register';
-
-                      if (await canLaunchUrlString(url)) {
-                        await launchUrlString(
-                          url,
-                          mode: LaunchMode.inAppWebView,
-                        );
-                      } else {
-                        throw Exception('Could not launch $url');
-                      }
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0))),
-                      backgroundColor: MaterialStateProperty.all(
-                        const Color(0xFF6A85B9),
-                      ),
+                padding: const EdgeInsets.only(top: 5.0, left: 15.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    Navigator.of(context).pushNamed("/registration");
+                    // const url = 'https://app.hackpsu.org/register';
+                    //
+                    // if (await canLaunchUrlString(url)) {
+                    //   await launchUrlString(
+                    //     url,
+                    //     mode: LaunchMode.inAppWebView,
+                    //   );
+                    // } else {
+                    //   throw Exception('Could not launch $url');
+                    // }
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0))),
+                    backgroundColor: MaterialStateProperty.all(
+                      const Color(0xFF6A85B9),
                     ),
-                    child: DefaultText(
-                      "Register",
-                      textLevel: TextLevel.body2,
-                      color: Colors.white,
-                    ),
-                  )),
+                  ),
+                  child: DefaultText(
+                    "Register",
+                    textLevel: TextLevel.body2,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ],
           ),
           Container(width: 40.0),
@@ -178,7 +179,7 @@ class QRScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             QrImage(
-              data: "HACKPSU_${bloc.state.uid}",
+              data: "HACKPSU_${bloc.state.userId}",
               version: 3,
             ),
           ],

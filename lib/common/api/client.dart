@@ -1,35 +1,37 @@
-import 'dart:convert';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
-import 'api_response.dart';
-
 class Client<T> extends http.BaseClient {
-  Client({Map<String, String>? headers}) : _headers = headers;
-
-  Client.withToken(String token) : this(headers: {"idToken": token});
+  Client({Map<String, String>? headers, String? contentType})
+      : _headers = headers,
+        _contentType = contentType,
+        _firebaseAuth = FirebaseAuth.instance;
 
   final http.Client _client = http.Client();
   final Map<String, String>? _headers;
+  final String? _contentType;
+  final FirebaseAuth _firebaseAuth;
+
+  Future<String> getUserToken() async {
+    if (_firebaseAuth.currentUser != null) {
+      return _firebaseAuth.currentUser!.getIdToken();
+    }
+    return "";
+  }
 
   @override
-  Future<http.StreamedResponse> send(http.BaseRequest request) {
+  Future<http.StreamedResponse> send(http.BaseRequest request) async {
     if (_headers != null) {
       request.headers.addAll(_headers!);
     }
 
-    if (request.method == "POST") {
-      request.headers.addAll({"Content-Type": "application/json"});
+    final token = await getUserToken();
+    request.headers.addAll({"Authorization": "Bearer $token"});
+
+    if (_contentType != null) {
+      request.headers.addAll({"Content-Type": _contentType!});
     }
 
     return _client.send(request);
-  }
-
-  T? extractData(http.Response response) {
-    if (response.body.isNotEmpty) {
-      final apiResp = ApiResponse.fromJson(json.decode(response.body));
-      return apiResp.body["data"] as T;
-    }
-    return null;
   }
 }

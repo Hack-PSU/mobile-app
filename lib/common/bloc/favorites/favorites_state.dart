@@ -28,13 +28,13 @@ class FavoritesState extends Equatable {
 
   FavoritesState addItem(Event event) {
     final newItems = Set.of(items!);
-    newItems.add(event.uid);
+    newItems.add(event.id);
     return copyWith(items: newItems);
   }
 
   FavoritesState removeItem(Event event) {
     final newItems = Set.of(items!);
-    newItems.remove(event.uid);
+    newItems.remove(event.id);
     return copyWith(items: newItems);
   }
 
@@ -70,12 +70,7 @@ class FavoritesState extends Equatable {
   }
 
   bool isFavorite(Event event) {
-    return items!.contains(event.uid);
-    // if (status == FavoritesStatus.disabled) {
-    //   return false;
-    // } else {
-    //
-    // }
+    return items!.contains(event.id);
   }
 
   @override

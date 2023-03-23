@@ -9,12 +9,12 @@ part 'sponsor_model.g.dart';
 )
 class Sponsor {
   Sponsor({
-    required this.uid,
+    required this.id,
     required this.name,
     required this.level,
     required this.logo,
-    this.hackathon,
-    this.websiteLink,
+    this.hackathonId,
+    this.link,
     required this.order,
   });
 
@@ -23,12 +23,11 @@ class Sponsor {
 
   Map<String, dynamic> toJson() => _$SponsorToJson(this);
 
-  final int uid;
+  final int id;
   final String name;
   final String level;
   final String logo;
-  final String? hackathon;
-
-  final String? websiteLink;
+  final String? hackathonId;
+  final String? link;
   final int order;
 }
