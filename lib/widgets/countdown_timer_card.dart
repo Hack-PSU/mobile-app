@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../common/api/hackathon/hackathon_model.dart';
 import 'default_text.dart';
 
 final openingCeremony = DateTime.utc(2022, 11, 5, 12)
@@ -17,116 +16,6 @@ class StringDuration {
   String hours;
   String minutes;
   String seconds;
-}
-
-class CountdownTimer extends StatefulWidget {
-  const CountdownTimer({
-    Key? key,
-    required this.hackathon,
-  }) : super(key: key);
-
-  final Hackathon hackathon;
-
-  @override
-  State createState() => _CountdownTimerState();
-}
-
-class _CountdownTimerState extends State<CountdownTimer> {
-  DateTime? activeDate;
-
-  // store widget state to prevent memory leak
-  Timer? _timer;
-
-  DateTime getActiveDate() {
-    final start = widget.hackathon.startTime.difference(DateTime.now());
-
-    return start.isNegative
-        ? widget.hackathon.endTime
-        : widget.hackathon.startTime;
-  }
-
-  String get days {
-    if (activeDate != null) {
-      final diff = activeDate!.difference(DateTime.now());
-      return diff.inDays.toString();
-    }
-    return "";
-  }
-
-  String get hours {
-    if (activeDate != null) {
-      final diff = activeDate!.difference(DateTime.now());
-      return diff.inHours.remainder(24).toString().padLeft(2, '0');
-    }
-    return "";
-  }
-
-  String get minutes {
-    if (activeDate != null) {
-      final diff = activeDate!.difference(DateTime.now());
-      return diff.inMinutes.remainder(60).toString().padLeft(2, '0');
-    }
-    return "";
-  }
-
-  String get seconds {
-    if (activeDate != null) {
-      final diff = activeDate!.difference(DateTime.now());
-      return diff.inSeconds.remainder(60).toString().padLeft(2, '0');
-    }
-    return "";
-  }
-
-  void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        activeDate = getActiveDate();
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    if (mounted) {
-      startTimer();
-    }
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    if (_timer != null) {
-      _timer!.cancel();
-    }
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    String output = "";
-    if (activeDate != null) {
-      if (activeDate!.difference(DateTime.now()).isNegative) {
-        output = "Hacking is Over!";
-      } else if (activeDate == widget.hackathon.startTime) {
-        output =
-            "$days Days,\n$hours Hours,\n$minutes Minutes,\n$seconds Seconds Left!";
-      } else {
-        output =
-            "$days Days,\n$hours Hours,\n$minutes Minutes,\n$seconds Seconds!";
-      }
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: DefaultText(
-        output,
-        textLevel: TextLevel.h4,
-        color: Colors.white,
-        fontSize: 32,
-        weight: FontWeight.w700,
-      ),
-    );
-  }
 }
 
 class CountdownTimerCard extends StatefulWidget {

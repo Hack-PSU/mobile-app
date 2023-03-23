@@ -8,14 +8,12 @@ part of 'extra_credit_class_model.dart';
 
 ExtraCreditClass _$ExtraCreditClassFromJson(Map<String, dynamic> json) =>
     ExtraCreditClass(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      hackathonId: json['hackathonId'] as String,
+      uid: json['uid'] as int,
+      className: json['class_name'] as String,
     );
 
 Map<String, dynamic> _$ExtraCreditClassToJson(ExtraCreditClass instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'hackathonId': instance.hackathonId,
+      'uid': instance.uid,
+      'class_name': instance.className,
     };

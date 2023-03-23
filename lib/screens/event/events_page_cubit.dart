@@ -72,8 +72,9 @@ class EventsPageCubit extends Cubit<EventsPageCubitState> {
     final events = await _eventRepository.getEvents();
     emit(
       state.copyWith(
-        events:
-            events.where((event) => event.type != EventType.WORKSHOP).toList(),
+        events: events
+            .where((event) => event.eventType != EventType.WORKSHOP)
+            .toList(),
       ),
     );
   }
@@ -94,11 +95,8 @@ class EventsPageCubit extends Cubit<EventsPageCubitState> {
         ),
       );
     } else {
-      emit(
-        state.copyWith(
-          isFavoritesEnabled: !(state.isFavoritesEnabled ?? true),
-        ),
-      );
+      emit(state.copyWith(
+          isFavoritesEnabled: !(state.isFavoritesEnabled ?? true)));
     }
   }
 

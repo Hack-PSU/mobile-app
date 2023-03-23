@@ -1,53 +1,42 @@
 import 'package:equatable/equatable.dart';
 
-import '../../api/user/user_model.dart';
-
 class UserState extends Equatable {
   const UserState._({
-    required this.userId,
+    required this.uid,
     this.token,
-    this.profile,
-    this.exists = true,
   });
 
   const UserState.initialize()
       : this._(
           token: "",
-          userId: "",
-          profile: null,
-          exists: true,
+          uid: "",
         );
 
   final String? token;
-  final String? userId;
-  final User? profile;
-  final bool exists;
+  final String uid;
 
   UserState copyWith({
-    String? userId,
     String? token,
-    User? profile,
-    bool? exists,
+    String? uid,
   }) {
     return UserState._(
       token: token ?? this.token,
-      userId: userId ?? this.userId,
-      profile: profile ?? this.profile,
-      exists: exists ?? this.exists,
+      uid: uid ?? this.uid,
     );
   }
 
   static UserState fromJson(Map<String, dynamic> json) {
+    final uid = json["uid"] as String?;
     return UserState._(
       token: "",
-      userId: json["userId"] as String? ?? "",
+      uid: uid ?? "",
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {"userId": userId};
+    return {"uid": uid};
   }
 
   @override
-  List<Object?> get props => [token, userId, profile, exists];
+  List<Object?> get props => [token, uid];
 }

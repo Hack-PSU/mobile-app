@@ -5,9 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'common/api/event.dart';
 import 'common/api/extra_credit/extra_credit_repository.dart';
-import 'common/api/hackathon/hackathon_repository.dart';
 import 'common/api/notification.dart';
-import 'common/api/registration/registration_repository.dart';
 import 'common/api/sponsorship/sponsorship_repository.dart';
 import 'common/api/user.dart';
 import 'common/bloc/app/app_bloc.dart';
@@ -17,10 +15,8 @@ import 'common/bloc/user/user_bloc.dart';
 import 'common/config/flavor_constants.dart';
 import 'common/services/authentication_repository.dart';
 import 'routers/root_router.dart';
-import 'screens/create-profile/create_profile_cubit.dart';
 import 'screens/event/events_page_cubit.dart';
 import 'screens/home/home_page_cubit.dart';
-import 'screens/registration/registration_cubit.dart';
 import 'screens/workshop/workshops_page_cubit.dart';
 
 class MyApp extends StatelessWidget {
@@ -32,28 +28,27 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
-          create: (_) => EventRepository(Config.baseUrl),
+          create: (_) => EventRepository('${Config.baseUrl}/live/events'),
         ),
         RepositoryProvider(
-          create: (_) => AuthenticationRepository(baseUrl: Config.baseUrl),
+          create: (_) =>
+              AuthenticationRepository(functionsUrl: "${Config.fcmUrl}/api"),
         ),
         RepositoryProvider(
-          create: (_) => UserRepository(Config.baseUrl),
+          create: (_) => UserRepository('${Config.baseUrl}/users'),
         ),
         RepositoryProvider(
-          create: (_) => NotificationRepository(Config.baseUrl),
+          create: (_) => NotificationRepository('${Config.fcmUrl}/api'),
         ),
         RepositoryProvider(
-          create: (_) => SponsorshipRepository(Config.baseUrl),
+          create: (_) => SponsorshipRepository(
+            '${Config.baseUrl}/sponsorship',
+          ),
         ),
         RepositoryProvider(
-          create: (_) => ExtraCreditRepository(Config.baseUrl),
-        ),
-        RepositoryProvider(
-          create: (_) => RegistrationRepository(Config.baseUrl),
-        ),
-        RepositoryProvider(
-          create: (_) => HackathonRepository(Config.baseUrl),
+          create: (_) => ExtraCreditRepository(
+            '${Config.baseUrl}/users/extra-credit',
+          ),
         ),
       ],
       child: MultiBlocProvider(
@@ -64,7 +59,6 @@ class MyApp extends StatelessWidget {
           BlocProvider<UserBloc>(
             create: (context) => UserBloc(
               userRepository: context.read<UserRepository>(),
-              eventRepository: context.read<EventRepository>(),
               notificationRepository: context.read<NotificationRepository>(),
             ),
           ),
@@ -81,7 +75,6 @@ class MyApp extends StatelessWidget {
               context.read<EventRepository>(),
               context.read<UserRepository>(),
               context.read<SponsorshipRepository>(),
-              context.read<HackathonRepository>(),
             ),
           ),
           BlocProvider<FavoritesBloc>(
@@ -99,17 +92,6 @@ class MyApp extends StatelessWidget {
             create: (context) => WorkshopsPageCubit(
               context.read<EventRepository>(),
               BlocProvider.of<FavoritesBloc>(context),
-            ),
-          ),
-          BlocProvider<RegistrationCubit>(
-            create: (context) => RegistrationCubit(
-              registrationRepository: context.read<RegistrationRepository>(),
-            ),
-          ),
-          BlocProvider<CreateProfileCubit>(
-            create: (context) => CreateProfileCubit(
-              userRepository: context.read<UserRepository>(),
-              userBloc: BlocProvider.of<UserBloc>(context),
             ),
           ),
         ],

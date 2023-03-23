@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../../common/api/event.dart';
-import '../../common/api/hackathon/hackathon_model.dart';
-import '../../common/api/hackathon/hackathon_repository.dart';
 import '../../common/api/sponsorship/sponsor_model.dart';
 import '../../common/api/sponsorship/sponsorship_repository.dart';
 import '../../common/api/user.dart';
@@ -16,31 +15,31 @@ enum PageStatus { idle, loading, ready }
 class HomePageCubitState {
   HomePageCubitState({
     this.events,
+    this.users,
     this.sponsors,
     this.status = PageStatus.idle,
     this.workshops,
-    this.hackathon,
   });
 
   final List<Event>? events;
   final List<Event>? workshops;
+  final List<User>? users;
   final List<Sponsor>? sponsors;
-  final Hackathon? hackathon;
   final PageStatus status;
 
   HomePageCubitState copyWith({
     List<Event>? events,
     List<Event>? workshops,
+    List<User>? users,
     List<Sponsor>? sponsors,
     PageStatus? status,
-    Hackathon? hackathon,
   }) {
     return HomePageCubitState(
       events: events ?? this.events,
+      users: users ?? this.users,
       sponsors: sponsors ?? this.sponsors,
       status: status ?? this.status,
       workshops: workshops ?? this.workshops,
-      hackathon: hackathon ?? this.hackathon,
     );
   }
 }
@@ -50,15 +49,14 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
     EventRepository eventRepository,
     UserRepository userRepository,
     SponsorshipRepository sponsorshipRepository,
-    HackathonRepository hackathonRepository,
   )   : _eventRepository = eventRepository,
         _userRepository = userRepository,
         _sponsorshipRepository = sponsorshipRepository,
-        _hackathonRepository = hackathonRepository,
         super(
           HomePageCubitState(
             events: [],
             sponsors: [],
+            users: [],
             workshops: [],
           ),
         ) {
@@ -80,7 +78,6 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
   final EventRepository _eventRepository;
   final UserRepository _userRepository;
   final SponsorshipRepository _sponsorshipRepository;
-  final HackathonRepository _hackathonRepository;
   late StreamSubscription<SocketData> _socketSubscription;
 
   Future<void> getEvents() async {
@@ -89,15 +86,11 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
       emit(
         state.copyWith(
           events: event
-              .where(
-                (item) =>
-                    item.type == EventType.ACTIVITY ||
-                    item.type == EventType.FOOD,
-              )
+              .where((item) => item.eventType != EventType.WORKSHOP)
               .take(3)
               .toList(),
           workshops: event
-              .where((item) => item.type == EventType.WORKSHOP)
+              .where((item) => item.eventType == EventType.WORKSHOP)
               .take(3)
               .toList(),
         ),
@@ -106,6 +99,19 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
       if (kDebugMode) {
         print(e);
       }
+    }
+  }
+
+  Future<void> getUserRegistrations() async {
+    try {
+      final users = await _userRepository.getUserRegistrations();
+      emit(
+        state.copyWith(
+          users: users,
+        ),
+      );
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 
@@ -121,19 +127,10 @@ class HomePageCubit extends Cubit<HomePageCubitState> {
     );
   }
 
-  Future<void> getHackathon() async {
-    final hackathon = await _hackathonRepository.getActiveHackathon();
-    emit(
-      state.copyWith(
-        hackathon: hackathon,
-      ),
-    );
-  }
-
   Future<void> init() async {
     emit(state.copyWith(status: PageStatus.loading));
-    await getHackathon();
     await getEvents();
+    await getUserRegistrations();
     await getSponsors();
     emit(state.copyWith(status: PageStatus.ready));
   }

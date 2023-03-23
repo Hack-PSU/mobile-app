@@ -5,12 +5,12 @@ part 'extra_credit_class_model.g.dart';
 @JsonSerializable(
   createFactory: true,
   createToJson: true,
+  fieldRename: FieldRename.snake,
 )
 class ExtraCreditClass {
   ExtraCreditClass({
-    required this.id,
-    required this.name,
-    required this.hackathonId,
+    required this.uid,
+    required this.className,
   });
 
   factory ExtraCreditClass.fromJson(Map<String, dynamic> json) =>
@@ -18,7 +18,6 @@ class ExtraCreditClass {
 
   Map<String, dynamic> toJson() => _$ExtraCreditClassToJson(this);
 
-  final int id;
-  final String name;
-  final String hackathonId;
+  final int uid;
+  final String className;
 }
