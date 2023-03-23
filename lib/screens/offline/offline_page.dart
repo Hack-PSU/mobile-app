@@ -49,7 +49,7 @@ class OfflinePage extends StatelessWidget {
                   ],
                 ),
               ),
-              if (userBloc.pin != "")
+              if (userBloc.uid != "")
                 Expanded(
                   child: Column(
                     children: [
@@ -62,7 +62,7 @@ class OfflinePage extends StatelessWidget {
                       ),
                       const SizedBox(height: 8.0),
                       QrImage(
-                        data: "HACKPSU_${userBloc.pin}",
+                        data: "HACKPSU_${userBloc.uid}",
                         size: 300.0,
                       ),
                     ],

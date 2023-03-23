@@ -2,41 +2,41 @@ import 'package:equatable/equatable.dart';
 
 class UserState extends Equatable {
   const UserState._({
-    required this.pin,
+    required this.uid,
     this.token,
   });
 
   const UserState.initialize()
       : this._(
           token: "",
-          pin: "",
+          uid: "",
         );
 
   final String? token;
-  final String pin;
+  final String uid;
 
   UserState copyWith({
     String? token,
-    String? pin,
+    String? uid,
   }) {
     return UserState._(
       token: token ?? this.token,
-      pin: pin ?? this.pin,
+      uid: uid ?? this.uid,
     );
   }
 
   static UserState fromJson(Map<String, dynamic> json) {
-    final pin = json["pin"] as String?;
+    final uid = json["uid"] as String?;
     return UserState._(
       token: "",
-      pin: pin ?? "",
+      uid: uid ?? "",
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {"pin": pin};
+    return {"uid": uid};
   }
 
   @override
-  List<Object?> get props => [token, pin];
+  List<Object?> get props => [token, uid];
 }

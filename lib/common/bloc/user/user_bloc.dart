@@ -22,7 +22,7 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     on<UnsubscribeTopic>(_onUnsubscribeTopic);
     on<RegisterUser>(_onRegisterUser);
     _tokenSubscription = _notificationRepository.onTokenRefresh.listen((token) {
-      if (state.pin != "") {
+      if (state.uid != "") {
         add(RegisterUser(token));
       }
     });
@@ -38,8 +38,8 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
   ) async {
     // get user pin
     try {
-      final pin = await _userRepository.getUserPin();
-      emit(state.copyWith(pin: pin));
+      final uid = await _userRepository.getUserUid();
+      emit(state.copyWith(uid: uid));
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -47,13 +47,13 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     }
 
     // register user into FCM
-    if (state.pin != "") {
+    if (state.uid != "") {
       try {
         if (event.token != "") {
-          await _notificationRepository.register(state.pin, event.token);
+          await _notificationRepository.register(state.uid, event.token);
           emit(state.copyWith(token: event.token));
         } else {
-          await _notificationRepository.register(state.pin);
+          await _notificationRepository.register(state.uid);
         }
       } catch (e) {
         if (kDebugMode) {
@@ -64,9 +64,9 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     }
 
     // subscribe user to broadcast
-    if (state.pin != "") {
+    if (state.uid != "") {
       try {
-        await _notificationRepository.subscribeAll(state.pin);
+        await _notificationRepository.subscribeAll(state.uid);
       } catch (e) {
         if (kDebugMode) {
           print(e);
@@ -83,7 +83,7 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     if (kDebugMode) {
       print(event.topic);
     }
-    await _notificationRepository.subscribeEvent(state.pin, event.topic);
+    await _notificationRepository.subscribeEvent(state.uid, event.topic);
   }
 
   Future<void> _onUnsubscribeTopic(
@@ -93,7 +93,7 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     if (kDebugMode) {
       print(event.topic);
     }
-    await _notificationRepository.unsubscribeEvent(state.pin, event.topic);
+    await _notificationRepository.unsubscribeEvent(state.uid, event.topic);
   }
 
   @override
