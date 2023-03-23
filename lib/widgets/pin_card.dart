@@ -101,7 +101,7 @@ class _RegisterCard extends StatelessWidget {
           Column(
             children: [
               DefaultText(
-                "My PIN",
+                "My UID",
                 textLevel: TextLevel.h4,
               ),
               Container(
