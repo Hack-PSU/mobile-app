@@ -3,15 +3,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'extra_credit_assignment_model.g.dart';
 
 @JsonSerializable(
-  createFactory: true,
-  createToJson: true,
-)
+    createFactory: true, createToJson: true, fieldRename: FieldRename.snake)
 class ExtraCreditAssignment {
   ExtraCreditAssignment({
-    required this.id,
-    required this.userId,
-    required this.classId,
-    required this.hackathonId,
+    required this.uid,
+    required this.userUid,
+    required this.classUid,
+    required this.hackathon,
   });
 
   factory ExtraCreditAssignment.fromJson(Map<String, dynamic> json) =>
@@ -19,8 +17,8 @@ class ExtraCreditAssignment {
 
   Map<String, dynamic> toJson() => _$ExtraCreditAssignmentToJson(this);
 
-  final int id;
-  final String userId;
-  final int classId;
-  final String hackathonId;
+  final int uid;
+  final String userUid;
+  final int classUid;
+  final String hackathon;
 }

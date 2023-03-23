@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../common/api/event.dart';
@@ -42,18 +41,15 @@ class EventWorkshopCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String parseLocation(String? locationName) {
-      if (locationName != null) {
-        if (locationName.contains('zoom')) {
-          return "Zoom";
-        } else if (locationName.contains('youtube') ||
-            locationName.contains('youtu.be')) {
-          return "Youtube";
-        } else {
-          return locationName;
-        }
+    String parseLocation(String locationName) {
+      if (locationName.contains('zoom')) {
+        return "Zoom";
+      } else if (locationName.contains('youtube') ||
+          locationName.contains('youtu.be')) {
+        return "Youtube";
+      } else {
+        return locationName;
       }
-      return "";
     }
 
     return BlocBuilder<FavoritesBloc, FavoritesState>(
@@ -76,12 +72,12 @@ class EventWorkshopCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         DefaultText(
-                          parseLocation(event.location?.name!),
+                          parseLocation(event.locationName!),
                           color: const Color(0x99000000),
                           textLevel: TextLevel.overline,
                         ),
                         DefaultText(
-                          event.name!,
+                          event.eventTitle!,
                           textLevel: TextLevel.sub1,
                         ),
                         if (event.wsPresenterNames == null)
@@ -143,59 +139,10 @@ class _FavoritesIcon extends StatelessWidget {
 }
 
 class _BottomSheet {
-  static void showModal(
-    BuildContext context,
-    Event event,
-    bool Function(FavoritesState, FavoritesState) buildWhen,
-  ) {
-    final String formatStartTime = DateFormat.jm().format(event.startTime);
-    final String formatEndTime = DateFormat.jm().format(event.endTime);
-
-    Widget resolveIcon(Event event) {
-      if (event.icon == null) {
-        switch (event.type!) {
-          case EventType.ACTIVITY:
-            return const Icon(
-              Icons.event_available,
-              size: 40,
-            );
-          case EventType.FOOD:
-            return const Icon(
-              Icons.fastfood,
-              size: 40,
-            );
-          case EventType.WORKSHOP:
-            return const Icon(
-              Icons.co_present,
-              size: 40,
-            );
-          case EventType.CHECKIN:
-            return const Icon(
-              Icons.error,
-              size: 40,
-            );
-        }
-      } else {
-        if (event.icon!.endsWith(".svg")) {
-          return SizedBox(
-            width: 50,
-            height: 50,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(1000),
-              child: SvgPicture.network(
-                event.icon!,
-                fit: BoxFit.cover,
-              ),
-            ),
-          );
-        } else {
-          return CircleAvatar(
-            radius: 25,
-            backgroundImage: NetworkImage(event.icon!),
-          );
-        }
-      }
-    }
+  static void showModal(BuildContext context, Event event,
+      bool Function(FavoritesState, FavoritesState) buildWhen) {
+    final String formatStartTime = DateFormat.jm().format(event.eventStartTime);
+    final String formatEndTime = DateFormat.jm().format(event.eventEndTime);
 
     showModalBottomSheet<void>(
       context: context,
@@ -203,30 +150,30 @@ class _BottomSheet {
         borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
       ),
       builder: (BuildContext context) {
-        // Icon getEventIcon(EventType? eventType) {
-        //   if (eventType == EventType.ACTIVITY) {
-        //     return const Icon(
-        //       Icons.event_available,
-        //       size: 40,
-        //     );
-        //   }
-        //   if (eventType == EventType.FOOD) {
-        //     return const Icon(
-        //       Icons.fastfood,
-        //       size: 40,
-        //     );
-        //   }
-        //   if (eventType == EventType.WORKSHOP) {
-        //     return const Icon(
-        //       Icons.co_present,
-        //       size: 40,
-        //     );
-        //   }
-        //   return const Icon(
-        //     Icons.error,
-        //     size: 40,
-        //   );
-        // }
+        Icon getEventIcon(EventType? eventType) {
+          if (eventType == EventType.ACTIVITY) {
+            return const Icon(
+              Icons.event_available,
+              size: 40,
+            );
+          }
+          if (eventType == EventType.FOOD) {
+            return const Icon(
+              Icons.fastfood,
+              size: 40,
+            );
+          }
+          if (eventType == EventType.WORKSHOP) {
+            return const Icon(
+              Icons.co_present,
+              size: 40,
+            );
+          }
+          return const Icon(
+            Icons.error,
+            size: 40,
+          );
+        }
 
         return BlocBuilder<FavoritesBloc, FavoritesState>(
           buildWhen: buildWhen,
@@ -242,14 +189,21 @@ class _BottomSheet {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 5.0, right: 10.0),
-                          child: resolveIcon(event),
+                          child: event.eventIcon != null
+                              ? CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage: NetworkImage(
+                                    event.eventIcon!,
+                                  ),
+                                )
+                              : getEventIcon(event.eventType),
                         ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               DefaultText(
-                                event.name!,
+                                event.eventTitle!,
                                 textLevel: TextLevel.sub1,
                                 maxLines: 10,
                               ),
@@ -295,9 +249,9 @@ class _BottomSheet {
                     ),
                     Chip(
                       avatar: const Icon(Icons.location_on_rounded),
-                      label: DefaultText(event.location?.name ?? ""),
+                      label: DefaultText(event.locationName!),
                     ),
-                    if (event.description != null)
+                    if (event.eventDescription != null)
                       Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.only(top: 10.0),
@@ -323,7 +277,7 @@ class _BottomSheet {
                               textLevel: TextLevel.body1,
                             ),
                             RenderHtml(
-                              event.description!,
+                              event.eventDescription!,
                             ),
                           ],
                         ),

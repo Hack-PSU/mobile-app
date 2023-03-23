@@ -36,7 +36,7 @@ class SocketManager {
         <String, dynamic>{
           "transports": ["websocket"],
           "autoConnect": false,
-          "extraHeaders": {"Authorization": "Bearer $token"}
+          "extraHeaders": {"idtoken": token},
         },
       );
 

@@ -29,11 +29,11 @@ class WorkshopsScreen extends StatelessWidget {
   const WorkshopsScreen({Key? key}) : super(key: key);
 
   String _groupEvents(Event item) {
-    return DateFormat("EEEE").format(item.startTime);
+    return DateFormat("EEEE").format(item.eventStartTime);
   }
 
   int _groupElement(Event item) {
-    return item.startTime.millisecondsSinceEpoch;
+    return item.eventStartTime.millisecondsSinceEpoch;
   }
 
   @override

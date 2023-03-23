@@ -6,54 +6,41 @@ part of 'event_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Location _$LocationFromJson(Map<String, dynamic> json) => Location(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
-    );
-
-Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-    };
-
 Event _$EventFromJson(Map<String, dynamic> json) => Event(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      type: $enumDecodeNullable(_$EventTypeEnumMap, json['type']),
-      startTime: Event._eventTimeFromJson(json['startTime'] as int),
-      endTime: Event._eventTimeFromJson(json['endTime'] as int),
-      description: json['description'] as String?,
-      location: json['location'] == null
-          ? null
-          : Location.fromJson(json['location'] as Map<String, dynamic>),
-      icon: json['icon'] as String?,
-      wsPresenterNames: json['wsPresenterNames'] as String?,
-      wsRelevantSkills: json['wsRelevantSkills'] as String?,
-      wsSkillLevel: json['wsSkillLevel'] as String?,
-      wsUrls:
-          (json['wsUrls'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      uid: json['uid'] as String?,
+      eventTitle: json['event_title'] as String?,
+      eventType: $enumDecodeNullable(_$EventTypeEnumMap, json['event_type']),
+      eventStartTime: Event._eventTimeFromJson(json['event_start_time'] as int),
+      eventEndTime: Event._eventTimeFromJson(json['event_end_time'] as int),
+      eventDescription: json['event_description'] as String?,
+      locationName: json['location_name'] as String?,
       starred: json['starred'] as bool? ?? false,
+      eventIcon: json['event_icon'] as String?,
+      wsPresenterNames: json['ws_presenter_names'] as String?,
+      wsUrls:
+          (json['ws_urls'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      wsRelevantSkills: json['ws_relevant_skills'] as String?,
+      wsSkillLevel: json['ws_skill_level'] as String?,
     );
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'type': _$EventTypeEnumMap[instance.type],
-      'startTime': instance.startTime.toIso8601String(),
-      'endTime': instance.endTime.toIso8601String(),
-      'description': instance.description,
-      'location': instance.location,
+      'uid': instance.uid,
+      'event_title': instance.eventTitle,
+      'event_type': _$EventTypeEnumMap[instance.eventType],
+      'event_start_time': instance.eventStartTime.toIso8601String(),
+      'event_end_time': instance.eventEndTime.toIso8601String(),
+      'event_description': instance.eventDescription,
+      'location_name': instance.locationName,
       'starred': instance.starred,
-      'icon': instance.icon,
-      'wsPresenterNames': instance.wsPresenterNames,
-      'wsUrls': instance.wsUrls,
-      'wsSkillLevel': instance.wsSkillLevel,
-      'wsRelevantSkills': instance.wsRelevantSkills,
+      'event_icon': instance.eventIcon,
+      'ws_presenter_names': instance.wsPresenterNames,
+      'ws_urls': instance.wsUrls,
+      'ws_skill_level': instance.wsSkillLevel,
+      'ws_relevant_skills': instance.wsRelevantSkills,
     };
 
 const _$EventTypeEnumMap = {
   EventType.ACTIVITY: 'activity',
   EventType.WORKSHOP: 'workshop',
   EventType.FOOD: 'food',
-  EventType.CHECKIN: 'checkIn',
 };

@@ -1,57 +1,40 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 
+import '../api_response.dart';
 import '../client.dart';
 import 'event_model.dart';
 
 class EventRepository {
-  EventRepository(
-    String baseUrl,
-  )   : _firebaseAuth = FirebaseAuth.instance,
-        _baseUrl = baseUrl;
+  EventRepository(String configUrl)
+      : _endpoint = Uri.parse("$configUrl?ignoreCache=true"),
+        _firebaseAuth = FirebaseAuth.instance;
 
-  final String _baseUrl;
+  final Uri _endpoint;
   final FirebaseAuth _firebaseAuth;
 
   Future<List<Event>> getEvents() async {
-    final client = Client();
-    final resp = await client.get(Uri.parse("$_baseUrl/events"));
+    final user = _firebaseAuth.currentUser;
 
-    if (resp.statusCode == 200) {
-      final apiResp = json.decode(resp.body);
-      return (apiResp as List)
-          .map((event) => Event.fromJson(event as Map<String, dynamic>))
-          .toList();
-    } else {
-      throw Exception(resp.body);
-    }
-  }
+    if (user != null) {
+      final token = await user.getIdToken();
+      final client = Client.withToken(token);
 
-  Future<void> subscribeTo(String eventId) async {
-    final client = Client();
-    try {
-      await client.post(
-        Uri.parse("$_baseUrl/events/$eventId/notifications/subscribe"),
-      );
-    } catch (err) {
-      if (kDebugMode) {
-        print(err);
+      final resp = await client.get(_endpoint);
+
+      if (resp.statusCode == 200) {
+        final apiResponse = ApiResponse.fromJson(json.decode(resp.body));
+
+        return (apiResponse.body["data"] as List)
+            .map((event) => Event.fromJson(event as Map<String, dynamic>))
+            .toList();
+      } else if (resp.statusCode == 204) {
+        return [];
+      } else {
+        throw Exception("Failed to get events from API");
       }
     }
-  }
-
-  Future<void> unsubscribeFrom(String eventId) async {
-    final client = Client();
-    try {
-      await client.post(
-        Uri.parse("$_baseUrl/events/$eventId/notifications/unsubscribe"),
-      );
-    } catch (err) {
-      if (kDebugMode) {
-        print(err);
-      }
-    }
+    return [];
   }
 }

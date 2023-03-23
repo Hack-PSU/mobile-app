@@ -24,43 +24,50 @@ class OfflinePage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 25.0,
+          ).copyWith(
+            bottom: 35.0,
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    CustomIcons.signalOff,
-                    color: ThemeColors.StadiumOrange,
-                    size: 60.0,
-                  ),
-                  const SizedBox(height: 50.0),
-                  DefaultText(
-                    "Your connection is lost",
-                    textLevel: TextLevel.h4,
-                    color: ThemeColors.StadiumOrange,
-                    weight: FontWeight.bold,
-                    fontSize: 24.0,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      CustomIcons.signalOff,
+                      color: ThemeColors.StadiumOrange,
+                      size: 60.0,
+                    ),
+                    const SizedBox(height: 50.0),
+                    DefaultText(
+                      "Your connection is lost",
+                      textLevel: TextLevel.h4,
+                      color: ThemeColors.StadiumOrange,
+                      weight: FontWeight.bold,
+                      fontSize: 24.0,
+                    ),
+                  ],
+                ),
               ),
-              if (userBloc.userId != "") ...[
-                const SizedBox(height: 30.0),
-                Center(
-                  child: DefaultText(
-                    "Use the QR Code below to check into events",
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
+              if (userBloc.uid != "")
+                Expanded(
+                  child: Column(
+                    children: [
+                      Center(
+                        child: DefaultText(
+                          "Use the QR Code below to check into events",
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      QrImage(
+                        data: "HACKPSU_${userBloc.uid}",
+                        size: 300.0,
+                      ),
+                    ],
                   ),
                 ),
-                // const SizedBox(height: 8.0),
-                QrImage(
-                  data: "HACKPSU_${userBloc.userId}",
-                  size: 300.0,
-                ),
-              ],
             ],
           ),
         ),

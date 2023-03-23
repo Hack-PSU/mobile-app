@@ -134,8 +134,6 @@ class NotificationService {
         final AndroidNotification? android = message.notification!.android;
         final Map<String, dynamic> data = message.data;
 
-        print(notification);
-
         if (notification != null && !kIsWeb) {
           if (data != null &&
               data.containsKey("isScheduled") &&
