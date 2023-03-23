@@ -177,7 +177,7 @@ class _ProfileOptions extends StatelessWidget {
           const SizedBox(height: 10.0),
           Button(
             onPressed: () {
-              if (context.read<UserBloc>().state.uid != "") {
+              if (context.read<UserBloc>().state.userId != "") {
                 showGeneralDialog(
                   context: context,
                   barrierDismissible: true,
@@ -210,7 +210,9 @@ class _ProfileOptions extends StatelessWidget {
                 BlocBuilder<UserBloc, UserState>(
                   buildWhen: (previous, current) =>
                       previous != null &&
-                      current != null,
+                      current != null &&
+                      previous.profile?.registration !=
+                          current.profile?.registration,
                   builder: (context, state) {
                     return Expanded(
                       child: DefaultText(
