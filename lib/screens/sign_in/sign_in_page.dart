@@ -32,7 +32,7 @@ class SignInPage extends StatelessWidget {
       ),
       child: BlocBuilder<SignInPageCubit, SignInPageCubitState>(
         builder: (context, state) {
-          if (state.status == FormzStatus.submissionInProgress) {
+          if (state.status == FormzSubmissionStatus.inProgress) {
             return const Loading(label: "Signing In...", repeat: true);
           }
           return Screen(

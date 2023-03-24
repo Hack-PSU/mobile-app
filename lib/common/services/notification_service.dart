@@ -67,8 +67,8 @@ class NotificationService {
     );
   }
 
-  Future<void> _onSelectNotification(String? payload) async {
-    final data = json.decode(payload!);
+  Future<void> _onSelectNotification(NotificationResponse details) async {
+    final data = json.decode(details.payload!);
     if (data["link"] != null) {
       final String link = data["link"] as String;
       if (kDebugMode) {
@@ -101,14 +101,14 @@ class NotificationService {
     const InitializationSettings initializationSettings =
         InitializationSettings(
       android: AndroidInitializationSettings("ic_hackpsu_logo"),
-      iOS: IOSInitializationSettings(),
+      iOS: DarwinInitializationSettings(),
     );
 
     tz_data.initializeTimeZones();
 
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onSelectNotification: _onSelectNotification,
+      onDidReceiveNotificationResponse: _onSelectNotification,
     );
 
     if (!kIsWeb) {

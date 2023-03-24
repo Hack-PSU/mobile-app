@@ -33,7 +33,7 @@ class CreateAccountPage extends StatelessWidget {
       ),
       child: BlocBuilder<CreateAccountPageCubit, CreateAccountPageCubitState>(
         builder: (context, state) {
-          if (state.status == FormzStatus.submissionInProgress) {
+          if (state.status == FormzSubmissionStatus.inProgress) {
             return const Loading(label: "Creating Account...", repeat: true);
           }
           return Screen(

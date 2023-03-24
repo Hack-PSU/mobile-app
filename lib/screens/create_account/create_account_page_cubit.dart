@@ -27,13 +27,13 @@ class CreateAccountPageCubitState extends Equatable {
 
   final Email? email;
   final Password? password;
-  final FormzStatus? status;
+  final FormzSubmissionStatus? status;
   final String? error;
 
   CreateAccountPageCubitState copyWith({
     Email? email,
     Password? password,
-    FormzStatus? status,
+    FormzSubmissionStatus? status,
     String? error,
   }) {
     return CreateAccountPageCubitState._(
@@ -80,7 +80,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
   Future<void> signUpWithEmailAndPassword() async {
     emit(
       state.copyWith(
-        status: FormzStatus.submissionInProgress,
+        status: FormzSubmissionStatus.inProgress,
       ),
     );
     if (state.email != null &&
@@ -94,7 +94,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         );
         emit(
           state.copyWith(
-            status: FormzStatus.submissionSuccess,
+            status: FormzSubmissionStatus.success,
           ),
         );
       } on SignUpWithEmailAndPasswordError catch (e) {
@@ -103,7 +103,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         }
         emit(
           state.copyWith(
-            status: FormzStatus.submissionFailure,
+            status: FormzSubmissionStatus.failure,
             error: e.message,
           ),
         );
@@ -113,7 +113,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         }
         emit(
           state.copyWith(
-            status: FormzStatus.submissionFailure,
+            status: FormzSubmissionStatus.failure,
           ),
         );
       }
@@ -123,7 +123,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
   Future<void> signUpWithGoogle() async {
     emit(
       state.copyWith(
-        status: FormzStatus.submissionInProgress,
+        status: FormzSubmissionStatus.inProgress,
       ),
     );
     try {
@@ -131,7 +131,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       if (_authBloc.state.status == AuthStatus.unauthenticated) {
         emit(
           state.copyWith(
-            status: FormzStatus.submissionSuccess,
+            status: FormzSubmissionStatus.success,
           ),
         );
       }
@@ -141,7 +141,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       }
       emit(
         state.copyWith(
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     } catch (e) {
@@ -150,7 +150,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       }
       emit(
         state.copyWith(
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     }
@@ -159,7 +159,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
   Future<void> signUpWithGitHub(BuildContext context) async {
     emit(
       state.copyWith(
-        status: FormzStatus.submissionInProgress,
+        status: FormzSubmissionStatus.inProgress,
       ),
     );
     try {
@@ -167,7 +167,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       if (_authBloc.state.status == AuthStatus.unauthenticated) {
         emit(
           state.copyWith(
-            status: FormzStatus.submissionSuccess,
+            status: FormzSubmissionStatus.success,
           ),
         );
       }
@@ -176,7 +176,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
         print(e.message);
       }
       emit(
-        state.copyWith(status: FormzStatus.submissionFailure, error: e.message),
+        state.copyWith(status: FormzSubmissionStatus.failure, error: e.message),
       );
     } catch (e) {
       if (kDebugMode) {
@@ -184,7 +184,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       }
       emit(
         state.copyWith(
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     }
@@ -193,7 +193,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
   Future<void> signUpWithApple() async {
     emit(
       state.copyWith(
-        status: FormzStatus.submissionInProgress,
+        status: FormzSubmissionStatus.inProgress,
       ),
     );
     try {
@@ -201,7 +201,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       if (_authBloc.state.status == AuthStatus.unauthenticated) {
         emit(
           state.copyWith(
-            status: FormzStatus.submissionSuccess,
+            status: FormzSubmissionStatus.success,
           ),
         );
       }
@@ -211,7 +211,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       }
       emit(
         state.copyWith(
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
           error: e.message,
         ),
       );
@@ -221,7 +221,7 @@ class CreateAccountPageCubit extends Cubit<CreateAccountPageCubitState> {
       }
       emit(
         state.copyWith(
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     }

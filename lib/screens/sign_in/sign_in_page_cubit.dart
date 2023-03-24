@@ -21,19 +21,19 @@ class SignInPageCubitState extends Equatable {
       : this._(
           email: Email.pure(),
           password: Password.pure(),
-          status: FormzStatus.pure,
+          status: FormzSubmissionStatus.initial,
           error: null,
         );
 
   final Email? email;
   final Password? password;
-  final FormzStatus? status;
+  final FormzSubmissionStatus? status;
   final String? error;
 
   SignInPageCubitState copyWith({
     Email? email,
     Password? password,
-    FormzStatus? status,
+    FormzSubmissionStatus? status,
     String? error,
   }) {
     return SignInPageCubitState._(
@@ -77,7 +77,7 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
 
   Future<void> signInWithEmailAndPassword() async {
     emit(
-      state.copyWith(status: FormzStatus.submissionInProgress),
+      state.copyWith(status: FormzSubmissionStatus.inProgress),
     );
     if (state.email != null &&
         state.email?.value != null &&
@@ -90,14 +90,14 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
         );
         emit(
           state.copyWith(
-            status: FormzStatus.submissionSuccess,
+            status: FormzSubmissionStatus.success,
           ),
         );
       } on SignInWithEmailAndPasswordError catch (e) {
         emit(
           state.copyWith(
             error: e.message,
-            status: FormzStatus.submissionFailure,
+            status: FormzSubmissionStatus.failure,
           ),
         );
         if (kDebugMode) {
@@ -106,7 +106,7 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
       } catch (e) {
         emit(
           state.copyWith(
-            status: FormzStatus.submissionFailure,
+            status: FormzSubmissionStatus.failure,
           ),
         );
         if (kDebugMode) {
@@ -118,7 +118,7 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
 
   Future<void> sendPasswordResetEmail() async {
     emit(
-      state.copyWith(status: FormzStatus.submissionInProgress),
+      state.copyWith(status: FormzSubmissionStatus.inProgress),
     );
     if (state.email != null && state.email?.value != null) {
       try {
@@ -126,14 +126,14 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
             email: state.email?.value ?? "");
         emit(
           state.copyWith(
-            status: FormzStatus.submissionSuccess,
+            status: FormzSubmissionStatus.success,
           ),
         );
       } on SendPasswordResetEmailError catch (e) {
         emit(
           state.copyWith(
             error: e.message,
-            status: FormzStatus.submissionFailure,
+            status: FormzSubmissionStatus.failure,
           ),
         );
         if (kDebugMode) {
@@ -142,7 +142,7 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
       } catch (e) {
         emit(
           state.copyWith(
-            status: FormzStatus.submissionFailure,
+            status: FormzSubmissionStatus.failure,
           ),
         );
         if (kDebugMode) {
@@ -155,14 +155,14 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
   Future<void> signInWithGoogle() async {
     emit(
       state.copyWith(
-        status: FormzStatus.submissionInProgress,
+        status: FormzSubmissionStatus.inProgress,
       ),
     );
     try {
       await _authenticationRepository.signInWithGoogle();
       emit(
         state.copyWith(
-          status: FormzStatus.submissionSuccess,
+          status: FormzSubmissionStatus.success,
         ),
       );
     } on SignInWithGoogleError catch (e) {
@@ -172,7 +172,7 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
       emit(
         state.copyWith(
           error: e.message,
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     } catch (e) {
@@ -181,7 +181,7 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
       }
       emit(
         state.copyWith(
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     }
@@ -190,14 +190,14 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
   Future<void> signInWithGitHub(BuildContext context) async {
     emit(
       state.copyWith(
-        status: FormzStatus.submissionInProgress,
+        status: FormzSubmissionStatus.inProgress,
       ),
     );
     try {
       await _authenticationRepository.signInWithGitHub(context);
       emit(
         state.copyWith(
-          status: FormzStatus.submissionSuccess,
+          status: FormzSubmissionStatus.success,
         ),
       );
     } on SignInWithGithubError catch (e) {
@@ -207,7 +207,7 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
       emit(
         state.copyWith(
           error: e.message,
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     } catch (e) {
@@ -216,7 +216,7 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
       }
       emit(
         state.copyWith(
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     }
@@ -225,13 +225,13 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
   Future<void> signInWithApple() async {
     emit(
       state.copyWith(
-        status: FormzStatus.submissionInProgress,
+        status: FormzSubmissionStatus.inProgress,
       ),
     );
     try {
       await _authenticationRepository.signInWithApple();
       emit(
-        state.copyWith(status: FormzStatus.submissionSuccess),
+        state.copyWith(status: FormzSubmissionStatus.success),
       );
     } on SignInWithAppleError catch (e) {
       if (kDebugMode) {
@@ -240,7 +240,7 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
       emit(
         state.copyWith(
           error: e.message,
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     } catch (e) {
@@ -249,7 +249,7 @@ class SignInPageCubit extends Cubit<SignInPageCubitState> {
       }
       emit(
         state.copyWith(
-          status: FormzStatus.submissionFailure,
+          status: FormzSubmissionStatus.failure,
         ),
       );
     }
