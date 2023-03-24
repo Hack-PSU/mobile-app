@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../styles/theme_colors.dart';
@@ -34,8 +35,9 @@ class MlhRegistration extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              await launchUrlString(
-                                "https://static.mlh.io/docs/mlh-code-of-conduct.pdf",
+                              await launchUrl(
+                                Uri.parse("https://static.mlh.io/docs/mlh-code-of-conduct.pdf"),
+                                mode: LaunchMode.externalApplication,
                               );
                             },
                             child: DefaultText(
