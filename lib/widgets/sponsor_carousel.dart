@@ -15,7 +15,6 @@ class SponsorCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(sponsors[2].lightLogo);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

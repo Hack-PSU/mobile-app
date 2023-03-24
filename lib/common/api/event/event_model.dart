@@ -74,7 +74,7 @@ class Event {
   bool? starred;
   final String? icon;
   final String? wsPresenterNames;
-  final List<String>? wsUrls;
+  final List<String?>? wsUrls;
   final String? wsSkillLevel;
   final String? wsRelevantSkills;
 }

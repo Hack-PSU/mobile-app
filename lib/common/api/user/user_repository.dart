@@ -20,7 +20,7 @@ class UserRepository {
   Future<model.User?> getUserProfile() async {
     final client = Client();
     final resp = await client.get(Uri.parse("$_baseUrl/users/info/me"));
-
+    print(resp.body);
     final body = jsonDecode(resp.body) as Map<String, dynamic>;
 
     if (resp.statusCode == 200 && body.isNotEmpty) {
@@ -47,7 +47,8 @@ class UserRepository {
         user.uid != "FHBbkIw88qZBaxSmQxmdtSURsto1" &&
         user.uid != "gsOwfFcUHKfmRHTsmI7N1k7Ocie2") {
       final client = Client();
-      await client.delete(Uri.parse("$_baseUrl/users/${user.uid}"));
+      final resp =
+          await client.delete(Uri.parse("$_baseUrl/users/${user.uid}"));
     } else {
       throw Exception("Cannot delete admin user");
     }

@@ -31,7 +31,7 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
       wsRelevantSkills: json['wsRelevantSkills'] as String?,
       wsSkillLevel: json['wsSkillLevel'] as String?,
       wsUrls:
-          (json['wsUrls'] as List<dynamic>?)?.map((e) => e as String).toList(),
+          (json['wsUrls'] as List<dynamic>?)?.map((e) => e as String?).toList(),
       starred: json['starred'] as bool? ?? false,
     );
 

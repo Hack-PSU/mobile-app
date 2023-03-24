@@ -135,6 +135,7 @@ class ProfilePageCubit extends Cubit<ProfilePageCubitState> {
     if (await const FlutterSecureStorage().read(key: "refresh_token") != null) {
       await _authenticationRepository.revokeAppleUser();
     }
+
     await _userRepository.deleteUser();
     await _authenticationRepository.signOut();
   }
