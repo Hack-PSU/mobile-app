@@ -10,8 +10,9 @@ Sponsor _$SponsorFromJson(Map<String, dynamic> json) => Sponsor(
       id: json['id'] as int,
       name: json['name'] as String,
       level: json['level'] as String,
-      logo: json['logo'] as String,
-      hackathonId: json['hackathon_id'] as String?,
+      lightLogo: json['lightLogo'] as String?,
+      darkLogo: json['darkLogo'] as String?,
+      hackathonId: json['hackathonId'] as String?,
       link: json['link'] as String?,
       order: json['order'] as int,
     );
@@ -20,8 +21,9 @@ Map<String, dynamic> _$SponsorToJson(Sponsor instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'level': instance.level,
-      'logo': instance.logo,
-      'hackathon_id': instance.hackathonId,
+      'lightLogo': instance.lightLogo,
+      'darkLogo': instance.darkLogo,
+      'hackathonId': instance.hackathonId,
       'link': instance.link,
       'order': instance.order,
     };

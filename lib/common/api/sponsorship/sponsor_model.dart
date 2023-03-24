@@ -5,14 +5,14 @@ part 'sponsor_model.g.dart';
 @JsonSerializable(
   createFactory: true,
   createToJson: true,
-  fieldRename: FieldRename.snake,
 )
 class Sponsor {
   Sponsor({
     required this.id,
     required this.name,
     required this.level,
-    required this.logo,
+    this.lightLogo,
+    this.darkLogo,
     this.hackathonId,
     this.link,
     required this.order,
@@ -26,7 +26,8 @@ class Sponsor {
   final int id;
   final String name;
   final String level;
-  final String logo;
+  final String? lightLogo;
+  final String? darkLogo;
   final String? hackathonId;
   final String? link;
   final int order;

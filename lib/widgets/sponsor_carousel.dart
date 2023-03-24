@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../common/api/sponsorship/sponsor_model.dart';
@@ -16,6 +15,7 @@ class SponsorCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(sponsors[2].lightLogo);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -34,16 +34,6 @@ class SponsorCarousel extends StatelessWidget {
               autoPlayInterval: const Duration(seconds: 3),
               enlargeCenterPage: true,
             ),
-            // items: [
-            //   [NITTANY_AI_SVG_URL, NITTANY_AI_URL],
-            //   [MT_TECH_SVG_URL, MT_TECH_URL],
-            //   [CELONIS_SVG_URL, CELONIS_URL],
-            //   [PSU_EC_SVG_URL, PSU_EC_URL],
-            //   [EECS_SVG_URL, EECS_URL],
-            //   [ICDS_SVG_URL, ICDS_URL],
-            //   [PWC_SVG_URL, PWC_URL],
-            //   [ECHO_AR_SVG_URL, ECHO_AR_URL],
-            // ]
             items: sponsors.map(
               (i) {
                 return Builder(
@@ -69,14 +59,9 @@ class SponsorCarousel extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            if (i.logo.contains(".png"))
+                            if (i.lightLogo != null)
                               Image.network(
-                                i.logo,
-                                width: MediaQuery.of(context).size.width * 0.7,
-                              ),
-                            if (i.logo.contains(".svg"))
-                              SvgPicture.network(
-                                i.logo,
+                                i.lightLogo!,
                                 width: MediaQuery.of(context).size.width * 0.7,
                               ),
                           ],
