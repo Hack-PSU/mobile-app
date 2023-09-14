@@ -45,7 +45,7 @@ android {
         // To test with prod data, run "flutter run --flavor prod"
         applicationId "org.hackpsu"
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 33
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
