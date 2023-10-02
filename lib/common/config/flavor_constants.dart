@@ -13,23 +13,23 @@ class Config {
 
   static String get baseUrl {
     return getConstantByFlavor(
-      prodConst: 'https://apiv3-production-apgi25sgea-uc.a.run.app',
-      devConst: 'https://apiv3-staging-apgi25sgea-uc.a.run.app',
+      prodConst: Secrets.baseUrl,
+      devConst: Secrets.baseUrl,
     );
   }
 
   // static String get wsUrl => 'https://ws.hackpsu.org';
   static String get wsUrl {
     return getConstantByFlavor(
-      prodConst: 'https://apiv3-production-apgi25sgea-uc.a.run.app/socket',
-      devConst: 'https://apiv3-staging-apgi25sgea-uc.a.run.app/socket',
+      prodConst: '${Secrets.baseUrl}socket',
+      devConst: '${Secrets.baseUrl}socket',
     );
   }
 
   static String get storageBucket {
     return getConstantByFlavor(
-      prodConst: "gs://hackpsu18.appspot.com",
-      devConst: "gs://hackpsu18.appspot.com",
+      prodConst: Secrets.storageBucket,
+      devConst: Secrets.storageBucket,
     );
   }
 
