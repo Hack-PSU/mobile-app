@@ -47,3 +47,5 @@ app.*.map.json
 # Firebase related
 lib/secrets.dart
 /GoogleService-Info-dev.plist
+GoogleService-Info-dev*.plist
+google-services*.json
