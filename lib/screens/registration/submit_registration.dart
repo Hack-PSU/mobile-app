@@ -18,7 +18,6 @@ class SubmitRegistration extends StatelessWidget {
     return BlocBuilder<RegistrationCubit, RegistrationCubitState>(
       buildWhen: (prev, curr) => true,
       builder: (context, state) {
-        print(state);
         if (state.isSubmitting == null) {
           context.read<RegistrationCubit>().submit();
         }

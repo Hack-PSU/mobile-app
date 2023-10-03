@@ -34,13 +34,6 @@ class StartRegistration extends StatelessWidget {
                   textLevel: TextLevel.body1,
                   maxLines: 5,
                 ),
-                const SizedBox(height: 10.0),
-                DefaultText(
-                  "Contact us at team@hackpsu.org for special registration circumstances.",
-                  textAlign: TextAlign.left,
-                  textLevel: TextLevel.body1,
-                  maxLines: 2,
-                ),
                 const SizedBox(height: 30),
                 Button(
                   variant: ButtonVariant.TextButton,

@@ -30,7 +30,7 @@ class SponsorCarousel extends StatelessWidget {
             options: CarouselOptions(
               height: 200.0,
               autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayInterval: const Duration(seconds: 5),
               enlargeCenterPage: true,
             ),
             items: sponsors.map(

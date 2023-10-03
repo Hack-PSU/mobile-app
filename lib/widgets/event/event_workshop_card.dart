@@ -155,25 +155,13 @@ class _BottomSheet {
       if (event.icon == null) {
         switch (event.type!) {
           case EventType.ACTIVITY:
-            return const Icon(
-              Icons.event_available,
-              size: 40,
-            );
+            return const Icon(Icons.event_available, size: 40);
           case EventType.FOOD:
-            return const Icon(
-              Icons.fastfood,
-              size: 40,
-            );
+            return const Icon(Icons.fastfood, size: 40);
           case EventType.WORKSHOP:
-            return const Icon(
-              Icons.co_present,
-              size: 40,
-            );
+            return const Icon(Icons.co_present, size: 40);
           case EventType.CHECKIN:
-            return const Icon(
-              Icons.error,
-              size: 40,
-            );
+            return const Icon(Icons.error, size: 40);
         }
       } else {
         if (event.icon!.endsWith(".svg")) {

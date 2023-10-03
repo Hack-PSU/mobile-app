@@ -63,7 +63,7 @@ class NotificationService {
       payload: jsonEncode(data),
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
-      androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
 
@@ -133,8 +133,6 @@ class NotificationService {
         final RemoteNotification? notification = message.notification;
         final AndroidNotification? android = message.notification!.android;
         final Map<String, dynamic> data = message.data;
-
-        print(notification);
 
         if (notification != null && !kIsWeb) {
           if (data != null &&

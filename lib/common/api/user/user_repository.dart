@@ -20,7 +20,6 @@ class UserRepository {
   Future<model.User?> getUserProfile() async {
     final client = Client();
     final resp = await client.get(Uri.parse("$_baseUrl/users/info/me"));
-    print(resp.body);
     final body = jsonDecode(resp.body) as Map<String, dynamic>;
 
     if (resp.statusCode == 200 && body.isNotEmpty) {

@@ -43,6 +43,7 @@ class WorkshopsScreen extends StatelessWidget {
         if (state.status == PageStatus.idle) {
           context.read<WorkshopsPageCubit>().init();
         }
+
         if (state.workshops != null) {
           final data = groupBy<Event, String>(
             state.workshops ?? [],
