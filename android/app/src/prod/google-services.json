@@ -1,49 +1,40 @@
 {
   "project_info": {
-    "project_number": "1002677206617",
-    "firebase_url": "https://hackpsu18.firebaseio.com",
-    "project_id": "hackpsu18",
-    "storage_bucket": "hackpsu18.appspot.com"
+    "project_number": "43519659979",
+    "project_id": "ninth-expanse-396918",
+    "storage_bucket": "ninth-expanse-396918.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1002677206617:android:e9ee5bcfec8ed6fc733b48",
+        "mobilesdk_app_id": "1:43519659979:android:2dea0e5ddc2fac7570304e",
         "android_client_info": {
           "package_name": "org.hackpsu.HackPSU"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1002677206617-bcjbmbppla9fju5h6qljremoqpnlv5k2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "org.hackpsu.HackPSU",
-            "certificate_hash": "d36b230d509d23e13d3d5d73d7cc95e4f09dcba6"
-          }
-        },
-        {
-          "client_id": "1002677206617-eq1tqistg8dvm8gi5dg4sfckqdcaemq4.apps.googleusercontent.com",
+          "client_id": "43519659979-cqblvu7osea7hhlm59pucfbrq02rm42k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBm7ypQhEiqzhNZHmNuKkXDbvt02AAQt6Q"
+          "current_key": "AIzaSyB6xqgNMuqTj_zK6Qj8cqEs0u8toznwdak"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1002677206617-2fbi6s7as29q5qu2c1bbulmfml1q1ikl.apps.googleusercontent.com",
+              "client_id": "43519659979-cqblvu7osea7hhlm59pucfbrq02rm42k.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1002677206617-68ijsgu5tuedo5d544phau52jn1j20b5.apps.googleusercontent.com",
+              "client_id": "43519659979-ph6av00hhk8gd6rjeor5cu0m9enb7vmf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "org.hackpsu.prod"
+                "bundle_id": "org.hackpsu"
               }
             }
           ]
@@ -52,14 +43,14 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1002677206617:android:713c8212a2e9d934733b48",
+        "mobilesdk_app_id": "1:43519659979:android:13adb6bd97d6148770304e",
         "android_client_info": {
           "package_name": "org.hackpsu.prod"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1002677206617-7cte2ir7kd8ge319thq3elcckpal272p.apps.googleusercontent.com",
+          "client_id": "43519659979-spb00mft3eqppcdlnn4nq37niqm8ghji.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "org.hackpsu.prod",
@@ -67,27 +58,27 @@
           }
         },
         {
-          "client_id": "1002677206617-eq1tqistg8dvm8gi5dg4sfckqdcaemq4.apps.googleusercontent.com",
+          "client_id": "43519659979-cqblvu7osea7hhlm59pucfbrq02rm42k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBm7ypQhEiqzhNZHmNuKkXDbvt02AAQt6Q"
+          "current_key": "AIzaSyB6xqgNMuqTj_zK6Qj8cqEs0u8toznwdak"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1002677206617-2fbi6s7as29q5qu2c1bbulmfml1q1ikl.apps.googleusercontent.com",
+              "client_id": "43519659979-cqblvu7osea7hhlm59pucfbrq02rm42k.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1002677206617-68ijsgu5tuedo5d544phau52jn1j20b5.apps.googleusercontent.com",
+              "client_id": "43519659979-ph6av00hhk8gd6rjeor5cu0m9enb7vmf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "org.hackpsu.prod"
+                "bundle_id": "org.hackpsu"
               }
             }
           ]

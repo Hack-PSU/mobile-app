@@ -1,65 +1,84 @@
 {
   "project_info": {
-    "project_number": "614592542726",
-    "firebase_url": "https://hackpsu18-staging.firebaseio.com",
-    "project_id": "hackpsu18-staging",
-    "storage_bucket": "hackpsu18-staging.appspot.com"
+    "project_number": "43519659979",
+    "project_id": "ninth-expanse-396918",
+    "storage_bucket": "ninth-expanse-396918.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:614592542726:android:7fb0f74508135a387c6b87",
+        "mobilesdk_app_id": "1:43519659979:android:2dea0e5ddc2fac7570304e",
         "android_client_info": {
-          "package_name": "org.hackpsu.dev"
+          "package_name": "org.hackpsu.HackPSU"
         }
       },
       "oauth_client": [
         {
-          "client_id": "614592542726-0lohu61vtngc2lmmpibjoutomr1gk58p.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "org.hackpsu.dev",
-            "certificate_hash": "457ae92f84ee1642d9f4e07825907cf6d267098e"
-          }
-        },
-        {
-          "client_id": "614592542726-3c75j342dcrg7gq02624od9jc7e4t59i.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "org.hackpsu.dev",
-            "certificate_hash": "d36b230d509d23e13d3d5d73d7cc95e4f09dcba6"
-          }
-        },
-        {
-          "client_id": "614592542726-srsa3o4l0kle0k51on9ecn2r5r86tflk.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "org.hackpsu.dev",
-            "certificate_hash": "08ebaeafbbf9ecd777d5395f0072559398f8807e"
-          }
-        },
-        {
-          "client_id": "614592542726-54ek8m3njkop3r91hf8ajlkr3dje3as5.apps.googleusercontent.com",
+          "client_id": "43519659979-cqblvu7osea7hhlm59pucfbrq02rm42k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDU3fn5ULtwVtxMsTOkGzlegR99JK1MJLM"
+          "current_key": "AIzaSyB6xqgNMuqTj_zK6Qj8cqEs0u8toznwdak"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "614592542726-54ek8m3njkop3r91hf8ajlkr3dje3as5.apps.googleusercontent.com",
+              "client_id": "43519659979-cqblvu7osea7hhlm59pucfbrq02rm42k.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "614592542726-6jhb7lqgdk4oahdpkncsrsmvl5v942jo.apps.googleusercontent.com",
+              "client_id": "43519659979-ph6av00hhk8gd6rjeor5cu0m9enb7vmf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "host.exp.exponent"
+                "bundle_id": "org.hackpsu"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43519659979:android:13adb6bd97d6148770304e",
+        "android_client_info": {
+          "package_name": "org.hackpsu.prod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43519659979-spb00mft3eqppcdlnn4nq37niqm8ghji.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.hackpsu.prod",
+            "certificate_hash": "ad3b508f4ab23ea5ec0c23ae99312e9a036025f7"
+          }
+        },
+        {
+          "client_id": "43519659979-cqblvu7osea7hhlm59pucfbrq02rm42k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6xqgNMuqTj_zK6Qj8cqEs0u8toznwdak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43519659979-cqblvu7osea7hhlm59pucfbrq02rm42k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "43519659979-ph6av00hhk8gd6rjeor5cu0m9enb7vmf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.hackpsu"
               }
             }
           ]
