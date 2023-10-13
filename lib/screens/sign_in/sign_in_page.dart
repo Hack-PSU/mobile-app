@@ -80,7 +80,7 @@ class SignInScreen extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       color: Colors.black12,
                       image: DecorationImage(
-                        image: AssetImage("assets/images/Logo.png"),
+                        image: AssetImage("assets/images/android_icon_retro.png"),
                       ),
                     ),
                   ),
