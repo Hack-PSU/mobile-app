@@ -80,7 +80,8 @@ class SignInScreen extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       color: Colors.black12,
                       image: DecorationImage(
-                        image: AssetImage("assets/images/android_icon_retro.png"),
+                        image:
+                            AssetImage("assets/images/android_icon_retro.png"),
                       ),
                     ),
                   ),
@@ -247,26 +248,26 @@ class _SignInButtons extends StatelessWidget {
               "Sign in with Google",
             ),
           ),
-          Button(
-            variant: ButtonVariant.ElevatedButton,
-            icon: const Icon(CustomIcons.github),
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(double.infinity, 37),
-              primary: Colors.black,
-            ),
-            onPressed: () =>
-                context.read<SignInPageCubit>().signInWithGitHub(context),
-            child: DefaultText(
-              "Sign in with GitHub",
-            ),
-          ),
-          if (Platform.isIOS)
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0),
-              child: SignInWithAppleButton(
-                onPressed: context.read<SignInPageCubit>().signInWithApple,
-              ),
-            ),
+          // Button(
+          //   variant: ButtonVariant.ElevatedButton,
+          //   icon: const Icon(CustomIcons.github),
+          //   style: ElevatedButton.styleFrom(
+          //     minimumSize: const Size(double.infinity, 37),
+          //     primary: Colors.black,
+          //   ),
+          //   onPressed: () =>
+          //       context.read<SignInPageCubit>().signInWithGitHub(context),
+          //   child: DefaultText(
+          //     "Sign in with GitHub",
+          //   ),
+          // ),
+          // if (Platform.isIOS)
+          //   Padding(
+          //     padding: const EdgeInsets.only(top: 5.0),
+          //     child: SignInWithAppleButton(
+          //       onPressed: context.read<SignInPageCubit>().signInWithApple,
+          //     ),
+          //   ),
         ],
       ),
     );
