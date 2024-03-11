@@ -26,14 +26,15 @@ class RegistrationCubitState extends Equatable {
     this.isSubmitting,
   });
 
-  const RegistrationCubitState.init()
-      : this._(
-          mlhCoc: false,
-          mlhDcp: false,
-          expectations: "",
-          travelReimbursement: false,
-          shareAddressSponsors: false,
-        );
+  const RegistrationCubitState.init(): this._(
+    mlhCoc: false,
+    mlhDcp: false,
+    expectations: "",
+    travelReimbursement: false,
+    shareAddressSponsors: false,
+    shareAddressMlh: false,
+    shareEmailMlh: false,
+  );
 
   RegistrationCubitState copyWith({
     bool? eighteenBeforeEvent,

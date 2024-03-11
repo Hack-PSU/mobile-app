@@ -29,7 +29,7 @@ class StartRegistration extends StatelessWidget {
                   maxLines: 2,
                 ),
                 DefaultText(
-                  "By continuing with this registration, you are confirming that you are at least 18 years old before April 1st.",
+                  "By continuing with this registration, you are confirming that you are at least 18 years old before March 16th.",
                   textAlign: TextAlign.left,
                   textLevel: TextLevel.body1,
                   maxLines: 5,
