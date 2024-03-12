@@ -13,7 +13,7 @@ import 'common/services/notification_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseAppCheck.instance.activate();
+  // await FirebaseAppCheck.instance.activate();
 
   final NotificationService notificationService = NotificationService();
   notificationService.init();
