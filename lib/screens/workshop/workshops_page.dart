@@ -46,7 +46,8 @@ class WorkshopsScreen extends StatelessWidget {
 
         if (state.workshops != null) {
           final data = groupBy<Event, String>(
-            state.workshops ?? [],
+            (state.workshops ?? [])
+                .sorted((a, b) => a.location!.name!.compareTo(b.location!.name!)),
             _groupEvents,
           );
 
@@ -65,7 +66,7 @@ class WorkshopsScreen extends StatelessWidget {
             },
             child: AgendaView(
               data: data,
-              labels: const ["Saturday", "Sunday"],
+              labels: const ["Saturday"],
               groupElement: _groupElement,
               favorites: state.favorites,
               favoritesEnabled: state.isFavoritesEnabled ?? false,

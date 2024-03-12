@@ -292,7 +292,7 @@ class _BottomSheet {
                         padding: const EdgeInsets.only(
                           left: 10.0,
                           right: 10.0,
-                          top: 5.0,
+                          top: 10.0,
                           bottom: 10.0,
                         ),
                         decoration: BoxDecoration(
@@ -306,10 +306,6 @@ class _BottomSheet {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            DefaultText(
-                              'Description',
-                              textLevel: TextLevel.body1,
-                            ),
                             RenderHtml(
                               event.description!,
                             ),
